@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping("/kategorie")
 public class KategorieController {
@@ -15,8 +17,8 @@ public class KategorieController {
     private KategorieRepository kategorieRepository;
 
     @GetMapping("/kategorie_list")
-    public Iterable<Kategorie> getAllKategorie(){
-        Iterable<Kategorie> k = kategorieRepository.findAll();
+    public ArrayList<Kategorie> getAllKategorie(){
+        ArrayList<Kategorie> k = kategorieRepository.getAllKategorie();
         return k;
     }
 

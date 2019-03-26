@@ -1,8 +1,12 @@
 package com.example.live.results.dao;
 
-import com.example.live.results.domain.Kalendar;
-import org.springframework.data.repository.CrudRepository;
+import com.example.live.results.domain.Kategorie;
+import com.example.live.results.domain.Zavod;
 
-public interface ZavodRepository extends CrudRepository<Kalendar,Integer>{
+import java.util.ArrayList;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ZavodRepository {
+
 
 }

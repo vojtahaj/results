@@ -1,474 +1,106 @@
 package com.example.live.results.domain;
 
-import javax.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "live_result", schema = "t-base_cz")
 public class Atlet {
-    private int id;
-    private int flg;
-    private int poradi;
-    private int stc;
-    private int idKategorie;
-    private String jmeno;
-    private String tj;
-    private String klub;
-    private int cas1;
-    private int cas2;
-    private int cas3;
-    private int cas4;
-    private int cas5;
-    private int cas6;
-    private int cas7;
-    private int cas8;
-    private int cas9;
-    private int cas10;
-    private int cas;
-    private int body;
-    private String zkrkat;
-    private String bib;
-    private int mcas1;
-    private int mcas2;
-    private int mcas3;
-    private int mcas4;
-    private int mcas5;
-    private int mcas6;
-    private int mcas7;
-    private int mcas8;
-    private int mcas9;
-    private int mcas10;
-    private int speed1;
-    private int speed2;
-    private int speed3;
-    private int speed4;
-    private int speed5;
-    private int speed6;
-    private int speed7;
-    private int speed8;
-    private int speed9;
-    private int speed10;
 
     @Id
-    @Column(name = "id")
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Basic
-    @Column(name = "flg")
-    public int getFlg() {
-        return flg;
-    }
-
-    public void setFlg(int flg) {
-        this.flg = flg;
-    }
-
-    @Basic
-    @Column(name = "poradi")
-    public int getPoradi() {
-        return poradi;
-    }
-
-    public void setPoradi(int poradi) {
-        this.poradi = poradi;
-    }
-
-    @Basic
-    @Column(name = "stc")
-    public int getStc() {
-        return stc;
-    }
-
-    public void setStc(int stc) {
-        this.stc = stc;
-    }
-
-    @Basic
-    @Column(name = "id_kategorie")
-    public int getIdKategorie() {
-        return idKategorie;
-    }
-
-    public void setIdKategorie(int idKategorie) {
-        this.idKategorie = idKategorie;
-    }
-
-    @Basic
-    @Column(name = "jmeno")
-    public String getJmeno() {
-        return jmeno;
-    }
-
-    public void setJmeno(String jmeno) {
-        this.jmeno = jmeno;
-    }
-
-    @Basic
-    @Column(name = "tj")
-    public String getTj() {
-        return tj;
-    }
-
-    public void setTj(String tj) {
-        this.tj = tj;
-    }
-
-    @Basic
-    @Column(name = "klub")
-    public String getKlub() {
-        return klub;
-    }
-
-    public void setKlub(String klub) {
-        this.klub = klub;
-    }
-
-    @Basic
-    @Column(name = "cas1")
-    public int getCas1() {
-        return cas1;
-    }
-
-    public void setCas1(int cas1) {
-        this.cas1 = cas1;
-    }
-
-    @Basic
-    @Column(name = "cas2")
-    public int getCas2() {
-        return cas2;
-    }
-
-    public void setCas2(int cas2) {
-        this.cas2 = cas2;
-    }
-
-    @Basic
-    @Column(name = "cas3")
-    public int getCas3() {
-        return cas3;
-    }
-
-    public void setCas3(int cas3) {
-        this.cas3 = cas3;
-    }
-
-    @Basic
-    @Column(name = "cas4")
-    public int getCas4() {
-        return cas4;
-    }
-
-    public void setCas4(int cas4) {
-        this.cas4 = cas4;
-    }
-
-    @Basic
-    @Column(name = "cas5")
-    public int getCas5() {
-        return cas5;
-    }
-
-    public void setCas5(int cas5) {
-        this.cas5 = cas5;
-    }
-
-    @Basic
-    @Column(name = "cas6")
-    public int getCas6() {
-        return cas6;
-    }
-
-    public void setCas6(int cas6) {
-        this.cas6 = cas6;
-    }
-
-    @Basic
-    @Column(name = "cas7")
-    public int getCas7() {
-        return cas7;
-    }
-
-    public void setCas7(int cas7) {
-        this.cas7 = cas7;
-    }
-
-    @Basic
-    @Column(name = "cas8")
-    public int getCas8() {
-        return cas8;
-    }
-
-    public void setCas8(int cas8) {
-        this.cas8 = cas8;
-    }
-
-    @Basic
-    @Column(name = "cas9")
-    public int getCas9() {
-        return cas9;
-    }
-
-    public void setCas9(int cas9) {
-        this.cas9 = cas9;
-    }
-
-    @Basic
-    @Column(name = "cas10")
-    public int getCas10() {
-        return cas10;
-    }
-
-    public void setCas10(int cas10) {
-        this.cas10 = cas10;
-    }
-
-    @Basic
-    @Column(name = "cas")
-    public int getCas() {
-        return cas;
-    }
-
-    public void setCas(int cas) {
-        this.cas = cas;
-    }
-
-    @Basic
-    @Column(name = "body")
-    public int getBody() {
-        return body;
-    }
-
-    public void setBody(int body) {
-        this.body = body;
-    }
-
-    @Basic
-    @Column(name = "zkrkat")
-    public String getZkrkat() {
-        return zkrkat;
-    }
-
-    public void setZkrkat(String zkrkat) {
-        this.zkrkat = zkrkat;
-    }
-
-    @Basic
-    @Column(name = "bib")
-    public String getBib() {
-        return bib;
-    }
-
-    public void setBib(String bib) {
-        this.bib = bib;
-    }
-
-    @Basic
-    @Column(name = "mcas1")
-    public int getMcas1() {
-        return mcas1;
-    }
-
-    public void setMcas1(int mcas1) {
-        this.mcas1 = mcas1;
-    }
-
-    @Basic
-    @Column(name = "mcas2")
-    public int getMcas2() {
-        return mcas2;
-    }
-
-    public void setMcas2(int mcas2) {
-        this.mcas2 = mcas2;
-    }
-
-    @Basic
-    @Column(name = "mcas3")
-    public int getMcas3() {
-        return mcas3;
-    }
-
-    public void setMcas3(int mcas3) {
-        this.mcas3 = mcas3;
-    }
-
-    @Basic
-    @Column(name = "mcas4")
-    public int getMcas4() {
-        return mcas4;
-    }
-
-    public void setMcas4(int mcas4) {
-        this.mcas4 = mcas4;
-    }
-
-    @Basic
-    @Column(name = "mcas5")
-    public int getMcas5() {
-        return mcas5;
-    }
-
-    public void setMcas5(int mcas5) {
-        this.mcas5 = mcas5;
-    }
-
-    @Basic
-    @Column(name = "mcas6")
-    public int getMcas6() {
-        return mcas6;
-    }
-
-    public void setMcas6(int mcas6) {
-        this.mcas6 = mcas6;
-    }
-
-    @Basic
-    @Column(name = "mcas7")
-    public int getMcas7() {
-        return mcas7;
-    }
-
-    public void setMcas7(int mcas7) {
-        this.mcas7 = mcas7;
-    }
-
-    @Basic
-    @Column(name = "mcas8")
-    public int getMcas8() {
-        return mcas8;
-    }
-
-    public void setMcas8(int mcas8) {
-        this.mcas8 = mcas8;
-    }
-
-    @Basic
-    @Column(name = "mcas9")
-    public int getMcas9() {
-        return mcas9;
-    }
-
-    public void setMcas9(int mcas9) {
-        this.mcas9 = mcas9;
-    }
-
-    @Basic
-    @Column(name = "mcas10")
-    public int getMcas10() {
-        return mcas10;
-    }
-
-    public void setMcas10(int mcas10) {
-        this.mcas10 = mcas10;
-    }
-
-    @Basic
-    @Column(name = "speed1")
-    public int getSpeed1() {
-        return speed1;
-    }
-
-    public void setSpeed1(int speed1) {
-        this.speed1 = speed1;
-    }
-
-    @Basic
-    @Column(name = "speed2")
-    public int getSpeed2() {
-        return speed2;
-    }
-
-    public void setSpeed2(int speed2) {
-        this.speed2 = speed2;
-    }
-
-    @Basic
-    @Column(name = "speed3")
-    public int getSpeed3() {
-        return speed3;
-    }
-
-    public void setSpeed3(int speed3) {
-        this.speed3 = speed3;
-    }
-
-    @Basic
-    @Column(name = "speed4")
-    public int getSpeed4() {
-        return speed4;
-    }
-
-    public void setSpeed4(int speed4) {
-        this.speed4 = speed4;
-    }
-
-    @Basic
-    @Column(name = "speed5")
-    public int getSpeed5() {
-        return speed5;
-    }
-
-    public void setSpeed5(int speed5) {
-        this.speed5 = speed5;
-    }
-
-    @Basic
-    @Column(name = "speed6")
-    public int getSpeed6() {
-        return speed6;
-    }
-
-    public void setSpeed6(int speed6) {
-        this.speed6 = speed6;
-    }
-
-    @Basic
-    @Column(name = "speed7")
-    public int getSpeed7() {
-        return speed7;
-    }
-
-    public void setSpeed7(int speed7) {
-        this.speed7 = speed7;
-    }
-
-    @Basic
-    @Column(name = "speed8")
-    public int getSpeed8() {
-        return speed8;
-    }
-
-    public void setSpeed8(int speed8) {
-        this.speed8 = speed8;
-    }
-
-    @Basic
-    @Column(name = "speed9")
-    public int getSpeed9() {
-        return speed9;
-    }
-
-    public void setSpeed9(int speed9) {
-        this.speed9 = speed9;
-    }
-
-    @Basic
-    @Column(name = "speed10")
-    public int getSpeed10() {
-        return speed10;
-    }
-
-    public void setSpeed10(int speed10) {
-        this.speed10 = speed10;
-    }
-
-    @Override
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id; //better Long
+    @Column(columnDefinition = "int default 0")
+    private int flg;
+    @Column(columnDefinition = "int default 0")
+    private int poradi;
+//    @Basic
+//    @Column(name = "stc")
+//    private int stc;
+    @Column(name = "id_kategorie", columnDefinition = "int default 0")
+    private int idKategorie;
+    private String jmeno;
+    @Column(columnDefinition = "varchar(4)", nullable = false)
+    private String tj;
+    @Column(nullable = false)
+    private String klub;
+    @Column(columnDefinition = "int default 0")
+    private int cas1;
+    @Column(columnDefinition = "int default 0")
+    private int cas2;
+    @Column(columnDefinition = "int default 0")
+    private int cas3;
+    @Column(columnDefinition = "int default 0")
+    private int cas4;
+    @Column(columnDefinition = "int default 0")
+    private int cas5;
+    @Column(columnDefinition = "int default 0")
+    private int cas6;
+    @Column(columnDefinition = "int default 0")
+    private int cas7;
+    @Column(columnDefinition = "int default 0")
+    private int cas8;
+    @Column(columnDefinition = "int default 0")
+    private int cas9;
+    @Column(columnDefinition = "int default 0")
+    private int cas10;
+    @Column(columnDefinition = "int default 0")
+    private int cas;
+    @Column(columnDefinition = "int default 0")
+    private int body;
+    @Column(columnDefinition = "varchar(3)", nullable = false)
+    private String zkrkat;
+    @Column(columnDefinition = "varchar(4)", nullable = false)
+    private String bib;
+    @Column(columnDefinition = "int default 0")
+    private int mcas1;
+    @Column(columnDefinition = "int default 0")
+    private int mcas2;
+    @Column(columnDefinition = "int default 0")
+    private int mcas3;
+    @Column(columnDefinition = "int default 0")
+    private int mcas4;
+    @Column(columnDefinition = "int default 0")
+    private int mcas5;
+    @Column(columnDefinition = "int default 0")
+    private int mcas6;
+    @Column(columnDefinition = "int default 0")
+    private int mcas7;
+    @Column(columnDefinition = "int default 0")
+    private int mcas8;
+    @Column(columnDefinition = "int default 0")
+    private int mcas9;
+    @Column(columnDefinition = "int default 0")
+    private int mcas10;
+    @Column(columnDefinition = "int default 0")
+    private int speed1;
+    @Column(columnDefinition = "int default 0")
+    private int speed2;
+    @Column(columnDefinition = "int default 0")
+    private int speed3;
+    @Column(columnDefinition = "int default 0")
+    private int speed4;
+    @Column(columnDefinition = "int default 0")
+    private int speed5;
+    @Column(columnDefinition = "int default 0")
+    private int speed6;
+    @Column(columnDefinition = "int default 0")
+    private int speed7;
+    @Column(columnDefinition = "int default 0")
+    private int speed8;
+    @Column(columnDefinition = "int default 0")
+    private int speed9;
+    @Column(columnDefinition = "int default 0")
+    private int speed10;
+
+    @OneToOne
+    @JoinColumn(name = "stc")
+    private LiveParam liveParam;
+
+     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -478,7 +110,7 @@ public class Atlet {
         if (id != that.id) return false;
         if (flg != that.flg) return false;
         if (poradi != that.poradi) return false;
-        if (stc != that.stc) return false;
+//        if (stc != that.stc) return false;
         if (idKategorie != that.idKategorie) return false;
         if (cas1 != that.cas1) return false;
         if (cas2 != that.cas2) return false;
@@ -526,7 +158,7 @@ public class Atlet {
         int result = id;
         result = 31 * result + flg;
         result = 31 * result + poradi;
-        result = 31 * result + stc;
+//        result = 31 * result + stc;
         result = 31 * result + idKategorie;
         result = 31 * result + (jmeno != null ? jmeno.hashCode() : 0);
         result = 31 * result + (tj != null ? tj.hashCode() : 0);
