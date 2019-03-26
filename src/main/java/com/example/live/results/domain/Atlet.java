@@ -17,9 +17,6 @@ public class Atlet {
     private int flg;
     @Column(columnDefinition = "int default 0")
     private int poradi;
-//    @Basic
-//    @Column(name = "stc")
-//    private int stc;
     @Column(name = "id_kategorie", columnDefinition = "int default 0")
     private int idKategorie;
     private String jmeno;
@@ -110,7 +107,6 @@ public class Atlet {
         if (id != that.id) return false;
         if (flg != that.flg) return false;
         if (poradi != that.poradi) return false;
-//        if (stc != that.stc) return false;
         if (idKategorie != that.idKategorie) return false;
         if (cas1 != that.cas1) return false;
         if (cas2 != that.cas2) return false;
@@ -158,7 +154,6 @@ public class Atlet {
         int result = id;
         result = 31 * result + flg;
         result = 31 * result + poradi;
-//        result = 31 * result + stc;
         result = 31 * result + idKategorie;
         result = 31 * result + (jmeno != null ? jmeno.hashCode() : 0);
         result = 31 * result + (tj != null ? tj.hashCode() : 0);

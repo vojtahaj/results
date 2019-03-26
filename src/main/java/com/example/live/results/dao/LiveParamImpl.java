@@ -1,13 +1,10 @@
 package com.example.live.results.dao;
 
-import com.example.live.results.domain.LiveParam;
-import com.example.live.results.domain.Zavod;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import com.example.live.results.domain.Atlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
+import java.util.Timer;
 import java.util.TimerTask;
 
 @Component
@@ -15,48 +12,57 @@ public class LiveParamImpl {
 
     private final LiveParamRepository liveParamRepository;
     private int last = 0;
-
-    public int getLast() {
-        return last;
-    }
-
-    public void setLast(int last) {
-        this.last = last;
-    }
-
+    private Timer timer;
 
     @Autowired
     public LiveParamImpl(LiveParamRepository liveParamRepository) {
         this.liveParamRepository = liveParamRepository;
+        System.out.println("param live impl konstruktor");
+
+        try {
+            last = liveParamRepository.getLast();
+            System.out.println("param.last: " + last);
+//            Atlet atlet = liveParamRepository.getAtlet(last);
+//            System.out.println(atlet.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            last = 0;
+            System.out.println("err");
+        }
         checkLast();
     }
-    private  void checkLast(){
-        try {
-            setLast(liveParamRepository.getLast());
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            setLast(0);
-        }
-        //timer, ktery si saha do databaze a vytahuje aktualni zmeny
+
+    //timer, ktery si saha do databaze a vytahuje aktualni zmeny
+    private void checkLast() {
+
+        timer = new Timer();
+
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                System.out.println("vypisuji puvodni param.last: " + last);
+                int p = 0;
 
+                System.out.println("vypisuji puvodni param.last: " + last);
                 try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
+                    p = liveParamRepository.getLast();
+                    if (p != last) {
+                        System.out.println("ruzny param.last!");
+                        Atlet atlet = liveParamRepository.getAtlet(p);
+                        System.out.println(atlet.toString());
+                    }
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                LiveParam atlet = liveParamRepository.getAtlet(last + 1);
 
-                if(atlet.getLast() != last)
-                    System.out.println ("Novy param.last: " + atlet.getLast());
-                else System.out.println("porad stejny last");
+                System.out.println("novy param.last: " + p);
+                last = p;
             }
         };
-
-
+        timer.scheduleAtFixedRate(timerTask, 7000, 7000);
     }
+
 }
+
+
+
+
