@@ -6,25 +6,20 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
-public class KategorieImpl implements KategorieRepository {
-    private static ArrayList<Kategorie> kategorie;
-    private ArrayList<Atlet> atleti;
+public class KategorieImpl {
+    private KategorieRepository kategorieRepoitory;
+//    private ArrayList<Atlet> atleti;
 
-    @Override
-    public ArrayList<Kategorie> getAllKategorie() {
-        return kategorie;
-    }
-
-    @Override
-    public ArrayList<Atlet> getAtletsByKategorie(int kat) {
+    public List<Atlet> getAtletsByKategorie(int kat) {
         ArrayList<Atlet> at = new ArrayList<>();
-        for (int i = 0; i < atleti.size(); i++) {
-            if (atleti.get(i).getIdKategorie() == kat) {
-                at.add(atleti.get(i));
-            }
-        }
+//        for (int i = 0; i < atleti.size(); i++) {
+//            if (atleti.get(i).getIdKategorie() == kat) {
+//                at.add(atleti.get(i));
+//            }
+//        }
         return at;
     }
 }

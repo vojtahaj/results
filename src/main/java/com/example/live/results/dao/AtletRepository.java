@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface AtletRepository extends JpaRepository<Atlet, Long> {
+public interface AtletRepository extends JpaRepository<Atlet, Integer> {
 
 //    List<Atlet> findAll();
 

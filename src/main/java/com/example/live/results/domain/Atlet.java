@@ -1,5 +1,6 @@
 package com.example.live.results.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,7 @@ public class Atlet {
     private int flg;
     @Column(columnDefinition = "int default 0")
     private int poradi;
+
     @Column(name = "id_kategorie", columnDefinition = "int default 0")
     private int idKategorie;
     private String jmeno;
@@ -93,8 +95,9 @@ public class Atlet {
     @Column(columnDefinition = "int default 0")
     private int speed10;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stc")
+    @JsonIgnore
     private LiveParam liveParam;
 
      @Override
@@ -154,7 +157,7 @@ public class Atlet {
         int result = id;
         result = 31 * result + flg;
         result = 31 * result + poradi;
-        result = 31 * result + idKategorie;
+//        result = 31 * result + idKategorie;
         result = 31 * result + (jmeno != null ? jmeno.hashCode() : 0);
         result = 31 * result + (tj != null ? tj.hashCode() : 0);
         result = 31 * result + (klub != null ? klub.hashCode() : 0);

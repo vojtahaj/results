@@ -19,15 +19,15 @@ public class AtletController {
     @Autowired
     private AtletRepository atletRepository;
 
-    @Autowired
-    private KategorieRepository kategorieRepository;
+//    @Autowired
+//    private KategorieRepository kategorieRepository;
 
     @Autowired
     private LiveParamRepository liveParamRepository;
 
     @GetMapping("/atleti_list")
     public ArrayList<Atlet> getAllAlet(){
-        //ArrayList<Atlet> a = atletRepository.findAll();
+//        ArrayList<Atlet> a = atletRepository.findAll();
         return null;//a;
     }
 
@@ -35,7 +35,7 @@ public class AtletController {
     @GetMapping("/atlet_last")
     public Atlet getLastAlet(){
 
-        return atletRepository.findAtletByLast(2160);//a;
+        return atletRepository.findAtletByLast(6);//a;
     }
 
 
@@ -43,10 +43,10 @@ public class AtletController {
     public List<Atlet> example() {
         final int last = liveParamRepository.getLast();
         final Atlet atletByLast = atletRepository.findAtletByLast(last);
-        final int idKategorie = atletByLast.getIdKategorie();
+//        final int idKategorie = atletByLast.getIdKategorie();
 
-        final  ArrayList<Atlet> atletsByKategorie = kategorieRepository.getAtletsByKategorie(idKategorie);
+        //final  ArrayList<Atlet> atletsByKategorie = kategorieRepository.getAtletsByKategorie(idKategorie);
         // todo sort atletsByKategorie by time
-        return atletsByKategorie;
+        return null;//atletsByKategorie;
     }
 }

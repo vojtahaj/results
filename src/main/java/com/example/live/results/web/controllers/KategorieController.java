@@ -16,9 +16,13 @@ public class KategorieController {
     @Autowired
     private KategorieRepository kategorieRepository;
 
+    public KategorieController(KategorieRepository kategorieRepository) {
+        this.kategorieRepository = kategorieRepository;
+    }
+
     @GetMapping("/kategorie_list")
     public ArrayList<Kategorie> getAllKategorie(){
-        ArrayList<Kategorie> k = kategorieRepository.getAllKategorie();
+        ArrayList<Kategorie> k = (ArrayList<Kategorie>) kategorieRepository.findAll();
         return k;
     }
 

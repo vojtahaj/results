@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(name = "live_param", schema = "t-base_cz")
 public class LiveParam {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "int default 0")
     private int id;
     private String nazev;
     @Column(columnDefinition = "int default 0")
@@ -31,14 +31,12 @@ public class LiveParam {
     @Column(columnDefinition = "tinyint(1)")
     private Byte cam4;
     private int pocetcasu;
-    @OneToOne
-    @JoinColumn(name = "actstc")
-    private Atlet atlet;
+    @Column(columnDefinition = "int default 0")
+    private int actstc;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_kalendar")
     private Zavod zavod;
-
 
     @Override
     public boolean equals(Object o) {

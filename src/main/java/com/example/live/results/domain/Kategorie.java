@@ -1,19 +1,24 @@
 package com.example.live.results.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
 @Data
 @NoArgsConstructor
 @Entity
 @Table(name = "kategorie", schema = "t-base_cz")
 public class Kategorie {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_zavodu")
+    @JsonIgnore
     private Zavod zavod;
     @Column(columnDefinition = "int default 0")
     private int kat;

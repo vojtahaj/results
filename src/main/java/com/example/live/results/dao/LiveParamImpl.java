@@ -11,12 +11,14 @@ import java.util.TimerTask;
 public class LiveParamImpl {
 
     private final LiveParamRepository liveParamRepository;
+    private final AtletRepository atletRepository;
     private int last = 0;
     private Timer timer;
 
     @Autowired
-    public LiveParamImpl(LiveParamRepository liveParamRepository) {
+    public LiveParamImpl(LiveParamRepository liveParamRepository, AtletRepository atletRepository) {
         this.liveParamRepository = liveParamRepository;
+        this.atletRepository = atletRepository;
         System.out.println("param live impl konstruktor");
 
         try {
@@ -47,8 +49,8 @@ public class LiveParamImpl {
                     p = liveParamRepository.getLast();
                     if (p != last) {
                         System.out.println("ruzny param.last!");
-                        Atlet atlet = liveParamRepository.getAtlet(p);
-                        System.out.println(atlet.toString());
+                        Atlet atlet = atletRepository.findAtletByLast(p);
+                        System.out.println(atlet);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

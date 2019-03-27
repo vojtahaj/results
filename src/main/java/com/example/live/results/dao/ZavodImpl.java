@@ -1,15 +1,12 @@
 package com.example.live.results.dao;
 
-import com.example.live.results.domain.Kategorie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @Component
-public class ZavodImpl implements ZavodRepository {
+public class ZavodImpl {
 
+    @Autowired
     private ZavodRepository zavodRepository;
 
     public ZavodRepository getZavodRepository() {
@@ -20,8 +17,8 @@ public class ZavodImpl implements ZavodRepository {
         this.zavodRepository = zavodRepository;
     }
 
-   // @Autowired
-    public ZavodImpl(){
-//        zavodRepository.
+    public ZavodImpl(ZavodRepository zavodRepository){
+        this.zavodRepository = zavodRepository;
+        //zavodRepository.findAll();
     }
 }

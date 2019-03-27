@@ -1,5 +1,6 @@
 package com.example.live.results.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -41,11 +42,13 @@ public class Zavod {
     private int rank;
     private String text;
 
-    @OneToMany(mappedBy = "zavod")
+    @OneToMany(mappedBy = "zavod",fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Kategorie> kategorie;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_zavodu")
+    @JsonIgnore
     private LiveParam liveParam;
 
 

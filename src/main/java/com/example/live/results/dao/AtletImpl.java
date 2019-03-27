@@ -10,21 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-//@Service
+@Service
 public class AtletImpl {
     private static List<Atlet> atleti;
-//
-//    @Override
-//    public List<Atlet> findAll() {
-//        return atleti;
-//    }
 
-//private final AtletRepository atletRepository;
+    private final AtletRepository atletRepository;
 
-    //  @Autowired
+    @Autowired
     public AtletImpl(AtletRepository atletRepository) {
-//        this.atletRepository = atletRepository;
-//                atleti = atletRepository.findAll();
+        this.atletRepository = atletRepository;
+      //  atleti = atletRepository.findAll();
 
         //
         //Optional<Atlet> byId = atletRepository.findById(id);
@@ -43,10 +38,7 @@ public class AtletImpl {
 //    }
 
 
-
-
     public List<Atlet> getAtletyByIdKategorie(int kat) {
-
 
 
 //        return atletRepository.getAtletyByIdKategorie(kat);
@@ -56,6 +48,7 @@ public class AtletImpl {
 //                atlets.add(a);
 //        }
 //        return atlets;
-    return null;}
+        return null;
+    }
 
 }
