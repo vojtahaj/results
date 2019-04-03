@@ -5,6 +5,8 @@ import com.example.live.results.dao.KategorieRepository;
 import com.example.live.results.dao.ZavodRepository;
 import com.example.live.results.domain.Atlet;
 import com.example.live.results.domain.Kategorie;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +14,8 @@ import java.util.*;
 
 @Component
 public class KategorieImpl implements KategorieService {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(KategorieImpl.class.getName());
 
     @Autowired
     private KategorieRepository kategorieRepository;
@@ -25,17 +29,26 @@ public class KategorieImpl implements KategorieService {
     Map<Integer, ArrayList<Atlet>> katMap = new HashMap<>();
     List<Atlet> atleti = new ArrayList<>();
 
+    public KategorieImpl(ZavodRepository zavodRepository, AtletRepository atletRepository,KategorieRepository kategorieRepository) {
+        this.zavodRepository = zavodRepository;
+        this.atletRepository = atletRepository;
+        this.kategorieRepository = kategorieRepository;
 
-    public void updateAtlet(Atlet atlet) {
+    }
+
+
+    public void updateAtlet(Atlet atlet, int idZav) {
         int kat = atlet.getIdKategorie();
+//        Iterable<Atlet> IdKategorie =  getAtletByKategorie(kategorieRepository.findKategorieByIdKat(kat));
 
-
+        LOGGER.info("update kategorie ve ktere byl zmenen atlet");
         //updatuj atleta v kategorii
         //zjisti jestli je uz atlet zalozen
-        addToMap(atlet);
+       // addToMap(atlet);
        // katMap.put(kat,));
-
+        atleti = (List<Atlet>) getAtletByKategorie(kategorieRepository.findKategorieByIdKat(kat, idZav));
         //todo sortuj kategorii podle casu
+
 
         //todo posli na controller
     }
@@ -68,6 +81,9 @@ public class KategorieImpl implements KategorieService {
 
     }
 
+    public KategorieImpl() {
+    }
+
     @Override
     public Iterable<Kategorie> getAllKategorie() {
         return kategorieRepository.findAll();
@@ -88,8 +104,4 @@ public class KategorieImpl implements KategorieService {
         return kategorieRepository.getOne(id);
     }
 
-//    @Override
-//    public List<Kategorie> getKategoriebyZavod(int idZav) {
-//        return zavodRepository.getOne(idZav).getKategorie();
-//    }
 }

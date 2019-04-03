@@ -1,0 +1,33 @@
+##ZavodyController
+#vypis vsech zavodu
+/zavody/zavody_list
+
+#vypis vsech zavodu, kde je umoznen online (v db stav =9)
+/zavody/zavod_active
+
+#detail zavodu
+/zavody/zavod/{id}
+
+#kategorie v zavodu
+/zavody/zavod/{id}/kategorie
+
+##KategorieController
+/kategorie
+
+#Seznam vsech kategorii
+/kategorie/kategorie_list
+
+#Detail kategorie
+/kategorie/{id}
+
+#Atleti v kategorii
+/kategorie/{id}/atleti
+
+##AtletController
+
+##LiveParamController
+/live
+
+#Aktualni radek liveParam tabulky - dulezite pro nastaveni kola zavodu/druhu layoutu pro zobrazeni vysledku,
+ zjisteni posledniho stc, pocet desetinnych mist pro vypocet
+/live/aktual

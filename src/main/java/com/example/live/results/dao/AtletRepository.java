@@ -9,9 +9,13 @@ import java.util.List;
 
 public interface AtletRepository extends JpaRepository<Atlet, Integer> {
 
-    @Query("select a from Atlet a where a.stc = :stc")
-    Atlet getAtlet(@Param("stc") int stc);
+    @Query("select a from Atlet a, LiveParam l where a.stc = l.actstc")
+    //Atlet getAtlet(@Param("stc") int last);
+    Atlet getAtlet();
 
-    @Query("select a from Atlet a where a.idKategorie = :id")
+    @Query("select a from Atlet a where a.idKategorie = :id order by a.cas")
     List<Atlet> findAtletByIdKategorie(@Param("id") int id);
+
+    @Query("select a from Atlet a where a.bib = :bib")
+    List<Atlet> findAllbyBib(String bib);
 }

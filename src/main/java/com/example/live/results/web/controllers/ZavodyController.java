@@ -1,6 +1,7 @@
 package com.example.live.results.web.controllers;
 
 import com.example.live.results.dao.ZavodRepository;
+import com.example.live.results.domain.Atlet;
 import com.example.live.results.domain.Kategorie;
 import com.example.live.results.domain.Zavod;
 import com.example.live.results.services.ZavodImpl;
@@ -50,4 +51,6 @@ public class ZavodyController {
         LOGGER.info("Zavody v povolenem modu pro live vypsany");
         return zavod.findActiveLiveZavod();
     }
+
+
 }

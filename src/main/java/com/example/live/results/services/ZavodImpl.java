@@ -36,6 +36,6 @@ public class ZavodImpl implements ZavodSerivce {
 
     @Override
     public List<Kategorie> getKategorieByZavod(int id) {
-        return null;// zavodRepository.findById(id).get();//.getKategorie();
+        return zavodRepository.findById(id).get().getKategorie();
     }
 }

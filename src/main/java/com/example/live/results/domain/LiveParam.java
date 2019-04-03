@@ -26,12 +26,16 @@ public class LiveParam {
     @Column(columnDefinition = "int default 0")
     private int pocdes;
     @Column(columnDefinition = "tinyint(1)")
+    @JsonIgnore
     private Byte cam1;
     @Column(columnDefinition = "tinyint(1)")
+    @JsonIgnore
     private Byte cam2;
     @Column(columnDefinition = "tinyint(1)")
+    @JsonIgnore
     private Byte cam3;
     @Column(columnDefinition = "tinyint(1)")
+    @JsonIgnore
     private Byte cam4;
     private int pocetcasu;
 //    @OneToOne

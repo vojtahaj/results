@@ -12,6 +12,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AtletImpl {
+public class AtletImpl implements AtletService {
 
+    @Autowired
+    AtletRepository atletRepository;
+
+    public AtletImpl(AtletRepository atletRepository) {
+        this.atletRepository = atletRepository;
+    }
+
+    @Override
+    public List<Atlet> findAllByBib(String bib) {
+        return atletRepository.findAllbyBib(bib);
+        //todo najit ho v tabulkach podle  poradi
+    }
 }

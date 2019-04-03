@@ -18,4 +18,7 @@ public interface LiveParamRepository extends JpaRepository<LiveParam, Integer> {
 
     @Query(value = "select l.last from LiveParam  l")
     int getLast();
+
+    @Query(value = "select l.zavod.id from LiveParam  l")
+    int getIdZav();
 }
