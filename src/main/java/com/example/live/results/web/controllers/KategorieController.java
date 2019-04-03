@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -40,9 +42,9 @@ public class KategorieController {
 
     @GetMapping("/{id}/atleti")
     public Iterable<Atlet> getAtletByKategorie(@PathVariable int id) {
-        int idKat = kategorie.getKategorie(id).getKat();
-        LOGGER.info("atleti z kategorie: "+ idKat);
-        return kategorie.getAtletByKategorie(idKat);
+        List<Atlet> atlets = kategorie.getKategorie(id).getAtlets();
+        LOGGER.info("atleti z kategorie: "+ id);
+        return atlets;//kategorie.getAtletByKategorie(id);
     }
 
 }

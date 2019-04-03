@@ -1,6 +1,7 @@
 package com.example.live.results.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @ToString(exclude = {"liveParam", "idKategorie"})
 @Entity
 @Table(name = "live_result", schema = "t-base_cz")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Atlet {
 
     @Id
@@ -21,8 +23,9 @@ public class Atlet {
     @Column(columnDefinition = "int default 0")
     private int poradi;
 
-    @Column(name = "id_kategorie")
-    private int idKategorie;
+    @ManyToOne
+    @JoinColumn(name = "id_kategorie")
+    private Kategorie idKategorie;
 
     private String jmeno;
     @Column(columnDefinition = "varchar(4)", nullable = false)
@@ -98,11 +101,11 @@ public class Atlet {
     @Column(columnDefinition = "int default 0")
     private int speed10;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "stc")
-//    @JsonIgnore
-//    private LiveParam liveParam;
-    private int stc;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stc")
+    @JsonIgnore
+    private LiveParam liveParam;
+//    private int stc;
 
      @Override
     public boolean equals(Object o) {

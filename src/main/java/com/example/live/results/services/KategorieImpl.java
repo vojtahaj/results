@@ -27,7 +27,7 @@ public class KategorieImpl implements KategorieService {
 
 
     public void updateAtlet(Atlet atlet) {
-        int kat = atlet.getIdKategorie();
+//        int kat = atlet.getIdKategorie();
 
 
         //updatuj atleta v kategorii
@@ -47,7 +47,7 @@ public class KategorieImpl implements KategorieService {
             //vytvori list pro kategorii a prida do ni atleta
             atlets = new ArrayList<>();
             atlets.add(atlet);
-            katMap.put(atlet.getIdKategorie(), atlets);
+//            katMap.put(atlet.getIdKategorie(), atlets);
         }
         else {
             if (!atlets.contains(atlet))
@@ -59,7 +59,7 @@ public class KategorieImpl implements KategorieService {
         }
 
 
-        katMap.put(atlet.getIdKategorie(),atlets);
+//        katMap.put(atlet.getIdKategorie(),atlets);
     }
 
     public KategorieImpl(KategorieRepository kategorieRepository, ZavodRepository zavodRepository) {
@@ -80,7 +80,7 @@ public class KategorieImpl implements KategorieService {
 
     @Override
     public Iterable<Atlet> getAtletByKategorie(int idKat) {
-        return atletRepository.findAtletByIdKategorie(idKat);
+        return null; //atletRepository.findAtletByIdKategorie(idKat);
     }
 
     @Override

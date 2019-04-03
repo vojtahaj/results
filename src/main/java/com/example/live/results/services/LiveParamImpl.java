@@ -3,11 +3,14 @@ package com.example.live.results.services;
 import com.example.live.results.dao.AtletRepository;
 import com.example.live.results.dao.LiveParamRepository;
 import com.example.live.results.domain.Atlet;
+import com.example.live.results.domain.LiveParam;
+import jdk.internal.dynalink.linker.LinkerServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -18,7 +21,6 @@ public class LiveParamImpl {
 
     private final LiveParamRepository liveParamRepository;
     private final AtletRepository atletRepository;
-
     private int last = 0;
     private Timer timer;
 
@@ -26,7 +28,7 @@ public class LiveParamImpl {
     public LiveParamImpl(LiveParamRepository liveParamRepository, AtletRepository atletRepository) {
         this.liveParamRepository = liveParamRepository;
         this.atletRepository = atletRepository;
-    //    LOGGER.info("param live impl konstruktor");
+        //    LOGGER.info("param live impl konstruktor");
 
         try {
             last = liveParamRepository.getLast();
@@ -55,7 +57,7 @@ public class LiveParamImpl {
                 try {
                     p = liveParamRepository.getLast();
                     if (p != last) {
-                        Atlet atlet = atletRepository.getAtlet(p);
+                        Atlet atlet = liveParamRepository.getAtlet();
                             //todo updatovat atleta v kategorii
                         //kategorieimpl.updateAtlet(atlet)
                         System.out.println(atlet);
@@ -73,6 +75,16 @@ public class LiveParamImpl {
         timer.scheduleAtFixedRate(timerTask, 7000, 7000);
     }
 
+    public LiveParam get() {
+        List<LiveParam> liveParams = liveParamRepository.findAll();
+        System.out.println(liveParams);
+        return liveParamRepository.getOne(0);
+    }
+
+
+    public Atlet getLastAtlet() {
+        return liveParamRepository.getAtlet();
+    }
 }
 
 

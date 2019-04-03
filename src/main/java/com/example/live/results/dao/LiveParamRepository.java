@@ -10,7 +10,7 @@ public interface LiveParamRepository extends JpaRepository<LiveParam, Integer> {
 
     //    @Query("select l.atlet from LiveParam l where l.last = :k")
     //param rika ze si "k" preda do dotazu
-    @Query(value = "select a from Atlet  a, LiveParam l where a.stc = l.actstc")
+    @Query(value = "select l.actstc from LiveParam l")
     Atlet getAtlet();//@Param("k") int k);
 
     //fixme vyzkouset

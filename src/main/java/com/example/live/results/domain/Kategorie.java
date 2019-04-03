@@ -2,17 +2,20 @@ package com.example.live.results.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @Entity
 @ToString(exclude = "zavod")
 @Table(name = "kategorie", schema = "t-base_cz")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Kategorie {
 
     @Id
@@ -24,8 +27,10 @@ public class Kategorie {
     @JsonBackReference
     private Zavod zavod;
 
-    @Column(columnDefinition = "int default 0")
-    private int kat;
+    @OneToMany(mappedBy = "idKategorie")
+    @Column(name = "kat")
+    private List<Atlet> atlets;
+//     private int kat;
 
     @Column(nullable = false)
     private String nazev;
