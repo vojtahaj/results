@@ -3,10 +3,12 @@ package com.example.live.results.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 @Data
 @NoArgsConstructor
+@ToString(exclude = {"liveParam", "idKategorie"})
 @Entity
 @Table(name = "live_result", schema = "t-base_cz")
 public class Atlet {
@@ -19,8 +21,9 @@ public class Atlet {
     @Column(columnDefinition = "int default 0")
     private int poradi;
 
-    @Column(name = "id_kategorie", columnDefinition = "int default 0")
+    @Column(name = "id_kategorie")
     private int idKategorie;
+
     private String jmeno;
     @Column(columnDefinition = "varchar(4)", nullable = false)
     private String tj;
@@ -95,10 +98,11 @@ public class Atlet {
     @Column(columnDefinition = "int default 0")
     private int speed10;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stc")
-    @JsonIgnore
-    private LiveParam liveParam;
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "stc")
+//    @JsonIgnore
+//    private LiveParam liveParam;
+    private int stc;
 
      @Override
     public boolean equals(Object o) {

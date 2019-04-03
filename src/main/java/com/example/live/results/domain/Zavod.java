@@ -1,6 +1,7 @@
 package com.example.live.results.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -9,13 +10,12 @@ import javax.persistence.*;
 import java.util.List;
 
 @Data
-@ToString
 @NoArgsConstructor
+@ToString(exclude = {"kategorie","liveParam"})
 @Entity
 @Table(name = "kalendar", schema = "t-base_cz")
 public class Zavod {
 
-    //fixme kde je stejny nazev neni potreba column
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -24,27 +24,37 @@ public class Zavod {
     private String misto;
     private String discipl;
     private String nazev;
+    @JsonIgnore
     private String poradatel;
+    @JsonIgnore
     private String porlogo;
+    @JsonIgnore
     private String team;
     @Column(columnDefinition = "mediumtext")
     private String popis;
+    @JsonIgnore
     private String tj;
     @Column(name = "dr_Sou")
+    @JsonIgnore
     private String drSou;
     @Column(columnDefinition = "smallint default 0")
     private short stav;
     @Column(columnDefinition = "int default 0")
+    @JsonIgnore
     private int last;
     @Column(columnDefinition = "int default 0")
+    @JsonIgnore
     private int numdes;
+
     @Column(columnDefinition = "int default 0")
+    @JsonIgnore
     private int rank;
     private String text;
 
-    @OneToMany(mappedBy = "zavod",fetch = FetchType.LAZY)
-    @JsonIgnore
+    @OneToMany(mappedBy = "zavod", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Kategorie> kategorie;
+//    private int kategorie;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_zavodu")

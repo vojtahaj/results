@@ -1,12 +1,15 @@
 package com.example.live.results.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
+@ToString(exclude = {"actstc", "zavod"})
 @Entity
 @Table(name = "live_param", schema = "t-base_cz")
 public class LiveParam {
@@ -31,11 +34,14 @@ public class LiveParam {
     @Column(columnDefinition = "tinyint(1)")
     private Byte cam4;
     private int pocetcasu;
-    @Column(columnDefinition = "int default 0")
+//    @OneToOne
+//    @JoinColumn(name = "actstc",columnDefinition = "int default 0")
+//    private Atlet actstc;
     private int actstc;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_kalendar")
+    @JsonIgnore
     private Zavod zavod;
 
     @Override

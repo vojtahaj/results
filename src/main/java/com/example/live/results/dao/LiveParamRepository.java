@@ -1,16 +1,17 @@
 package com.example.live.results.dao;
 
+import com.example.live.results.domain.Atlet;
 import com.example.live.results.domain.LiveParam;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-//jparepozitor<to na co se dotazuji, ID>
+//jparepozitor<to na co se dotazuji, Id>
 public interface LiveParamRepository extends JpaRepository<LiveParam, Integer> {
 
     //    @Query("select l.atlet from LiveParam l where l.last = :k")
     //param rika ze si "k" preda do dotazu
-    @Query(value = "select l.actstc from LiveParam l")
-    int getAtlet();//@Param("k") int k);
+    @Query(value = "select a from Atlet  a, LiveParam l where a.stc = l.actstc")
+    Atlet getAtlet();//@Param("k") int k);
 
     //fixme vyzkouset
     //List<LiveParam> findAllByLast(int last);

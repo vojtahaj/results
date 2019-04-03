@@ -1,14 +1,17 @@
 package com.example.live.results.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
 @Entity
+@ToString(exclude = "zavod")
 @Table(name = "kategorie", schema = "t-base_cz")
 public class Kategorie {
 
@@ -16,12 +19,14 @@ public class Kategorie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne//(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_zavodu")
-    @JsonIgnore
+    @JsonBackReference
     private Zavod zavod;
+
     @Column(columnDefinition = "int default 0")
     private int kat;
+
     @Column(nullable = false)
     private String nazev;
     @Column(nullable = false)
@@ -41,7 +46,7 @@ public class Kategorie {
         Kategorie kategorie = (Kategorie) o;
 
         if (id != kategorie.id) return false;
-        if (kat != kategorie.kat) return false;
+//        if (kat != kategorie.kat) return false;
         if (odroku != kategorie.odroku) return false;
         if (doroku != kategorie.doroku) return false;
         if (nazev != null ? !nazev.equals(kategorie.nazev) : kategorie.nazev != null) return false;
@@ -54,7 +59,7 @@ public class Kategorie {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + kat;
+//        result = 31 * result + kat;
         result = 31 * result + (nazev != null ? nazev.hashCode() : 0);
         result = 31 * result + (delka != null ? delka.hashCode() : 0);
         result = 31 * result + (styl != null ? styl.hashCode() : 0);

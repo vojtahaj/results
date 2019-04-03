@@ -3,6 +3,9 @@ package com.example.live.results.web.controllers;
 import com.example.live.results.dao.ZavodRepository;
 import com.example.live.results.domain.Kategorie;
 import com.example.live.results.domain.Zavod;
+import com.example.live.results.services.ZavodImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,29 +19,35 @@ import java.util.Optional;
 @RequestMapping("/zavody")
 public class ZavodyController {
 
-    @Autowired
-    private ZavodRepository zavodRepository;
+    private final Logger LOGGER = LoggerFactory.getLogger(ZavodyController.class.getName());
 
-    public ZavodyController(ZavodRepository zavodRepository) {
-        this.zavodRepository = zavodRepository;
+    ZavodImpl zavod;
+
+    public ZavodyController(ZavodImpl zavod) {
+        this.zavod = zavod;
     }
 
     @GetMapping("/zavody_list")
     public List<Zavod> getZavody() {
-        return zavodRepository.findAll();
+        LOGGER.info("vypis seznamu zavodu");
+        return zavod.findAll();
     }
 
     @GetMapping(value = "/zavod/{id}")
     public Optional<Zavod> getZavodById(@PathVariable int id) {
-        System.out.println("zavodById");
-        return zavodRepository.findById(id);
+        LOGGER.info("info o zavodu s id: "+ id);
+        return zavod.getZavodById(id);
     }
 
     @GetMapping(value = "/zavod/{id}/kategorie")
     public List<Kategorie> getKategorieByZavod(@PathVariable int id) {
+        LOGGER.info("kategorie pro zavod s id: " + id);
+        return zavod.getKategorieByZavod(id);
+    }
 
-        System.out.println("kategorie by zavod");
-
-        return zavodRepository.findById(id).get().getKategorie();
+    @GetMapping(value = "/zavod_active")
+    public List<Zavod> getActiveZavod(){
+        LOGGER.info("Zavody v povolenem modu pro live vypsany");
+        return zavod.findActiveLiveZavod();
     }
 }
