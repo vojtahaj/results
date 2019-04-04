@@ -17,24 +17,22 @@ public class KategorieImpl implements KategorieService {
 
     private final Logger LOGGER = LoggerFactory.getLogger(KategorieImpl.class.getName());
 
-    @Autowired
     private KategorieRepository kategorieRepository;
-
-    @Autowired
     private ZavodRepository zavodRepository;
-
-    @Autowired
     private AtletRepository atletRepository;
 
     Map<Integer, ArrayList<Atlet>> katMap = new HashMap<>();
     List<Atlet> atleti = new ArrayList<>();
 
+    @Autowired
     public KategorieImpl(ZavodRepository zavodRepository, AtletRepository atletRepository,KategorieRepository kategorieRepository) {
         this.zavodRepository = zavodRepository;
         this.atletRepository = atletRepository;
         this.kategorieRepository = kategorieRepository;
 
     }
+
+    public KategorieImpl(){}
 
 
     public void updateAtlet(Atlet atlet, int idZav) {
@@ -80,9 +78,6 @@ public class KategorieImpl implements KategorieService {
         this.kategorieRepository = kategorieRepository;
         this.zavodRepository = zavodRepository;
 
-    }
-
-    public KategorieImpl() {
     }
 
     @Override

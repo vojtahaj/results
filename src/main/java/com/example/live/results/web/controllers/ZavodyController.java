@@ -23,7 +23,8 @@ public class ZavodyController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(ZavodyController.class.getName());
 
-    ZavodImpl zavod;
+    @Autowired
+    private ZavodImpl zavod;
 
     public ZavodyController(ZavodImpl zavod) {
         this.zavod = zavod;

@@ -20,15 +20,19 @@ public class LiveParamImpl {
 
     private final Logger LOGGER = LoggerFactory.getLogger(LiveParamImpl.class.getName());
 
+    @Autowired
     private final LiveParamRepository liveParamRepository;
+    @Autowired
     private final AtletRepository atletRepository;
+    @Autowired
     private final ZavodRepository zavodRepository;
+    @Autowired
     private final KategorieRepository kategorieRepository;
 
     private int last = 0;
     private Timer timer;
 
-    @Autowired
+
     public LiveParamImpl(LiveParamRepository liveParamRepository, AtletRepository atletRepository, ZavodRepository zavodRepository, KategorieRepository kategorieRepository) {
         this.liveParamRepository = liveParamRepository;
         this.atletRepository = atletRepository;
@@ -66,8 +70,7 @@ public class LiveParamImpl {
                         KategorieImpl kategorieImpl = new KategorieImpl(zavodRepository, atletRepository,kategorieRepository);
                         kategorieImpl.updateAtlet(atlet, liveParamRepository.getIdZav());
 
-                        //todo update paramLastController
-                        System.out.println(atlet);
+                       // System.out.println(atlet);
                         LOGGER.info("novy param.last: " + p);
                         last = p;
                     }
