@@ -4,6 +4,7 @@ import com.example.live.results.dao.ZavodRepository;
 import com.example.live.results.domain.Atlet;
 import com.example.live.results.domain.Kategorie;
 import com.example.live.results.domain.Zavod;
+import com.example.live.results.exception.NotFoundException;
 import com.example.live.results.services.ZavodImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +37,8 @@ public class ZavodyController {
 
     @GetMapping(value = "/zavod/{id}")
     public Optional<Zavod> getZavodById(@PathVariable int id) {
-        LOGGER.info("info o zavodu s id: "+ id);
-        return zavod.getZavodById(id);
+        LOGGER.info("info o zavodu s id: " + id);
+        return Optional.ofNullable(zavod.getZavodById(id).orElseThrow(() -> new NotFoundException("zavod not found with id: " + id)));
     }
 
     @GetMapping(value = "/zavod/{id}/kategorie")
@@ -47,8 +48,11 @@ public class ZavodyController {
     }
 
     @GetMapping(value = "/zavod_active")
-    public List<Zavod> getActiveZavod(){
+    public List<Zavod> getActiveZavod() {
         LOGGER.info("Zavody v povolenem modu pro live vypsany");
+        if (zavod.findActiveLiveZavod().isEmpty()) {
+            throw new NotFoundException("zadne zavody v live rezimu");
+        }
         return zavod.findActiveLiveZavod();
     }
 

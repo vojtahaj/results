@@ -62,7 +62,7 @@ public class LiveParamImpl {
                     p = liveParamRepository.getLast();
                     if (p != last) {
                         Atlet atlet = atletRepository.getAtlet();
-                        //todo updatovat atleta v kategorii
+                        // updatovat atleta v kategorii
                         KategorieImpl kategorieImpl = new KategorieImpl(zavodRepository, atletRepository,kategorieRepository);
                         kategorieImpl.updateAtlet(atlet, liveParamRepository.getIdZav());
 

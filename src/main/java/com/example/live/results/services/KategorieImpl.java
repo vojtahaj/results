@@ -47,7 +47,8 @@ public class KategorieImpl implements KategorieService {
        // addToMap(atlet);
        // katMap.put(kat,));
         atleti = (List<Atlet>) getAtletByKategorie(kategorieRepository.findKategorieByIdKat(kat, idZav));
-        //todo sortuj kategorii podle casu
+        // sortuj kategorii podle casu
+        //ted reseno pres jpql, vytazenim z repository
 
 
         //todo posli na controller

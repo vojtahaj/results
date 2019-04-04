@@ -1,8 +1,8 @@
 package com.example.live.results.web.controllers;
 
-import com.example.live.results.dao.KategorieRepository;
 import com.example.live.results.domain.Atlet;
 import com.example.live.results.domain.Kategorie;
+import com.example.live.results.exception.NotFoundException;
 import com.example.live.results.services.KategorieImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/kategorie")
@@ -34,9 +31,9 @@ public class KategorieController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Kategorie> getDetailKategorie(@PathVariable int id) {
+    public Kategorie getDetailKategorie(@PathVariable int id) {
         LOGGER.info("popis kategorie: " + id);
-        return kategorie.getInfoKategorie(id);
+        return kategorie.getInfoKategorie(id).orElseThrow(()-> new NotFoundException("Detail kategorie se nepodarilo nacist"));
     }
 
     @GetMapping("/{id}/atleti")
