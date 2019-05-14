@@ -67,10 +67,10 @@ public class LiveParamImpl {
                     if (p != last) {
                         Atlet atlet = atletRepository.getAtlet();
                         // updatovat atleta v kategorii
-                        KategorieImpl kategorieImpl = new KategorieImpl(zavodRepository, atletRepository,kategorieRepository);
+                        KategorieImpl kategorieImpl = new KategorieImpl(zavodRepository, atletRepository, kategorieRepository);
                         kategorieImpl.updateAtlet(atlet, liveParamRepository.getIdZav());
 
-                       // System.out.println(atlet);
+                        // System.out.println(atlet);
                         LOGGER.info("novy param.last: " + p);
                         last = p;
                     }
@@ -90,7 +90,7 @@ public class LiveParamImpl {
         }
     }
 
-    public Optional<LiveParam> getRow(){
+    public Optional<LiveParam> getRow() {
         return liveParamRepository.findById(0);
     }
 }

@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/live")
-public class LiveParamController {
+public class LiveParamController{
     private final Logger LOGGER = LoggerFactory.getLogger(LiveParamController.class.getName());
 
     @Autowired
@@ -24,7 +24,8 @@ public class LiveParamController {
 
     @RequestMapping("/aktual")
     public Optional<LiveParam> getLive(){
-        LOGGER.info("vypisuji radek z tabulky liveParam");
+        LOGGER.info("update Controlleru");
         return liveParam.getRow();
     }
+
 }

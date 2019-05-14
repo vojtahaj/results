@@ -1,0 +1,8 @@
+Kod atleta: popis (zobrazena zkratka)
+1: nestartuje (DNS)
+2: na startu (STRT)
+3: na trati (TRT/MID)
+9: cil
+11: odstup (DNF)
+12: Diskval. (DSQ)
+15: Vyřazen (nezobrazit vůbec)

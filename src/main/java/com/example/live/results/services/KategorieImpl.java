@@ -5,10 +5,12 @@ import com.example.live.results.dao.KategorieRepository;
 import com.example.live.results.dao.ZavodRepository;
 import com.example.live.results.domain.Atlet;
 import com.example.live.results.domain.Kategorie;
+import com.example.live.results.web.controllers.LiveObserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
@@ -20,6 +22,9 @@ public class KategorieImpl implements KategorieService {
     private KategorieRepository kategorieRepository;
     private ZavodRepository zavodRepository;
     private AtletRepository atletRepository;
+    @Autowired
+    private LiveObserver liveObserver;
+
 
     Map<Integer, ArrayList<Atlet>> katMap = new HashMap<>();
     List<Atlet> atleti = new ArrayList<>();
@@ -44,11 +49,11 @@ public class KategorieImpl implements KategorieService {
         //zjisti jestli je uz atlet zalozen
        // addToMap(atlet);
        // katMap.put(kat,));
-        atleti = (List<Atlet>) getAtletByKategorie(kategorieRepository.findKategorieByIdKat(kat, idZav));
+        //atleti = (List<Atlet>) getAtletByKategorie(kategorieRepository.findKategorieByIdKat(kat, idZav));
         // sortuj kategorii podle casu
         //ted reseno pres jpql, vytazenim z repository
 
-
+        //  liveObserver.getActualAtlet();
         //todo posli na controller
     }
 

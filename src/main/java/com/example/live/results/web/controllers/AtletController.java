@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/atlet")
-public class AtletController {
+public class AtletController implements LiveObserver {
 
     @Autowired
     private AtletRepository atletRepository;
@@ -57,5 +57,10 @@ public class AtletController {
         }
         throw new NotFoundException("zavodnik nenalezen");
         //return null;
+    }
+
+    @Override
+    public void getActualAtlet() {
+        getLastAlet();
     }
 }
