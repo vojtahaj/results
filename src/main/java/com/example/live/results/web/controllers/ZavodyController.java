@@ -30,7 +30,7 @@ public class ZavodyController {
         this.zavod = zavod;
     }
 
-    @GetMapping("/zavody_list")
+    @GetMapping("/all")
     public List<Zavod> getZavody() {
         LOGGER.info("vypis seznamu zavodu");
         return zavod.findAll();
@@ -48,7 +48,7 @@ public class ZavodyController {
         return zavod.getKategorieByZavod(id);
     }
 
-    @GetMapping(value = "/zavod_active")
+    @GetMapping(value = "/active")
     public List<Zavod> getActiveZavod() {
         LOGGER.info("Zavody v povolenem modu pro live vypsany");
         if (zavod.findActiveLiveZavod().isEmpty()) {

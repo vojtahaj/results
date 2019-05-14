@@ -21,7 +21,7 @@ public class KategorieController {
         this.kategorie = kategorie;
     }
 
-    @GetMapping("/kategorie_list")
+    @GetMapping("/all")
     public Iterable<Kategorie> getAllKategorie() {
         LOGGER.info("vsechny kategorie");
         Iterable<Kategorie> k = kategorie.getAllKategorie();

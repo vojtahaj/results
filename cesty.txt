@@ -1,9 +1,9 @@
 ##ZavodyController
 #vypis vsech zavodu
-/zavody/zavody_list
+/zavody/all
 
 #vypis vsech zavodu, kde je umoznen online (v db stav =9)
-/zavody/zavod_active
+/zavody/active
 
 #detail zavodu
 /zavody/zavod/{id}
@@ -15,7 +15,7 @@
 /kategorie
 
 #Seznam vsech kategorii
-/kategorie/kategorie_list
+/kategorie/all
 
 #Detail kategorie
 /kategorie/{id}
