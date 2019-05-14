@@ -49,30 +49,25 @@ const styles = theme => ({
     },
 });
 
-class ResponsiveDrawer extends React.Component {
+export class ResponsiveDrawer extends React.Component {
     state = {
         mobileOpen: false,
-        teams: []
+        races: []
     };
 
     handleDrawerToggle = () => {
         this.setState(state => ({ mobileOpen: !state.mobileOpen }));
     };
 
-    // Načtení veškerých týmů v DB:
-    loadZavody = async () => {
-        await axios.get("/zavody/all")
-            .then(async response => {
-                const teams = response.data;
-                this.setState({ teams });
+    // Načtení veškerých zavodu v DB:
+    componentDidMount() {
+        console.log("componentDidMount");
+        axios.get('http://localhost:8080/zavody/all')
+            .then(response => {
+                const races = response.data;
+                this.setState ({races});
             })
-            .catch(async error => {
-                console.log("An error occurred while trying to load races from DB: " + error);
-
-
-                await console.log(error.response.data);
-            })
-    };
+    }
 
     render() {
         const { classes, theme } = this.props;
@@ -94,7 +89,7 @@ class ResponsiveDrawer extends React.Component {
 
         return (
             <div className={classes.root}>
-                //<CssBaseline />
+                <CssBaseline />
                 <AppBar position="fixed" className={classes.appBar}>
                     <Toolbar>
                         <IconButton
@@ -143,7 +138,7 @@ class ResponsiveDrawer extends React.Component {
                     <SimpleTable />
                     <Typography paragraph>
                         <ul>
-                            { this.state.teams.map(teams => <li>{teams.id}</li>)}
+                            { this.state.races.map(race => <li>{race.misto}</li>)}
                         </ul>
                     </Typography>
                 </main>
