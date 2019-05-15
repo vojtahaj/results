@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import classNames from 'classnames';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
@@ -75,7 +74,7 @@ export class ResponsiveDrawer extends React.Component {
     // Načtení veškerých zavodu v DB:
     componentDidMount() {
         console.log("componentDidMount");
-        axios.get('http://localhost:8080/zavody/all')
+        axios.get('http://localhost:8080/zavody/active')
             .then(response => {
                 const races = response.data;
                 this.setState({races});
@@ -157,17 +156,20 @@ export class ResponsiveDrawer extends React.Component {
                         </Drawer>
                         <Drawer
                             className={classes.drawer}
-                            variant="persistent"
+                            variant="temporary"
                             anchor="top"
-                            open={open}
+                            open= {open}
                             classes={{
                                 paper: classes.drawerRaces,
                             }}
                         >
                             <List>
+                                <ListItem>
+                                    <ListItemText primary="Live závody:"/>
+                                </ListItem>
                                 { this.state.races.map((race, index) => (
                                     <ListItem button key={race.nazev}>
-                                        <ListItemText primary={race.nazev}/>
+                                        <ListItemText primary={race.nazev+ "; " +race.misto}/>
                                     </ListItem>
                                 ))}
                                 <ListItem button key="Zpět" onClick={this.handleSubMenu}>
