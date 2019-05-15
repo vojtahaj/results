@@ -12,6 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import SimpleTable from './SimpleTable'
+import DownDropList from './DownDropList'
 import {withStyles} from '@material-ui/core/styles';
 import axios from 'axios'
 
@@ -181,7 +182,8 @@ export class ResponsiveDrawer extends React.Component {
                 </nav>
                 <main className={classes.content}>
                     <div className={classes.toolbar}/>
-                    <SimpleTable/>
+                    {/*<SimpleTable/>*/}
+                    <DownDropList/>
                     <Typography paragraph>
                         <ul>
                             {this.state.races.map(race => <li>{race.nazev}</li>)}
