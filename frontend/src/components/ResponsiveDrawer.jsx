@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import classNames from 'classnames';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
@@ -12,7 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import SimpleTable from './SimpleTable'
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import axios from 'axios'
 
 const drawerWidth = 240;
@@ -20,6 +21,9 @@ const drawerWidth = 240;
 const styles = theme => ({
     root: {
         display: 'flex',
+    },
+    hide: {
+        display: 'none',
     },
     drawer: {
         [theme.breakpoints.up('sm')]: {
@@ -43,6 +47,9 @@ const styles = theme => ({
     drawerPaper: {
         width: drawerWidth,
     },
+    drawerRaces: {
+        width: drawerWidth * 2,
+    },
     content: {
         flexGrow: 1,
         padding: theme.spacing.unit * 3,
@@ -52,12 +59,18 @@ const styles = theme => ({
 export class ResponsiveDrawer extends React.Component {
     state = {
         mobileOpen: false,
+        open: false,
         races: []
     };
 
     handleDrawerToggle = () => {
-        this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+        this.setState(state => ({mobileOpen: !state.mobileOpen}));
     };
+
+    handleSubMenu = () => {
+        this.setState({open: !this.state.open});
+        console.log("submenu přepnout: " + this.state.open);
+    }
 
     // Načtení veškerých zavodu v DB:
     componentDidMount() {
@@ -65,31 +78,42 @@ export class ResponsiveDrawer extends React.Component {
         axios.get('http://localhost:8080/zavody/all')
             .then(response => {
                 const races = response.data;
-                this.setState ({races});
+                this.setState({races});
             })
     }
 
     render() {
-        const { classes, theme } = this.props;
+        const {classes, theme} = this.props;
+        const {open} = this.state;
 
         const drawer = (
             <div>
-                <div className={classes.toolbar} />
-                <Divider />
+                <div className={classes.toolbar}/>
+                <Divider/>
                 <List>
-                    {['Závody', 'Live', 'Kalendář', 'O nás'].map((text, index) => (
-                        <ListItem button key={text}>
+                    <ListItem button key='Závody'>
 
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
+                        <ListItemText primary='Závody'/>
+                    </ListItem>
+                    <ListItem button key='Live' onClick={this.handleSubMenu}>
+
+                        <ListItemText primary='Live'/>
+                    </ListItem>
+                    <ListItem button key='Kalendář'>
+
+                        <ListItemText primary='Kalendář'/>
+                    </ListItem>
+                    <ListItem button key='O nás'>
+
+                        <ListItemText primary='O nás'/>
+                    </ListItem>
                 </List>
             </div>
         );
 
         return (
             <div className={classes.root}>
-                <CssBaseline />
+                <CssBaseline/>
                 <AppBar position="fixed" className={classes.appBar}>
                     <Toolbar>
                         <IconButton
@@ -131,14 +155,34 @@ export class ResponsiveDrawer extends React.Component {
                         >
                             {drawer}
                         </Drawer>
+                        <Drawer
+                            className={classes.drawer}
+                            variant="persistent"
+                            anchor="top"
+                            open={open}
+                            classes={{
+                                paper: classes.drawerRaces,
+                            }}
+                        >
+                            <List>
+                                { this.state.races.map((race, index) => (
+                                    <ListItem button key={race.nazev}>
+                                        <ListItemText primary={race.nazev}/>
+                                    </ListItem>
+                                ))}
+                                <ListItem button key="Zpět" onClick={this.handleSubMenu}>
+                                    <ListItemText primary="Zpět"/>
+                                </ListItem>
+                            </List>
+                        </Drawer>
                     </Hidden>
                 </nav>
                 <main className={classes.content}>
-                    <div className={classes.toolbar} />
-                    <SimpleTable />
+                    <div className={classes.toolbar}/>
+                    <SimpleTable/>
                     <Typography paragraph>
                         <ul>
-                            { this.state.races.map(race => <li>{race.misto}</li>)}
+                            {this.state.races.map(race => <li>{race.nazev}</li>)}
                         </ul>
                     </Typography>
                 </main>
@@ -155,4 +199,4 @@ ResponsiveDrawer.propTypes = {
     theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);
+export default withStyles(styles, {withTheme: true})(ResponsiveDrawer);
