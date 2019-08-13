@@ -43,10 +43,10 @@ public class LiveParam {
 //    private Atlet actstc;
     private int actstc;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_kalendar")
+//    @OneToOne(fetch = FetchType.LAZY)
+    @Column(name = "id_kalendar")
     @JsonIgnore
-    private Zavod zavod;
+    private int zavod;
 
     @Override
     public boolean equals(Object o) {

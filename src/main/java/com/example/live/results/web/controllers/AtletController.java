@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/atlet")
-public class AtletController implements LiveObserver {
+public class AtletController {
 
     @Autowired
     private AtletRepository atletRepository;
@@ -50,7 +50,7 @@ public class AtletController implements LiveObserver {
 
     @GetMapping("/find")
     public HashMap<Integer, Atlet> getByBib(String bib, int idZav) {
-        List<Atlet> atlets = atletRepository.findAllbyBib(bib);
+        List<Atlet> atlets = atletRepository.findAllByBib(bib);
         for (int i = 0; i < atlets.size(); i++) {
             int k = kategorieRepository.findKategorieByIdKat(atlets.get(i).getIdKategorie(), idZav);
 
@@ -59,8 +59,5 @@ public class AtletController implements LiveObserver {
         //return null;
     }
 
-    @Override
-    public void getActualAtlet() {
-        getLastAlet();
-    }
+
 }

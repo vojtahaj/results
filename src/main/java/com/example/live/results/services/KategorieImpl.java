@@ -22,7 +22,7 @@ public class KategorieImpl implements KategorieService {
     private KategorieRepository kategorieRepository;
     private ZavodRepository zavodRepository;
     private AtletRepository atletRepository;
-    @Autowired
+
     private LiveObserver liveObserver;
 
 
@@ -30,14 +30,15 @@ public class KategorieImpl implements KategorieService {
     List<Atlet> atleti = new ArrayList<>();
 
     @Autowired
-    public KategorieImpl(ZavodRepository zavodRepository, AtletRepository atletRepository,KategorieRepository kategorieRepository) {
+    public KategorieImpl(ZavodRepository zavodRepository, AtletRepository atletRepository, KategorieRepository kategorieRepository) {
         this.zavodRepository = zavodRepository;
         this.atletRepository = atletRepository;
         this.kategorieRepository = kategorieRepository;
 
     }
 
-    public KategorieImpl(){}
+    public KategorieImpl() {
+    }
 
 
     public void updateAtlet(Atlet atlet, int idZav) {
@@ -47,26 +48,26 @@ public class KategorieImpl implements KategorieService {
         LOGGER.info("update kategorie ve ktere byl zmenen atlet");
         //updatuj atleta v kategorii
         //zjisti jestli je uz atlet zalozen
-       // addToMap(atlet);
-       // katMap.put(kat,));
+        // addToMap(atlet);
+        // katMap.put(kat,));
         //atleti = (List<Atlet>) getAtletByKategorie(kategorieRepository.findKategorieByIdKat(kat, idZav));
         // sortuj kategorii podle casu
         //ted reseno pres jpql, vytazenim z repository
 
-        //  liveObserver.getActualAtlet();
         //todo posli na controller
+//        liveObserver.getActualAtlet(kat);
+
     }
 
     private void addToMap(Atlet atlet) {
         ArrayList<Atlet> atlets = katMap.get(atlet.getIdKategorie());
 
-        if (atlets == null){
+        if (atlets == null) {
             //vytvori list pro kategorii a prida do ni atleta
             atlets = new ArrayList<>();
             atlets.add(atlet);
             katMap.put(atlet.getIdKategorie(), atlets);
-        }
-        else {
+        } else {
             if (!atlets.contains(atlet))
                 atlets.add(atlet);
             else {
@@ -76,7 +77,7 @@ public class KategorieImpl implements KategorieService {
         }
 
 
-        katMap.put(atlet.getIdKategorie(),atlets);
+        katMap.put(atlet.getIdKategorie(), atlets);
     }
 
     public KategorieImpl(KategorieRepository kategorieRepository, ZavodRepository zavodRepository) {

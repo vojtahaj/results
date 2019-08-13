@@ -23,7 +23,7 @@ public class AtletImpl implements AtletService {
 
     @Override
     public List<Atlet> findAllByBib(String bib) {
-        return atletRepository.findAllbyBib(bib);
+        return atletRepository.findAllByBib(bib);
         //todo najit ho v tabulkach podle  poradi
     }
 }

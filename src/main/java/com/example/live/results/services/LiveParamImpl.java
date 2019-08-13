@@ -91,7 +91,7 @@ public class LiveParamImpl {
     }
 
     public Optional<LiveParam> getRow() {
-        return liveParamRepository.findById(0);
+        return liveParamRepository.findById(1);
     }
 }
 

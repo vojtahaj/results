@@ -58,10 +58,10 @@ public class Zavod {
     private List<Kategorie> kategorie;
 //    private int kategorie;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_zavodu")
+//    @OneToOne(fetch = FetchType.LAZY)
+    @Column(name = "id_zavodu")
     @JsonIgnore
-    private LiveParam liveParam;
+    private int idZavodu;
 
 
     @Override
@@ -73,7 +73,7 @@ public class Zavod {
 
         if (id != zavod.id) return false;
         if (datum != zavod.datum) return false;
-//        if (idZavodu != zavod.idZavodu) return false;
+        if (idZavodu != zavod.idZavodu) return false;
         if (stav != zavod.stav) return false;
         if (last != zavod.last) return false;
         if (numdes != zavod.numdes) return false;
@@ -102,7 +102,7 @@ public class Zavod {
         result = 31 * result + (poradatel != null ? poradatel.hashCode() : 0);
         result = 31 * result + (porlogo != null ? porlogo.hashCode() : 0);
         result = 31 * result + (team != null ? team.hashCode() : 0);
-//        result = 31 * result + idZavodu;
+        result = 31 * result + idZavodu;
         result = 31 * result + (popis != null ? popis.hashCode() : 0);
         result = 31 * result + (tj != null ? tj.hashCode() : 0);
         result = 31 * result + (drSou != null ? drSou.hashCode() : 0);
