@@ -1,14 +1,14 @@
 package com.example.live.results.web.controllers;
 
-import com.example.live.results.dao.ZavodRepository;
-import com.example.live.results.domain.Atlet;
 import com.example.live.results.domain.Kategorie;
 import com.example.live.results.domain.Zavod;
 import com.example.live.results.exception.NotFoundException;
 import com.example.live.results.services.ZavodImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,9 +16,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/zavody")
+@Log4j2
 public class ZavodyController {
-
-    private final Logger LOGGER = LoggerFactory.getLogger(ZavodyController.class.getName());
 
     @Autowired
     private ZavodImpl zavod;
@@ -27,31 +26,53 @@ public class ZavodyController {
         this.zavod = zavod;
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<Zavod> getZavody() {
-        LOGGER.info("vypis seznamu zavodu");
+        log.info("vypis seznamu zavodu");
         return zavod.findAll();
     }
 
-    @GetMapping(value = "/zavod/{id}")
+    @GetMapping(value = "/{id}")
     public Optional<Zavod> getZavodById(@PathVariable int id) {
-        LOGGER.info("info o zavodu s id: " + id);
+        log.info("info o zavodu s id: " + id);
         return Optional.ofNullable(zavod.getZavodById(id).orElseThrow(() -> new NotFoundException("zavod not found with id: " + id)));
     }
 
-    @GetMapping(value = "/zavod/{id}/kategorie")
+    @GetMapping(value = "/{id}/kategorie")
     public List<Kategorie> getKategorieByZavod(@PathVariable int id) {
-        LOGGER.info("kategorie pro zavod s id: " + id);
+        log.info("kategorie pro zavod s id: " + id);
         return zavod.getKategorieByZavod(id);
     }
 
-    @GetMapping(value = "/active")
+    @GetMapping(value = "/actives")
     public List<Zavod> getActiveZavod() {
-        LOGGER.info("Zavody v povolenem modu pro live vypsany");
+        log.info("Zavody v povolenem modu pro live vypsany");
         if (zavod.findActiveLiveZavod().isEmpty()) {
             throw new NotFoundException("zadne zavody v live rezimu");
         }
         return zavod.findActiveLiveZavod();
     }
 
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> createZavod(@RequestBody Zavod z) {
+
+        zavod.create(z);
+
+        return new ResponseEntity<>(z, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity updateZavod(@RequestBody int id, Zavod z) {
+//        z = zavod.update(id, z);
+
+        if (z == null)
+            return new ResponseEntity<>("Zavod s danym id neexistuje: " + id, HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(z, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteZavodById(@RequestBody int id){
+        zavod.delete(id);
+    }
 }

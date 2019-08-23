@@ -9,11 +9,15 @@ public class WebSocketProperties {
     /**
      * Prefix used for WebSocket destination mappings
      */
-    private String applicationPrefix = "/topic";
+    private String applicationPrefix = "/app";
     /**
      * Prefix used by topics
      */
     private String topicPrefix = "/topic";
+    /**
+     * Prefix used by queue
+     */
+    private String queuePrefix = "/queue";
     /**
      * Endpoint that can be used to connect to
      */

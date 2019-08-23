@@ -16,4 +16,9 @@ public interface ZavodSerivce {
 
     List<Kategorie> getKategorieByZavod(int id);
 
+    void create(Zavod zavod);
+
+    Optional<Zavod> update(int idZav, Zavod zavod);
+
+    void delete(int id);
 }

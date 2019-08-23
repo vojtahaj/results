@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@ToString(exclude = {"kategorie","liveParam"})
+@ToString(exclude = {"kategorie", "liveParam"})
 @Entity
 @Table(name = "kalendar", schema = "t-base_cz")
 public class Zavod {
@@ -25,26 +26,24 @@ public class Zavod {
     private String misto;
     private String discipl;
     private String nazev;
-    @JsonIgnore
+//    @Column
     private String poradatel;
-    @JsonIgnore
+
+//    @Column
     private String porlogo;
-    @JsonIgnore
+
+    @Column(nullable = true)
     private String team;
     @Column(columnDefinition = "mediumtext")
     private String popis;
-    @JsonIgnore
     private String tj;
     @Column(name = "dr_Sou")
-    @JsonIgnore
     private String drSou;
     @Column(columnDefinition = "smallint default 0")
     private short stav;
     @Column(columnDefinition = "int default 0")
-    @JsonIgnore
     private int last;
     @Column(columnDefinition = "int default 0")
-    @JsonIgnore
     private int numdes;
 
     @Column(columnDefinition = "int default 0")
@@ -58,9 +57,9 @@ public class Zavod {
     private List<Kategorie> kategorie;
 //    private int kategorie;
 
-//    @OneToOne(fetch = FetchType.LAZY)
+    //    @OneToOne(fetch = FetchType.LAZY)
     @Column(name = "id_zavodu")
-    @JsonIgnore
+//    @JsonIgnore
     private int idZavodu;
 
 

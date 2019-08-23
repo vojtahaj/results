@@ -1,0 +1,245 @@
+import React from 'react'
+import {Client} from '@stomp/stompjs'
+import AtletView from "./atlet_view/AtletView";
+import Button from "@material-ui/core/es/Button/Button";
+import '../css/resultTable.css';
+import CategoryList from "./CategoryList";
+import Transcription from "./atlet_view/Transcription";
+
+class DashboardCategoryDetailStomp extends React.Component {
+    constructor() {
+        super();
+
+        this.state = {
+            serverTime: null,
+            isConnect: false,
+            bibToFind: 1,
+            kat: 0,
+            athletes: [],
+            raceInfo: {},
+            checked: false,
+            foundBib: [],
+            errorBib: "",
+            isRecivedBib: null,
+        };
+    }
+
+    categoryTopic;
+    errorTopic;
+    raceInfoTopic;
+    userLiveTopic;
+
+    setKat = async kat => {
+        await
+            this.categoryTopic.unsubscribe();
+
+        this.setState({kat: kat});
+        this.categoryTopic = this.client.subscribe(`/topic/live/${this.state.kat}`, message => {
+            // console.log(message.body);
+            // console.log("subscripbe category: " + this.state.kat);
+            this.processMessage(message);
+
+        });
+        this.firstCall();
+    };
+
+    setKatInStomp = async kat => {
+        // console.log("test call");
+        await  this.setKat(kat);
+    };
+
+    firstCall() {
+        // console.log("firs call")
+        this.client.publish({destination: `/app/live/${this.state.kat}`, 'name': "test"})
+    };
+
+    componentDidMount() {
+        console.log("categorydetailstomp");
+        this.client = new Client();
+
+        this.client.configure({
+            brokerURL: "ws://localhost:8080/live",
+
+            onConnect: () => {
+                console.log("ws connect");
+                console.log("sub cat plan " + `${this.state.kat}`);
+
+                this.state.isConnect = true;
+                this.categoryTopic = this.client.subscribe(`/topic/live/${this.state.kat}`, message => {
+                    this.processMessage(message);
+                });
+
+                // this.client.subscribe('/topic/test', message => {
+                //     console.log(message.body);
+                //     this.setState({
+                //         serverTime: JSON.parse(message.body).id
+                //     })
+                // });
+                this.raceInfoTopic = this.client.subscribe('/topic/raceInfo', message => {
+                    // console.log(message.body);
+                    this.setState({
+                        raceInfo: JSON.parse(message.body),
+                    });
+
+                });
+                this.userLiveTopic = this.client.subscribe('/user/queue/live', message => {
+                    console.log(message.body);
+                    this.setState({
+                        foundBib: JSON.parse(message.body),
+                        isRecivedBib: true
+                    });
+                });
+                this.errorTopic = this.client.subscribe('/user/queue/live/error', message => {
+                    console.log(message.body);
+                    this.setState({
+                        errorBib: message.body,
+                        isRecivedBib: false
+                    });
+                });
+                // this.client.heartbeatOutgoing = 20000;
+                this.firstCall();
+            },
+
+        });
+
+        this.client.activate();
+
+        // this.client.publish({destination: '/app/test', 'name': "test"});
+    }
+
+    componentWillUnmount() {
+        this.setState({
+            isConnect: false,
+        });
+        this.categoryTopic.unsubscribe();
+        this.errorTopic.unsubscribe();
+        this.userLiveTopic.unsubscribe();
+        this.userLiveTopic.unsubscribe();
+
+        this.client.forceDisconnect();
+        console.log("ws disconnect");
+    }
+
+    processMessage(message) {
+        console.log("subscripbe category: " + this.state.kat);
+        // console.log(message.body);
+        // this.setState({athletes: JSON.parse(message.body)});
+        // console.log(JSON.parse(message.body).length);
+        let athleteArray = [];
+        let outObjA = JSON.parse(message.body);
+
+        for (let i = 0; i < outObjA.length; i++) {
+            let jsonData = outObjA[i];
+            athleteArray.push(jsonData);
+            // console.log(jsonData);
+        }
+
+        this.setState({athletes: athleteArray});
+    }
+
+    // clickHandler = () => {
+    //     // this.client.publish({destination: '/app/test', 'name': "test"});
+    //     // this.client.publish({destination: '/app/live/find/5113', 'stc': "5113"});
+    //     // this.client.publish({destination: '/app/hello', 'name': "Jan"});
+    //     // console.log("try test")
+    //     // console.log(new Date(1000 * 1506117600));
+    //
+    //
+    // };
+    findBib = () => {
+       if (this.state.isConnect) {
+           if ((this.state.bibToFind.value)) {
+               this.client.publish({
+                   destination: `/app/live/find/${this.state.bibToFind.value}`,
+                   'stc': `${this.state.bibToFind.value}`
+               });
+               console.log('find bibs');
+           }
+           else
+               console.error('Neni cislo');
+       }
+    };
+
+
+    handleInputChange = async (event) => {
+        await this.setState({checked: event.target.checked});
+
+        if (this.state.checked) {
+            this.categoryTopic.unsubscribe();
+            this.categoryTopic = this.client.subscribe('/topic/live', message => {
+                this.processMessage(message);
+            })
+        }
+        else {
+
+            this.categoryTopic.unsubscribe();
+            this.categoryTopic = this.client.subscribe(`/topic/live/${this.state.kat}`, message => {
+                this.processMessage(message);
+            })
+        }
+
+    };
+
+    render() {
+        return (
+            <div>
+                <div>
+                    <div id={"infoBox"}>
+                        <h3>{this.state.raceInfo.nazev ? this.state.raceInfo.nazev : "Název závodu"}</h3>
+                        {Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.stc}
+                        <div id={"formCategory"}><CategoryList kategorie={this.props.kategorie}
+                                                               setKatInStomp={this.setKatInStomp}/></div>
+                        <div id={"round"}>Kolo:
+                            <strong>{this.state.raceInfo.koloZavodu ? this.state.raceInfo.koloZavodu : 0}</strong></div>
+
+                        <label><input name="isAutokat"
+                                      type="checkbox"
+                                      label="AutoKat"
+                                      value={this.state.checked}
+                                      onChange={this.handleInputChange}/>AutoKat</label>
+                        <br/>
+                        <div id={"findBib"}>
+                            <input type="number" min={1} ref={(ref) => this.state.bibToFind = ref}/>
+                            <Button onClick={this.findBib}>Hledej stč</Button>
+
+                        </div>
+                    </div>
+
+                    <div id={"findBibBox"}>
+                        <table id={"findBibTable"}>
+                            <tr>
+                                <th>stč.</th>
+                                <th>Jméno</th>
+                                <th>Kód</th>
+                                <th>Kategorie</th>
+                            </tr>
+                            <tbody>
+                            {this.state.foundBib.map((athlet, index) => {
+                                return [
+                                    <tr className="findBibRow" key={index}
+                                        onClick={() => this.setKat(athlet.idKategorie)}>
+                                        <td>{athlet.bib}</td>
+                                        <td>{athlet.jmeno}</td>
+                                        <td>{Transcription.changeFlg(athlet.flg)}</td>
+                                        <td>{athlet.zkrkat}</td>
+                                    </tr>
+                                ]
+                            })
+                            }
+                            </tbody>
+                        </table>
+
+                        <p>{this.state.isRecivedBib ? '' : (this.state.isRecivedBib === null) ? '' : `Atlet podle startovního čísla ${this.state.bibToFind.value} nalezen.`}</p>
+                    </div>
+                </div>
+
+                <AtletView athletes={this.state.athletes} raceInfo={this.state.raceInfo}/>
+            </div>
+
+        )
+    }
+
+}
+
+export default DashboardCategoryDetailStomp;
+

@@ -1,0 +1,53 @@
+{
+align-content:flex-start;
+}
+.vysledky {
+    border-bottom: 1px solid #aaaaaa;
+    height: 20px;
+    margin: 5px;
+    width: 99%;
+}
+.vysledky a {
+    color: #000000;
+    text-decoration: underline;
+}
+.vysledky a:hover {
+    text-decoration: none;
+}
+.vysledky a:visited {
+    color: #000000;
+    text-decoration: underline;
+}
+.org img {
+    float: left;
+    border: 0px;
+    width: 19px;
+}
+.date {
+    color: #000000;
+    float: left;
+    font-weight: bold;
+    font-size: 1em;
+    padding-left: 10px;
+    width: 110px;
+}
+.misto {
+    color: #000000;
+    float: left;
+    font-size: 1em;
+    width: 180px;
+}
+.nazev {
+    float: left;
+    color: #000000;
+    width: 222px;
+    font-size: 1em;
+}
+.druh {
+    float: left;
+    width: 180px;
+    font-size: 1em;
+}
+.pdf {
+    float: right;
+}

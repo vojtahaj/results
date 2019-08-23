@@ -17,15 +17,10 @@ public class KategorieController {
     @Autowired
     private KategorieImpl kategorie;
 
-    public KategorieController(KategorieImpl kategorie) {
-        this.kategorie = kategorie;
-    }
-
     @GetMapping("/all")
     public Iterable<Kategorie> getAllKategorie() {
         LOGGER.info("vsechny kategorie");
-        Iterable<Kategorie> k = kategorie.getAllKategorie();
-        return k;
+        return kategorie.getAllKategorie();
     }
 
     @GetMapping("/{id}")

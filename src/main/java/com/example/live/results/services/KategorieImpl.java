@@ -5,12 +5,13 @@ import com.example.live.results.dao.KategorieRepository;
 import com.example.live.results.dao.ZavodRepository;
 import com.example.live.results.domain.Atlet;
 import com.example.live.results.domain.Kategorie;
-import com.example.live.results.web.controllers.LiveObserver;
+import com.example.live.results.domain.LiveParam;
+import com.example.live.results.domain.ZavodParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.*;
 
@@ -19,31 +20,30 @@ public class KategorieImpl implements KategorieService {
 
     private final Logger LOGGER = LoggerFactory.getLogger(KategorieImpl.class.getName());
 
-    private KategorieRepository kategorieRepository;
-    private ZavodRepository zavodRepository;
-    private AtletRepository atletRepository;
-
-    private LiveObserver liveObserver;
-
-
-    Map<Integer, ArrayList<Atlet>> katMap = new HashMap<>();
-    List<Atlet> atleti = new ArrayList<>();
-
     @Autowired
-    public KategorieImpl(ZavodRepository zavodRepository, AtletRepository atletRepository, KategorieRepository kategorieRepository) {
-        this.zavodRepository = zavodRepository;
-        this.atletRepository = atletRepository;
-        this.kategorieRepository = kategorieRepository;
+    private KategorieRepository kategorieRepository;
+    @Autowired
+    private ZavodRepository zavodRepository;
+    @Autowired
+    private AtletRepository atletRepository;
+    //    @Autowired
+//    private LiveParamImpl liveParam;
+    @Autowired
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
+//    Map<Integer, ArrayList<Atlet>> katMap = new HashMap<>();
+//    List<Atlet> atleti = new ArrayList<>();
+
+
+    public KategorieImpl(SimpMessagingTemplate simpMessagingTemplate) {
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
-    public KategorieImpl() {
-    }
-
-
-    public void updateAtlet(Atlet atlet, int idZav) {
+    @Override
+    public void updateAtlet(Atlet atlet, LiveParam l) {
         int kat = atlet.getIdKategorie();
 //        Iterable<Atlet> IdKategorie =  getAtletByKategorie(kategorieRepository.findKategorieByIdKat(kat));
+//            KategorieLive k = new KategorieLive();
 
         LOGGER.info("update kategorie ve ktere byl zmenen atlet");
         //updatuj atleta v kategorii
@@ -54,37 +54,42 @@ public class KategorieImpl implements KategorieService {
         // sortuj kategorii podle casu
         //ted reseno pres jpql, vytazenim z repository
 
-        //todo posli na controller
-//        liveObserver.getActualAtlet(kat);
+
+        ZavodParam zavodParam = new ZavodParam(zavodRepository.findZavodById(l.getZavod()).getNazev(),
+                atlet.getStc(),
+                l.getRound(),
+                atlet.getFlg(),
+                l.getTyp(),
+                l.getPocdes());
+       // System.out.println(zavodParam.toString());
+        simpMessagingTemplate.convertAndSend("/topic/raceInfo",
+                zavodParam);
+        simpMessagingTemplate.convertAndSend("/topic/live/" + kat, atletRepository.findAtletByIdKategorie(kat));
+        simpMessagingTemplate.convertAndSend("/topic/live", atletRepository.findAtletByIdKategorie(kat));
+        simpMessagingTemplate.convertAndSend("/topic/live/0", atletRepository.findAtletAbsolute());
 
     }
 
-    private void addToMap(Atlet atlet) {
-        ArrayList<Atlet> atlets = katMap.get(atlet.getIdKategorie());
-
-        if (atlets == null) {
-            //vytvori list pro kategorii a prida do ni atleta
-            atlets = new ArrayList<>();
-            atlets.add(atlet);
-            katMap.put(atlet.getIdKategorie(), atlets);
-        } else {
-            if (!atlets.contains(atlet))
-                atlets.add(atlet);
-            else {
-                //TODO najdi ho v array listu a nahrad novym
-//                todo lepsi hashmapa v hashmape map<IdKat,map<stc,Atlet>>
-            }
-        }
-
-
-        katMap.put(atlet.getIdKategorie(), atlets);
-    }
-
-    public KategorieImpl(KategorieRepository kategorieRepository, ZavodRepository zavodRepository) {
-        this.kategorieRepository = kategorieRepository;
-        this.zavodRepository = zavodRepository;
-
-    }
+//    private void addToMap(Atlet atlet) {
+//        ArrayList<Atlet> atlets = katMap.get(atlet.getIdKategorie());
+//
+//        if (atlets == null) {
+//            //vytvori list pro kategorii a prida do ni atleta
+//            atlets = new ArrayList<>();
+//            atlets.add(atlet);
+//            katMap.put(atlet.getIdKategorie(), atlets);
+//        } else {
+//            if (!atlets.contains(atlet))
+//                atlets.add(atlet);
+//            else {
+//                //TODO najdi ho v array listu a nahrad novym
+////                todo lepsi hashmapa v hashmape map<IdKat,map<stc,Atlet>> pro pripad, ze se data budou radit na serveru
+//
+//            }
+//        }
+//
+//        katMap.put(atlet.getIdKategorie(), atlets);
+//    }
 
     @Override
     public Iterable<Kategorie> getAllKategorie() {

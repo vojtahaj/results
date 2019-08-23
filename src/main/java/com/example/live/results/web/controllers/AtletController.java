@@ -21,43 +21,17 @@ public class AtletController {
     private AtletRepository atletRepository;
 
     @Autowired
-    private KategorieRepository kategorieRepository;
-
-    @Autowired
     private LiveParamRepository liveParamRepository;
 
-    @GetMapping("/atleti_list")
+    @GetMapping("/atleti")
     public List<Atlet> getAllAlet() {
         return atletRepository.findAll();
     }
 
-    @GetMapping("/atlet_last")
+    @GetMapping("/atlet/last")
     public Atlet getLastAlet() {
 
         return liveParamRepository.getAtlet();
     }
-
-    @GetMapping("/{id_kategorie}")
-    public List<Atlet> example() {
-        final int last = liveParamRepository.getLast();
-        // final Atlet atletByLast = atletRepository.findAtletByLast(last);
-//        final int idKategorie = atletByLast.getIdKategorie();
-
-        //final  ArrayList<Atlet> atletsByKategorie = kategorieRepository.getAtletsByKategorie(idKategorie);
-        // todo sort atletsByKategorie by time
-        return null;//atletsByKategorie;
-    }
-
-    @GetMapping("/find")
-    public HashMap<Integer, Atlet> getByBib(String bib, int idZav) {
-        List<Atlet> atlets = atletRepository.findAllByBib(bib);
-        for (int i = 0; i < atlets.size(); i++) {
-            int k = kategorieRepository.findKategorieByIdKat(atlets.get(i).getIdKategorie(), idZav);
-
-        }
-        throw new NotFoundException("zavodnik nenalezen");
-        //return null;
-    }
-
 
 }

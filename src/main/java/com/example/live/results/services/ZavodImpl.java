@@ -38,4 +38,22 @@ public class ZavodImpl implements ZavodSerivce {
     public List<Kategorie> getKategorieByZavod(int id) {
         return zavodRepository.findById(id).get().getKategorie();
     }
+
+    @Override
+    public void create(Zavod zavod) {
+        zavodRepository.save(zavod);
+    }
+
+    @Override
+    public Optional<Zavod> update(int idZav, Zavod zavod) {
+        Optional<Zavod> z = zavodRepository.findById(idZav);
+        z = Optional.ofNullable(zavod);
+
+        return z;
+    }
+
+    @Override
+    public void delete(int id) {
+        zavodRepository.deleteById(id);
+    }
 }

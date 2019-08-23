@@ -9,35 +9,37 @@ import com.example.live.results.domain.LiveParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
-@Component
+@Service
 public class LiveParamImpl {
 
     private final Logger LOGGER = LoggerFactory.getLogger(LiveParamImpl.class.getName());
 
     @Autowired
-    private final LiveParamRepository liveParamRepository;
+    private LiveParamRepository liveParamRepository;
     @Autowired
-    private final AtletRepository atletRepository;
+    private AtletRepository atletRepository;
     @Autowired
-    private final ZavodRepository zavodRepository;
+    private ZavodRepository zavodRepository;
     @Autowired
-    private final KategorieRepository kategorieRepository;
+    private KategorieRepository kategorieRepository;
+    @Autowired
+    private KategorieImpl kategorie;
 
     private int last = 0;
     private Timer timer;
 
-
-    public LiveParamImpl(LiveParamRepository liveParamRepository, AtletRepository atletRepository, ZavodRepository zavodRepository, KategorieRepository kategorieRepository) {
+    public LiveParamImpl(LiveParamRepository liveParamRepository, AtletRepository atletRepository, ZavodRepository zavodRepository, KategorieRepository kategorieRepository, KategorieImpl kategorie) {
         this.liveParamRepository = liveParamRepository;
         this.atletRepository = atletRepository;
         this.zavodRepository = zavodRepository;
         this.kategorieRepository = kategorieRepository;
+        this.kategorie = kategorie;
 
         try {
             last = liveParamRepository.getLast();
@@ -61,15 +63,15 @@ public class LiveParamImpl {
             public void run() {
                 int p = 0;
 
-                LOGGER.info("param.last predchozi: " + last);
+//                LOGGER.info("param.last predchozi: " + last);
                 try {
                     p = liveParamRepository.getLast();
                     if (p != last) {
                         Atlet atlet = atletRepository.getAtlet();
                         // updatovat atleta v kategorii
-                        KategorieImpl kategorieImpl = new KategorieImpl(zavodRepository, atletRepository, kategorieRepository);
-                        kategorieImpl.updateAtlet(atlet, liveParamRepository.getIdZav());
-
+//                        KategorieImpl kategorieImpl = new KategorieImpl(simpMessagingTemplate);
+//                        kategorieImpl.updateAtlet(atlet, liveParamRepository.getIdZav());
+                        kategorie.updateAtlet(atlet, liveParamRepository.getLiveParam());
                         // System.out.println(atlet);
                         LOGGER.info("novy param.last: " + p);
                         last = p;
@@ -83,7 +85,7 @@ public class LiveParamImpl {
         };
         if (zavodRepository.findActiveLiveZavod().size() != 0) {
             LOGGER.info("Vypisuji param.last ve smycce");
-            timer.scheduleAtFixedRate(timerTask, 7000, 7000);
+            timer.scheduleAtFixedRate(timerTask, 10, 10);
         } else {
             timer.cancel();
             LOGGER.info("zadny zavod neni aktivni");

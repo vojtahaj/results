@@ -17,6 +17,8 @@ public interface AtletRepository extends JpaRepository<Atlet, Integer> {
     List<Atlet> findAtletByIdKategorie(@Param("id") int id);
 
     @Query("select a from Atlet a where a.bib = :bib")
-    List<Atlet> findAllByBib(String bib);
+    List<Atlet> findAllByBib(@Param("bib") String bib);
 
+    @Query("select a from Atlet a order by a.cas")
+    List<Atlet> findAtletAbsolute();
 }
