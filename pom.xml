@@ -12,6 +12,7 @@
     <artifactId>results</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>results</name>
+    <packaging>war</packaging>
     <description>Live vysledky pro merici skupiny t-base.cz/time-h.cz</description>
 
     <properties>
@@ -41,7 +42,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.13</version>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>
@@ -58,7 +59,40 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!-- Google cloud dependecy -->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-gcp-starter</artifactId>-->
+            <!--<version>1.0.0.RELEASE</version>-->
+        <!--</dependency>-->
+
     </dependencies>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>frontend/build</directory>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/resources/static/</directory>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+</profiles>
 
     <build>
         <plugins>

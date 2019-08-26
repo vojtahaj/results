@@ -58,6 +58,7 @@ class DashboardCategoryDetailStomp extends React.Component {
         this.client = new Client();
 
         this.client.configure({
+            // brokerURL: "ws://35.246.244.250:8080/live",
             brokerURL: "ws://localhost:8080/live",
 
             onConnect: () => {

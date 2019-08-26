@@ -1,0 +1,14 @@
+version: "3.3"
+services:
+  ppro-result:
+    image: "quay.io/vojta_haj/ppro-result2"
+    ports:
+      - "8080:8080"
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      ALLOW_EMPTY_PASSWORD="yes"
+      MYSQL_DATABASE: "t-base_cz"
+    ports:
+     - "3306:3306"
