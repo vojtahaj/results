@@ -3,10 +3,7 @@ package com.example.live.results.services;
 import com.example.live.results.dao.AtletRepository;
 import com.example.live.results.dao.KategorieRepository;
 import com.example.live.results.dao.ZavodRepository;
-import com.example.live.results.domain.Atlet;
-import com.example.live.results.domain.Kategorie;
-import com.example.live.results.domain.LiveParam;
-import com.example.live.results.domain.ZavodParam;
+import com.example.live.results.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,19 +38,8 @@ public class KategorieImpl implements KategorieService {
 
     @Override
     public void updateAtlet(Atlet atlet, LiveParam l) {
+
         int kat = atlet.getIdKategorie();
-//        Iterable<Atlet> IdKategorie =  getAtletByKategorie(kategorieRepository.findKategorieByIdKat(kat));
-//            KategorieLive k = new KategorieLive();
-
-        LOGGER.info("update kategorie ve ktere byl zmenen atlet");
-        //updatuj atleta v kategorii
-        //zjisti jestli je uz atlet zalozen
-        // addToMap(atlet);
-        // katMap.put(kat,));
-        //atleti = (List<Atlet>) getAtletByKategorie(kategorieRepository.findKategorieByIdKat(kat, idZav));
-        // sortuj kategorii podle casu
-        //ted reseno pres jpql, vytazenim z repository
-
 
         ZavodParam zavodParam = new ZavodParam(zavodRepository.findZavodById(l.getZavod()).getNazev(),
                 atlet.getStc(),
@@ -61,15 +47,34 @@ public class KategorieImpl implements KategorieService {
                 atlet.getFlg(),
                 l.getTyp(),
                 l.getPocdes());
-       // System.out.println(zavodParam.toString());
-        simpMessagingTemplate.convertAndSend("/topic/raceInfo",
-                zavodParam);
+        update(kat, zavodParam);
+
+        LOGGER.info("update kategorie ve ktere byl zmenen atlet");
+    }
+
+    @Override
+    public void updateAtletByRows(Atlet atlet, LiveParamT l) {
+        int kat = atlet.getIdKategorie();
+
+        ZavodParam zavodParam = new ZavodParam(zavodRepository.findZavodById(l.getZavod()).getNazev(),
+                atlet.getStc(),
+                l.getRound(),
+                atlet.getFlg(),
+                l.getTyp(),
+                l.getPocdes());
+        update(kat, zavodParam);
+
+        update(kat,zavodParam);
+        LOGGER.info("update kategorie ve ktere byl zmenen atlet");
+    }
+
+    private void update(int kat, ZavodParam z) {
+
+        simpMessagingTemplate.convertAndSend("/topic/raceInfo", z);
         simpMessagingTemplate.convertAndSend("/topic/live/" + kat, atletRepository.findAtletByIdKategorie(kat));
         simpMessagingTemplate.convertAndSend("/topic/live", atletRepository.findAtletByIdKategorie(kat));
         simpMessagingTemplate.convertAndSend("/topic/live/0", atletRepository.findAtletAbsolute());
-
     }
-
 //    private void addToMap(Atlet atlet) {
 //        ArrayList<Atlet> atlets = katMap.get(atlet.getIdKategorie());
 //

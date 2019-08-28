@@ -15,17 +15,17 @@ import java.util.Optional;
 public class LiveParamController{
     private final Logger LOGGER = LoggerFactory.getLogger(LiveParamController.class.getName());
 
-    @Autowired
-    private LiveParamImpl liveParam;
-
-    public LiveParamController(LiveParamImpl liveParam) {
-        this.liveParam = liveParam;
-    }
-
-    @RequestMapping("/aktual")
-    public Optional<LiveParam> getLive(){
-        LOGGER.info("update Controlleru");
-        return liveParam.getRow();
-    }
+//    @Autowired
+//    private LiveParamImpl liveParam;
+//
+//    public LiveParamController(LiveParamImpl liveParam) {
+//        this.liveParam = liveParam;
+//    }
+//
+//    @RequestMapping("/aktual")
+//    public Optional<LiveParam> getLive(){
+//        LOGGER.info("update Controlleru");
+//        return liveParam.getRow();
+//    }
 
 }

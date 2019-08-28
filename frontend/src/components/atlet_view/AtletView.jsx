@@ -20,6 +20,9 @@ class AtletView extends React.Component {
                 return athlete.flg !== 9;
             }
         );
+        startlist.sort((a,b) => {
+           return a.bib > b.bib;
+        });
 
         return (
             <>
