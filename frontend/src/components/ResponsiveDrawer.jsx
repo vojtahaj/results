@@ -20,7 +20,7 @@ import DashboardCalendar from "./DashboardCalendar";
 import DashboardCategoryDetailStomp from "./DashboardCategoryDetailStomp";
 import DashboardAbout from "./DashboardAbout";
 
-const drawerWidth = 240;
+const drawerWidth = 100;
 
 const styles = theme => ({
     root: {
@@ -74,6 +74,7 @@ export class ResponsiveDrawer extends React.Component {
         };
 
         // this.refCategoryDetailsStomp = React.createRef();
+
     }
     handleDrawerToggle = () => {
         this.setState(state => ({mobileOpen: !state.mobileOpen}));
@@ -134,6 +135,7 @@ export class ResponsiveDrawer extends React.Component {
     //     console.log("test call");
     //     await this.refCategoryDetailsStomp.current.setKat(kat);
     // }
+
     render() {
         let dashboardChange = <DashboardDefault/>;
         if (this.state.dashboard === 1) {
@@ -164,9 +166,9 @@ export class ResponsiveDrawer extends React.Component {
 
                         <ListItemText primary='Kalendář'/>
                     </ListItem>
-                    <ListItem button key='O projektu' onClick={() => this.handleDashBoard(2)}>
+                    <ListItem button key='O&nbsp;projektu' onClick={() => this.handleDashBoard(2)}>
 
-                        <ListItemText primary='O projektu'/>
+                        <ListItemText primary='O&nbsp;projektu'/>
                     </ListItem>
                 </List>
             </div>
@@ -267,7 +269,8 @@ export class ResponsiveDrawer extends React.Component {
     handleDashBoard = (number) => {
         this.setState({
             dashboard: number
-        })
+        });
+        console.log("handle db")
     }
 }
 

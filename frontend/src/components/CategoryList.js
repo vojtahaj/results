@@ -44,8 +44,8 @@ class CategoryList extends React.Component {
         const classes = styles();
 
         return (
-            <form className={classes.root} autocomplete={'off'}>
-                <FormControl className={classes.formControl}>
+            <form className={classes.root} autoComplete={'off'}>
+                <FormControl>
                     <InputLabel>Kategorie</InputLabel>
                     <Select
                         value={this.state.categoryValue}

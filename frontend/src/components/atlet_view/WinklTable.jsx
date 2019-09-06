@@ -60,8 +60,8 @@ class WinklTable extends React.Component {
 
         return (
             <div className={classes.root}>
-                <Paper className={classes.paper}>
-                    <Table className={classes.table} size="small">
+                <Paper>
+                    <Table size="small">
                         <TableHead>
                             <TableRow>
                                 <TableCell>Poř.<br/>čas 1</TableCell>

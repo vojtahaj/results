@@ -14,6 +14,7 @@ class DashboardCategoryDetailStomp extends React.Component {
             serverTime: null,
             isConnect: false,
             bibToFind: 1,
+            preKat: 0,
             kat: 0,
             athletes: [],
             raceInfo: {},
@@ -33,13 +34,17 @@ class DashboardCategoryDetailStomp extends React.Component {
         await
             this.categoryTopic.unsubscribe();
 
-        this.setState({kat: kat});
+        this.setState({
+            kat: kat,
+            checked: false
+        });
         this.categoryTopic = this.client.subscribe(`/topic/live/${this.state.kat}`, message => {
             // console.log(message.body);
             // console.log("subscripbe category: " + this.state.kat);
             this.processMessage(message);
 
         });
+
         this.firstCall();
     };
 
@@ -49,7 +54,7 @@ class DashboardCategoryDetailStomp extends React.Component {
     };
 
     firstCall() {
-        // console.log("firs call")
+        // console.log("first call")
         this.client.publish({destination: `/app/live/${this.state.kat}`, 'name': "test"})
     };
 
@@ -58,18 +63,18 @@ class DashboardCategoryDetailStomp extends React.Component {
         this.client = new Client();
 
         this.client.configure({
-            // brokerURL: "ws://35.246.244.250:8080/live",
+            // brokerURL: "ws://35.198.70.62:8080/live",
             brokerURL: "ws://localhost:8080/live",
 
             onConnect: () => {
                 console.log("ws connect");
-                console.log("sub cat plan " + `${this.state.kat}`);
+                // console.log("sub cat plan " + `${this.state.kat}`);
 
                 this.state.isConnect = true;
-                this.categoryTopic = this.client.subscribe(`/topic/live/${this.state.kat}`, message => {
+                this.categoryTopic = this.client.subscribe(`/topic/live/0`, message => {
                     this.processMessage(message);
                 });
-
+                this.firstCall();
                 // this.client.subscribe('/topic/test', message => {
                 //     console.log(message.body);
                 //     this.setState({
@@ -84,23 +89,22 @@ class DashboardCategoryDetailStomp extends React.Component {
 
                 });
                 this.userLiveTopic = this.client.subscribe('/user/queue/live', message => {
-                    console.log(message.body);
+                    // console.log(message.body);
                     this.setState({
                         foundBib: JSON.parse(message.body),
                         isRecivedBib: true
                     });
                 });
                 this.errorTopic = this.client.subscribe('/user/queue/live/error', message => {
-                    console.log(message.body);
+                    // console.log(message.body);
                     this.setState({
                         errorBib: message.body,
                         isRecivedBib: false
                     });
                 });
                 // this.client.heartbeatOutgoing = 20000;
-                this.firstCall();
-            },
 
+            },
         });
 
         this.client.activate();
@@ -112,17 +116,18 @@ class DashboardCategoryDetailStomp extends React.Component {
         this.setState({
             isConnect: false,
         });
+        console.log('subscribe tesne pred un');
         this.categoryTopic.unsubscribe();
         this.errorTopic.unsubscribe();
         this.userLiveTopic.unsubscribe();
-        this.userLiveTopic.unsubscribe();
+        this.raceInfoTopic.unsubscribe();
 
-        this.client.forceDisconnect();
-        console.log("ws disconnect");
+        this.client.deactivate();
+        // console.log("ws disconnect");
     }
 
     processMessage(message) {
-        console.log("subscripbe category: " + this.state.kat);
+        console.log("subscribe category: " + this.state.kat);
         // console.log(message.body);
         // this.setState({athletes: JSON.parse(message.body)});
         // console.log(JSON.parse(message.body).length);
@@ -148,17 +153,17 @@ class DashboardCategoryDetailStomp extends React.Component {
     //
     // };
     findBib = () => {
-       if (this.state.isConnect) {
-           if ((this.state.bibToFind.value)) {
-               this.client.publish({
-                   destination: `/app/live/find/${this.state.bibToFind.value}`,
-                   'stc': `${this.state.bibToFind.value}`
-               });
-               console.log('find bibs');
-           }
-           else
-               console.error('Neni cislo');
-       }
+        if (this.state.isConnect) {
+            if ((this.state.bibToFind.value)) {
+                this.client.publish({
+                    destination: `/app/live/find/${this.state.bibToFind.value}`,
+                    'stc': `${this.state.bibToFind.value}`
+                });
+                console.log('find bibs');
+            }
+            else
+                console.error('Neni cislo');
+        }
     };
 
 
@@ -169,14 +174,24 @@ class DashboardCategoryDetailStomp extends React.Component {
             this.categoryTopic.unsubscribe();
             this.categoryTopic = this.client.subscribe('/topic/live', message => {
                 this.processMessage(message);
-            })
+            });
+            this.setState({
+                preKat: this.state.kat,
+                kat: 'all'
+            });
+            console.log("preKat" + this.state.preKat);
         }
         else {
-
             this.categoryTopic.unsubscribe();
+            if (this.state.kat === 'all')
+                this.setState({
+                    kat: this.state.preKat
+                });
+
             this.categoryTopic = this.client.subscribe(`/topic/live/${this.state.kat}`, message => {
                 this.processMessage(message);
             })
+            console.log("postKat" + this.state.kat);
         }
 
     };
@@ -208,12 +223,14 @@ class DashboardCategoryDetailStomp extends React.Component {
 
                     <div id={"findBibBox"}>
                         <table id={"findBibTable"}>
+                            <thead>
                             <tr>
                                 <th>stč.</th>
                                 <th>Jméno</th>
                                 <th>Kód</th>
                                 <th>Kategorie</th>
                             </tr>
+                            </thead>
                             <tbody>
                             {this.state.foundBib.map((athlet, index) => {
                                 return [

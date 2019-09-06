@@ -55,8 +55,8 @@ public class KategorieImpl implements KategorieService {
     @Override
     public void updateAtletByRows(Atlet atlet, LiveParamT l) {
         int kat = atlet.getIdKategorie();
-
-        ZavodParam zavodParam = new ZavodParam(zavodRepository.findZavodById(l.getZavod()).getNazev(),
+        LOGGER.error("zavod v liveparamT:" + l.getZavod());
+        ZavodParam zavodParam = new ZavodParam(l.getNazev(),
                 atlet.getStc(),
                 l.getRound(),
                 atlet.getFlg(),
@@ -64,16 +64,16 @@ public class KategorieImpl implements KategorieService {
                 l.getPocdes());
         update(kat, zavodParam);
 
-        update(kat,zavodParam);
+        update(kat, zavodParam);
         LOGGER.info("update kategorie ve ktere byl zmenen atlet");
     }
 
     private void update(int kat, ZavodParam z) {
 
         simpMessagingTemplate.convertAndSend("/topic/raceInfo", z);
-        simpMessagingTemplate.convertAndSend("/topic/live/" + kat, atletRepository.findAtletByIdKategorie(kat));
         simpMessagingTemplate.convertAndSend("/topic/live", atletRepository.findAtletByIdKategorie(kat));
-        simpMessagingTemplate.convertAndSend("/topic/live/0", atletRepository.findAtletAbsolute());
+//        simpMessagingTemplate.convertAndSend("/topic/live/" + kat, atletRepository.findAtletByIdKategorie(kat));
+//        simpMessagingTemplate.convertAndSend("/topic/live/0", atletRepository.findAtletAbsolute());
     }
 //    private void addToMap(Atlet atlet) {
 //        ArrayList<Atlet> atlets = katMap.get(atlet.getIdKategorie());

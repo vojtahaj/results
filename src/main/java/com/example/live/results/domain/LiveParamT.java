@@ -5,10 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +15,7 @@ import javax.persistence.Table;
 public class LiveParamT {
     @Id
     @Column(columnDefinition = "int default 0")
+    @GeneratedValue
     private int id;
     private String nazev;
     @Column(columnDefinition = "int default 0")
@@ -47,6 +45,7 @@ public class LiveParamT {
     @JsonIgnore
     private int zavod;
 
+    @Column(columnDefinition = "int default 0")
     private int zpracovan;
 
     @Override

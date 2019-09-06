@@ -7,6 +7,8 @@ import TableBody from "@material-ui/core/es/TableBody/TableBody";
 import TableHead from "@material-ui/core/es/TableHead/TableHead";
 import Paper from "@material-ui/core/es/Paper/Paper";
 import Table from "@material-ui/core/es/Table/Table";
+import DashboardCategoryDetailStomp from "./DashboardCategoryDetailStomp";
+
 const styles = theme => ({
     root: {
         width: '100%',
@@ -27,6 +29,12 @@ class DashboardCalendar extends React.Component {
         races: []
     };
 
+    constructor() {
+        super();
+        this.refResponsiveDrawer = React.createRef();
+    }
+
+
     componentDidMount() {
         Calls.getRace()
             .then(response => {
@@ -37,16 +45,18 @@ class DashboardCalendar extends React.Component {
                 console.log(err);
             });
     }
-    static getDate(date){
+
+    static getDate(date) {
         let d = new Date(date * 1000);
         return d.getDate() + ". " + (d.getMonth() + 1) + ". " + d.getFullYear();
     }
+
     render() {
         const classes = styles();
         return (
             <div className={classes.root}>
-                <Paper className={classes.paper}>
-                    <Table className={classes.table} size="small">
+                <Paper>
+                    <Table>
                         <TableHead>
                             <TableRow>
                                 <TableCell>Datum</TableCell>
@@ -59,13 +69,16 @@ class DashboardCalendar extends React.Component {
                         <TableBody>
 
                             {this.state.races.map((race, key) => (
+                                /*<TableRow key={race.id} className={race.stav === 9 ? "activeRace" : ''}*/
+                            /*onClick={race.stav === 9 ? () => this.linkToStomp(race.kategorie) : ''}*/
+                                /*ref={this.refResponsiveDrawer}>*/
                                 <TableRow key={race.id}>
-                                    <TableCell component="th" scope="row">{DashboardCalendar.getDate(race.datum)} </TableCell>
+                                    <TableCell>{DashboardCalendar.getDate(race.datum)} </TableCell>
                                     <TableCell>{race.misto}</TableCell>
                                     <TableCell>{race.popis}</TableCell>
                                     <TableCell>{race.druhZavodu}</TableCell>
                                 </TableRow>
-                            ))}
+                                ))}
 
                         </TableBody>
                     </Table>

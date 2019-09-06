@@ -18,6 +18,12 @@ align-content:flex-start;
     color: #000000;
     text-decoration: underline;
 }
+.activeRace {
+    color: red;
+}
+.activeRace :hover{
+    text-decoration: underline;
+}
 .org img {
     float: left;
     border: 0px;

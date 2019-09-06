@@ -57,25 +57,32 @@ public class LiveParamTImpl {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                int p = 0;
+                int p;
 
 //                LOGGER.info("param.last predchozi: " + last);
                 try {
                     ArrayList<LiveParamT> lastRows = liveParamTRepository.getNotProcessRows();
+                    if (lastRows.size() > 0) {
+                        for (LiveParamT row : lastRows) {
+                            p = row.getLast();
+                            if (p != last) {
+                                LOGGER.info("param p: " + p);
+                                if (row.getActstc() != 0) {
+                                    Atlet atlet = atletRepository.getAtletFromRows(row.getId(), row.getZavod());
+                                    if (atlet == null) {
+                                        LOGGER.warn("atlet is null");
+                                        liveParamTRepository.setProcessComplete(row.getId());
+                                    } else {
+                                        kategorie.updateAtletByRows(atlet, liveParamTRepository.getRow(row.getId()));
 
-                    for (LiveParamT row : lastRows) {
-                        p = row.getLast();
-                        if (p != last) {
-                            Atlet atlet = atletRepository.getAtletFromRows(p);
-
-                            kategorie.updateAtletByRows(atlet, liveParamTRepository.getRow(row.getId()));
-
-                            LOGGER.info("novy param.last: " + p);
-                            last = p;
-                            liveParamTRepository.setProcessComplete(row.getId());
+                                        LOGGER.info("novy param.last: " + p);
+                                        last = p;
+                                        liveParamTRepository.setProcessComplete(row.getId());
+                                    }
+                                } else liveParamTRepository.setProcessComplete(row.getId());
+                            }
                         }
-
-                    }
+                    } else LOGGER.info("lastRow.size = 0");
                 } catch (Exception e) {
                     e.printStackTrace();
                     LOGGER.error("nenacten Atlet z repozitory");

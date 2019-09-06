@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface LiveParamTRepository extends JpaRepository<LiveParamT, Integer> {
-    @Query(value = "select l from LiveParamT l where l.zpracovan = 0 order by l.id")
+    @Query(value = "select l from LiveParamT l where l.zpracovan = 0 and l.actstc <> 0 order by l.id")
     ArrayList<LiveParamT> getNotProcessRows();
 
     @Query(value = "select l from LiveParamT l where l.zpracovan = 0 and l.zavod = :idZav order by l.id")

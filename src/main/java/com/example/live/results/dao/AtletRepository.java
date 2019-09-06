@@ -22,6 +22,6 @@ public interface AtletRepository extends JpaRepository<Atlet, Integer> {
     @Query("select a from Atlet a order by a.cas")
     List<Atlet> findAtletAbsolute();
 
-    @Query("select a from Atlet a, LiveParamT l where a.stc = l.actstc and l.last = :last")
-    Atlet getAtletFromRows(@Param("last") int last);
+    @Query("select a from Atlet a, LiveParamT l where a.stc = l.actstc and l.id = :idParam and l.zavod = :idZav")
+    Atlet getAtletFromRows(@Param("idParam") int id,@Param("idZav") int idZav);
 }

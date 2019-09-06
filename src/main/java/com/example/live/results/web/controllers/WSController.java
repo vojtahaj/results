@@ -1,7 +1,6 @@
 package com.example.live.results.web.controllers;
 
 import com.example.live.results.dao.AtletRepository;
-import com.example.live.results.domain.Atlet;
 import com.example.live.results.domain.Test;
 import com.example.live.results.services.AtletService;
 import lombok.extern.log4j.Log4j2;
@@ -36,13 +35,18 @@ public class WSController {
     @MessageMapping("/live/{idKat}")
     @SendTo("/topic/live/{idKat}")
     @SubscribeMapping("/topic/live/{idKat}")
-    public List<Atlet> updateKategorie(@DestinationVariable int idKat) {
-        System.out.println("update kategorie");
-        if (idKat == 0 ){
-            simpMessagingTemplate.convertAndSend("/topic/live/0",atletRepository.findAtletAbsolute());
+    public List updateKategorie(@DestinationVariable int idKat) {
+        log.info("update kategorie");
+        List a;
+
+
+        if (idKat == 0) {
+            a = atletRepository.findAtletAbsolute();
+//            simpMessagingTemplate.convertAndSend("/topic/live/0",atletRepository.findAtletAbsolute());
         }
-        else simpMessagingTemplate.convertAndSend("/topic/live/{idKat}",atletRepository.findAtletByIdKategorie(idKat));
-        return atletRepository.findAtletByIdKategorie(idKat);
+//        else simpMessagingTemplate.convertAndSend("/topic/live/{idKat}",atletRepository.findAtletByIdKategorie(idKat));
+        else a = atletRepository.findAtletByIdKategorie(idKat);
+        return a;
     }
 
     @SendTo("/topic/test")
@@ -62,12 +66,12 @@ public class WSController {
 
 //        System.out.println(atletService.findAllByBib(String.valueOf(bib)));
 
-        if (!atletService.findAllByBib(String.valueOf(bib)).toString().equals("[]")){
+        if (!atletService.findAllByBib(String.valueOf(bib)).toString().equals("[]")) {
             log.info("Bib sucessfully found;");
-            simpMessagingTemplate.convertAndSendToUser(principal.getName(), "queue/live", atletService.findAllByBib(String.valueOf(bib)));}
-        else{
+            simpMessagingTemplate.convertAndSendToUser(principal.getName(), "queue/live", atletService.findAllByBib(String.valueOf(bib)));
+        } else {
             simpMessagingTemplate.convertAndSendToUser(principal.getName(), "queue/live/error", "Bib not found");
-        log.warn("Bib not found;");
+            log.warn("Bib not found;");
         }
     }
 
