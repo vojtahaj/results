@@ -83,6 +83,7 @@ class DashboardCategoryDetailStomp extends React.Component {
                 // });
                 this.raceInfoTopic = this.client.subscribe('/topic/raceInfo', message => {
                     // console.log(message.body);
+                    //todo dodelat natazeni raceInfo pri prvnim pripojeni
                     this.setState({
                         raceInfo: JSON.parse(message.body),
                     });
@@ -197,11 +198,12 @@ class DashboardCategoryDetailStomp extends React.Component {
     };
 
     render() {
+        // console.log(this.props.zavod.nazev);
         return (
             <div>
                 <div>
                     <div id={"infoBox"}>
-                        <h3>{this.state.raceInfo.nazev ? this.state.raceInfo.nazev : "Název závodu"}</h3>
+                        <h3>{this.state.raceInfo.nazev ? this.state.raceInfo.nazev : (this.props.zavod.nazev + " - " +this.props.zavod.misto)}</h3>
                         {Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.stc}
                         <div id={"formCategory"}><CategoryList kategorie={this.props.kategorie}
                                                                setKatInStomp={this.setKatInStomp}/></div>
@@ -216,7 +218,7 @@ class DashboardCategoryDetailStomp extends React.Component {
                         <br/>
                         <div id={"findBib"}>
                             <input type="number" min={1} ref={(ref) => this.state.bibToFind = ref}/>
-                            <Button onClick={this.findBib}>Hledej stč</Button>
+                            <Button onClick={this.findBib}>Hledej stč.</Button>
 
                         </div>
                     </div>

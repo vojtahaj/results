@@ -73,7 +73,7 @@ public class KategorieImpl implements KategorieService {
         simpMessagingTemplate.convertAndSend("/topic/raceInfo", z);
         simpMessagingTemplate.convertAndSend("/topic/live", atletRepository.findAtletByIdKategorie(kat));
 //        simpMessagingTemplate.convertAndSend("/topic/live/" + kat, atletRepository.findAtletByIdKategorie(kat));
-//        simpMessagingTemplate.convertAndSend("/topic/live/0", atletRepository.findAtletAbsolute());
+        simpMessagingTemplate.convertAndSend("/topic/live/0", atletRepository.findAtletAbsolute());
     }
 //    private void addToMap(Atlet atlet) {
 //        ArrayList<Atlet> atlets = katMap.get(atlet.getIdKategorie());

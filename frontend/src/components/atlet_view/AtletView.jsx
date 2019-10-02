@@ -3,6 +3,7 @@ import WinklTable from "./WinklTable";
 import StartListTable from "./StartListTable";
 import SimpleResultTable from "./SimpleResultTable";
 import ADResultTable from "./ADResultTable";
+import MidResultTable from "./MidResultTable";
 
 class AtletView extends React.Component {
 
@@ -13,16 +14,39 @@ class AtletView extends React.Component {
             return athlete.flg === 9;
         });
         result.sort((a, b) => {
-            return a.cas > b.cas;
+            return a.cas - b.cas;
         });
 
         const startlist = this.props.athletes.filter(athlete => {
-                return athlete.flg !== 9;
+                return athlete.flg === 1;
             }
         );
-        startlist.sort((a,b) => {
-           return a.bib > b.bib;
+
+        const inProgress = this.props.athletes.filter(athlete => {
+            return athlete.flg === 3 && athlete.flg !== 9 && athlete.flg !== 14;
         });
+        //todo vyresit dsq dnf
+
+        //jestli je raceInfo.stc v cili a predtim byl v inProgress, tak ho tam nech jako aktualni a pak smaz
+        let prePor = 0;
+        let preTime = 0;
+        for (let i = 0; i < result.length; i++) {
+            if (preTime === result[i].cas) {
+                prePor++;
+            }
+            if (result[i].bib === this.props.raceInfo.stc) {
+                result[i].poradi = i - prePor + 1;
+                inProgress.splice(inProgress.length - 1, 0, result[i])
+            }
+        }
+        //todo vyresit problem odstoupeni a diskvalifikace - nekam je ukladat a projit to pole s nimi, kdyby nahodou nedojel,
+        // ci byl diskvalifikovan
+
+        startlist.sort((a, b) => {
+            return a.bib - b.bib;
+        });
+        // console.log('druh zavodu: ');
+        // console.log(this.props.raceInfo);
 
         return (
             <>
@@ -32,17 +56,25 @@ class AtletView extends React.Component {
                     case 1:
                         return <SimpleResultTable raceInfo={this.props.raceInfo} athletes={result}/>;
                     case 2:
-                        return <ADResultTable raceInfo={this.props.raceInfo} athletes={result}/>;
+                        return <>
+                        {/*<InProgressTable athletes={inProgress} />*/}
+                        <ADResultTable raceInfo={this.props.raceInfo} athletes={result}/>
+                        </>;
+                    case 3:
+                        return <>
+                        <MidResultTable raceInfo={this.props.raceInfo} athletes={result}/>
+                        <MidResultTable raceInfo={this.props.raceInfo} athletes={result}/>
+                        </>;
                     case 12:
                         return <WinklTable raceInfo={this.props.raceInfo} athletes={result}/>;
                     default:
-                        return <WinklTable raceInfo={this.props.raceInfo} athletes={result}/>;
+                        return <SimpleResultTable raceInfo={this.props.raceInfo} athletes={result}/>;
                 }
             })()}
 
             <br/>
 
-            <StartListTable athletes={startlist}/>
+            <StartListTable athletes={inProgress.concat(startlist)}/>
             </>
         )
     }

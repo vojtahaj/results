@@ -20,7 +20,7 @@ const styles = () => {
             marginBottom: 1,
         },
         table: {
-            minWidth: 450,
+            minWidth: 700,
         },
     });
 };
@@ -57,6 +57,12 @@ class WinklTable extends React.Component {
 
     render() {
         const classes = styles();
+        const columnSmall = {
+            maxWidth: "10%"
+        };
+        const columnName = {
+            maxWidth: "30%"
+        };
 
         return (
             <div className={classes.root}>
@@ -64,16 +70,16 @@ class WinklTable extends React.Component {
                     <Table size="small">
                         <TableHead>
                             <TableRow>
-                                <TableCell>Poř.<br/>čas 1</TableCell>
-                                <TableCell><strong>stč.</strong><br/>spd 1</TableCell>
-                                <TableCell>Jméno<br/>čas 2</TableCell>
-                                <TableCell>čas<br/>spd 2</TableCell>
-                                <TableCell>Stroj<br/>čas 3</TableCell>
-                                <TableCell> <br/>spd 3</TableCell>
-                                <TableCell> <br/>čas 4</TableCell>
-                                <TableCell> <br/>spd 4</TableCell>
-                                <TableCell>Kat.<br/>čas 5</TableCell>
-                                <TableCell>objem<br/>spd 5</TableCell>
+                                <TableCell><strong>Poř.<br/>čas 1</strong></TableCell>
+                                <TableCell><strong>stč.<br/>spd 1</strong></TableCell>
+                                <TableCell><strong>Jméno<br/>čas 2</strong></TableCell>
+                                <TableCell><strong>čas<br/>spd 2</strong></TableCell>
+                                <TableCell><strong>Stroj<br/>čas 3</strong></TableCell>
+                                <TableCell><strong> <br/>spd 3</strong></TableCell>
+                                <TableCell><strong> <br/>čas 4</strong></TableCell>
+                                <TableCell><strong> <br/>spd 4</strong></TableCell>
+                                <TableCell><strong>Kat.<br/>čas 5</strong></TableCell>
+                                <TableCell><strong>objem<br/>spd 5</strong></TableCell>
                             </TableRow>
 
                         </TableHead>
@@ -83,17 +89,28 @@ class WinklTable extends React.Component {
 
                                 <TableRow key={athlet.id} className={
                                     this.props.raceInfo.stc === athlet.stc ? "resultRowActive" : (key % 2 === 0) ? "resultDark" : ''}>
-                                    <TableCell component="th"
-                                               scope="row">{key + 1}.<br/>{this.transposeTime(athlet.cas1)}</TableCell>
-                                    <TableCell><strong>{athlet.bib}</strong><br/>{Transcription.transposeSpd(athlet.speed1)}</TableCell>
-                                    <TableCell>{athlet.jmeno}<br/>{this.transposeTime(athlet.cas2)}</TableCell>
-                                    <TableCell><strong>{this.transposeTime(athlet.cas)}</strong><br/>{Transcription.transposeSpd(athlet.speed2)}</TableCell>
-                                    <TableCell>{athlet.klub}<br/>{this.transposeTime(athlet.cas3)}</TableCell>
-                                    <TableCell><br/>{Transcription.transposeSpd(athlet.speed3)}</TableCell>
-                                    <TableCell><br/>{this.transposeTime(athlet.cas4)}</TableCell>
-                                    <TableCell><br/>{Transcription.transposeSpd(athlet.speed4)}</TableCell>
-                                    <TableCell>{athlet.zkrkat}<br/>{this.transposeTime(athlet.cas5)}</TableCell>
-                                    <TableCell align="right">{athlet.tj}<br/>{Transcription.transposeSpd(athlet.speed5)}</TableCell>
+                                    <TableCell
+                                        style={columnSmall}>{key + 1}.<br/>{this.transposeTime(athlet.cas1)}</TableCell>
+                                    <TableCell
+                                        style={columnSmall}><strong>{athlet.bib}</strong><br/>{Transcription.transposeSpd(athlet.speed1)}
+                                    </TableCell>
+                                    <TableCell style={columnName}>{athlet.jmeno}<br/>{this.transposeTime(athlet.cas2)}
+                                    </TableCell>
+                                    <TableCell
+                                        style={columnSmall}><strong>{this.transposeTime(athlet.cas)}</strong><br/>{Transcription.transposeSpd(athlet.speed2)}
+                                    </TableCell>
+                                    <TableCell style={columnName}>{athlet.klub}<br/>{this.transposeTime(athlet.cas3)}
+                                    </TableCell>
+                                    <TableCell style={columnSmall}><br/>{Transcription.transposeSpd(athlet.speed3)}
+                                    </TableCell>
+                                    <TableCell style={columnSmall}><br/>{this.transposeTime(athlet.cas4)}</TableCell>
+                                    <TableCell style={columnSmall}><br/>{Transcription.transposeSpd(athlet.speed4)}
+                                    </TableCell>
+                                    <TableCell style={columnSmall}>{athlet.zkrkat}<br/>{this.transposeTime(athlet.cas5)}
+                                    </TableCell>
+                                    <TableCell style={columnSmall}
+                                               align="right">{athlet.tj}<br/>{Transcription.transposeSpd(athlet.speed5)}
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

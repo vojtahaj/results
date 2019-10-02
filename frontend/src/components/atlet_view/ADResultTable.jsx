@@ -70,7 +70,8 @@ class ADResultTable extends React.Component {
 
     render() {
         const classes = styles();
-
+        let por = 0;
+        //let cas = atlet[0].cas;
         return (
             <>
             <div className={classes.root}>
@@ -81,8 +82,6 @@ class ADResultTable extends React.Component {
                                 <TableCell>Poř.</TableCell>
                                 <TableCell>stč.</TableCell>
                                 <TableCell>Jméno</TableCell>
-                                <TableCell>Klub</TableCell>
-                                <TableCell>Kat.</TableCell>
                                 <TableCell>1. kolo</TableCell>
                                 <TableCell>2. kolo</TableCell>
                                 <TableCell>Čas</TableCell>
@@ -92,17 +91,27 @@ class ADResultTable extends React.Component {
                         <TableBody>
                             {
                                 // console.log("adresult 1.kolo")
+
                                 this.props.athletes.map((athlet, key) => (
                                     <TableRow key={athlet.id} className={
                                         this.props.raceInfo.stc === athlet.stc ? "resultRowActive" : (key % 2 === 0) ? "resultDark" : ''
                                     }>
-                                        <TableCell component="th" scope="row">{key + 1}.</TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {/*{if (key > 0){*/}
+                                            {/*if (athlet.cas === cas){*/}
+                                            {/*por = key;*/}
+                                            {/*}   else cas = athlet.cas;*/}
+                                            {/*}*/}
+                                            {/*key + 1;*/}
+                                            {/*}*/}
+
+                                        </TableCell>
                                         <TableCell>{athlet.bib}</TableCell>
-                                        <TableCell>{athlet.jmeno}</TableCell>
-                                        <TableCell>{athlet.klub}</TableCell>
-                                        <TableCell>{athlet.zkrkat}</TableCell>
+                                        <TableCell>{athlet.jmeno} <br/>
+                                            {athlet.klub}
+                                        </TableCell>
                                         <TableCell>{this.transposeTime(athlet.cas1)}</TableCell>
-                                        <TableCell>{this.transposeTime(athlet.cas2)}</TableCell>
+                                        <TableCell>{athlet.cas2 === 0 ? "" : this.transposeTime(athlet.cas2)}</TableCell>
                                         <TableCell
                                             align="right">{this.transposeTime(athlet.cas)}</TableCell>
                                     </TableRow>

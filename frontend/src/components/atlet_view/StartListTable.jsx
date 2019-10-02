@@ -45,12 +45,11 @@ class StartListTable extends React.Component {
 
                         </TableHead>
                         <TableBody>
-
                             {this.props.athletes.map(athlet => (
                                 <TableRow key={athlet.id}>
                                     <TableCell component="th" scope="row">{Transcription.changeFlg(athlet.flg)}</TableCell>
                                     {/*<TableCell component="th" scope="row">{athlet.flg}</TableCell>*/}
-                                    <TableCell align="left">{athlet.bib}</TableCell>
+                                    <TableCell align="center">{athlet.bib}</TableCell>
                                     <TableCell align="left">{athlet.jmeno}</TableCell>
                                     <TableCell align="left">{athlet.zkrkat}</TableCell>
                                     <TableCell align="left">{athlet.klub}</TableCell>

@@ -70,7 +70,8 @@ export class ResponsiveDrawer extends React.Component {
             open: false,
             races: [],
             dashboard: 0,
-            kategorie: []
+            kategorie: [],
+            zavod: {}
         };
 
         // this.refCategoryDetailsStomp = React.createRef();
@@ -119,10 +120,11 @@ export class ResponsiveDrawer extends React.Component {
         //     })
     }
 
-    showCategoryList = (kategorie) => {
+    showCategoryList = (kategorie,z) => {
         this.setState({open: !this.state.open});
         this.setState({kategorie: kategorie});
-        console.log("click");
+        this.setState({zavod: z});
+        // console.log("click"+ z.misto);
         this.handleDashBoard(3);
 
     };
@@ -145,7 +147,8 @@ export class ResponsiveDrawer extends React.Component {
             dashboardChange = <DashboardAbout/>
         }
         if (this.state.dashboard === 3) {
-            dashboardChange = <DashboardCategoryDetailStomp kategorie={this.sortKategorie(this.state.kategorie)}/>
+            dashboardChange = <DashboardCategoryDetailStomp kategorie={this.sortKategorie(this.state.kategorie)}
+                                                            zavod={this.state.zavod}/>
         }
 
         const {classes, theme} = this.props;
@@ -233,7 +236,7 @@ export class ResponsiveDrawer extends React.Component {
                                 </ListItem>
                                 {this.state.races.map((race, index) => (
                                     <ListItem button key={race.nazev}
-                                              onClick={() => this.showCategoryList(race.kategorie)}>
+                                              onClick={() => this.showCategoryList(race.kategorie, race)}>
                                         <ListItemText primary={race.nazev + " - " + race.misto}/>
                                     </ListItem>
                                 ))}
