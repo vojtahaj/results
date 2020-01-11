@@ -52,10 +52,87 @@ class SimpleResultTable extends React.Component {
         return hours + minutes + seconds + "." + parseInt(milliseconds);
     };
 
+    resultList () {
+        let preRank = 0;
+        let preTime = 0;
+        let resultArr = [];
+
+        //2700550
+        // pole.push(
+        //     <TableRow key={-1} className={
+        //         this.props.raceInfo.stc === 23 ? "resultRowActive" : (2 % 2 === 0) ? "resultDark" : ''
+        //     }>
+        //         <TableCell component="th" scope="row">{-1}.</TableCell>
+        //         <TableCell>123</TableCell>
+        //         <TableCell>če</TableCell>
+        //         <TableCell></TableCell>
+        //         <TableCell>korn</TableCell>
+        //         <TableCell>MB2</TableCell>
+        //         <TableCell align="right">{this.transposeTime(2311230)}</TableCell>
+        //
+        //     </TableRow>
+        // );
+
+
+
+        for (let i = 0; i < this.props.athletes.length; i++) {
+            const athlet = this.props.athletes[i];
+            // console.log(athlet.cas);
+            // athlet.rank = 0;
+
+            if (athlet.cas === preTime) {
+                athlet.poradi = "=" + preRank;
+                console.log("atl,por" + athlet.poradi);
+            }
+            else {
+                preRank = i + 1;
+                preTime = athlet.cas;
+                athlet.poradi = i + 1;
+                console.log("atl,por2".poradi);
+            }
+
+            resultArr.push(
+                <TableRow key={athlet.id} className={
+                    this.props.raceInfo.stc === athlet.stc ? "resultRowActive" : (i % 2 === 0) ? "resultDark" : ''
+                }>
+                    <TableCell component="th" scope="row">{athlet.poradi}.</TableCell>
+                    <TableCell>{athlet.bib}</TableCell>
+                    <TableCell>{athlet.jmeno}</TableCell>
+                    <TableCell>{athlet.tj}</TableCell>
+                    <TableCell>{athlet.klub}</TableCell>
+                    <TableCell>{athlet.zkrkat}</TableCell>
+                    <TableCell align="right">{this.transposeTime(athlet.cas)}</TableCell>
+
+                </TableRow>
+            );
+        }
+
+        return resultArr;
+
+        // this.props.athletes.map((athlet, key) => (
+        //
+        //
+        //     <TableRow key={athlet.id} className={
+        //         this.props.raceInfo.stc === athlet.stc ? "resultRowActive" : (key % 2 === 0) ? "resultDark" : ''
+        //     }>
+        //         <TableCell component="th" scope="row">{indexRank}.</TableCell>
+        //         <TableCell>{athlet.bib}</TableCell>
+        //         <TableCell>{athlet.jmeno}</TableCell>
+        //         <TableCell>{athlet.tj}</TableCell>
+        //         <TableCell>{athlet.klub}</TableCell>
+        //         <TableCell>{athlet.zkrkat}</TableCell>
+        //         <TableCell align="right">{this.transposeTime(athlet.cas)}</TableCell>
+        //
+        //     </TableRow>
+        //     ))
+    }
+
     render() {
         const classes = styles();
         // var newData = this.props.athletes.concat([this.props.athletes]);
         // this.setState({data: newData})
+
+        let indexRank = 1;
 
         return (
             <div className={classes.root}>
@@ -75,20 +152,9 @@ class SimpleResultTable extends React.Component {
                         </TableHead>
                         <TableBody>
 
-                            {this.props.athletes.map((athlet, key) => (
-                                <TableRow key={athlet.id} className={
-                                    this.props.raceInfo.stc === athlet.stc ? "resultRowActive" : (key % 2 === 0) ? "resultDark" : ''
-                                }>
-                                    <TableCell component="th" scope="row">{key + 1}.</TableCell>
-                                    <TableCell>{athlet.bib}</TableCell>
-                                    <TableCell>{athlet.jmeno}</TableCell>
-                                    <TableCell>{athlet.tj}</TableCell>
-                                    <TableCell>{athlet.klub}</TableCell>
-                                    <TableCell>{athlet.zkrkat}</TableCell>
-                                    <TableCell align="right">{this.transposeTime(athlet.cas)}</TableCell>
 
-                                </TableRow>
-                            ))}
+
+                            {this.resultList()}
 
                         </TableBody>
                     </Table>

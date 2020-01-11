@@ -55,7 +55,7 @@ class MidResultTable extends React.Component {
 
         // hours = (hours < 10) ? "0" + hours : hours;
         hours = (hours === 0) ? "" : hours + ":";
-        minutes = (minutes === 0) ? "" : (minutes < 10) ? "0" + minutes + ":" : minutes + ":";
+        minutes = (minutes === 0 && hours > 0) ? "00:" : (minutes < 10) ? "0" + minutes + ":" : minutes + ":";
         seconds = (seconds < 10) ? "0" + seconds : seconds;
         milliseconds = (milliseconds === 0 && pD === 2) ? "00" :
             (milliseconds === 0 && pD === 3) ? "000" : milliseconds;
@@ -78,35 +78,39 @@ class MidResultTable extends React.Component {
         let atleti;
         switch (this.state.vybranyPocetUseku) {
             case 1:
-                atleti = this.props.athletes.sort((a, b) => {
-                    return a.cas1 - b.cas1;
-                });
+                atleti = this.props.inProgress
+                    .filter(athlete => {
+                        return athlete.cas1 > 0
+                    })
+                    .sort((a, b) => {
+                        return a.cas1 - b.cas1;
+                    });
                 break;
             case 2:
-                atleti = this.props.athletes.sort((a, b) => {
+                atleti = this.props.inProgress.sort((a, b) => {
                     return a.cas2 - b.cas2;
                 });
                 break;
             case 3:
-                atleti = this.props.athletes.sort((a, b) => {
+                atleti = this.props.inProgress.sort((a, b) => {
                     return a.cas3 - b.cas3;
                 });
                 break;
             case 4:
-                atleti = this.props.athletes.sort((a, b) => {
+                atleti = this.props.inProgress.sort((a, b) => {
                     return a.cas4 - b.cas4;
                 });
                 break;
             default: {
                 atleti = this.props.athletes;
-                console.log("no change, show result in finish");
+                // console.log("no change, show result in finish");
             }
         }
 
         return (
             <div>
 
-                <Paper >
+                <Paper>
                     <Table className={classes.table} size="small">
                         <TableHead>
 
@@ -119,8 +123,8 @@ class MidResultTable extends React.Component {
                                                 onChange={this.handleChange}
                                             >
                                                 <MenuItem value={1}>Mzč: {1}</MenuItem>
-                                                <MenuItem value={2}>Mzč: {2}</MenuItem>
-                                                <MenuItem value={3}>Mzč: {3}</MenuItem>
+                                                {/*<MenuItem value={2}>Mzč: {2}</MenuItem>*/}
+                                                {/*<MenuItem value={3}>Mzč: {3}</MenuItem>*/}
                                                 <MenuItem value={0}>Cíl</MenuItem>
 
                                             </Select>
@@ -150,7 +154,8 @@ class MidResultTable extends React.Component {
                                         <TableCell>{athlet.tj}</TableCell>
                                         <TableCell>{athlet.klub}</TableCell>
                                         <TableCell>{athlet.zkrkat}</TableCell>
-                                        <TableCell align="right">{this.state.vybranyPocetUseku === 0 ? this.transposeTime(athlet.cas) : this.state.vybranyPocetUseku === 1 ? this.transposeTime(athlet.cas1) :
+                                        <TableCell
+                                            align="right">{this.state.vybranyPocetUseku === 0 ? this.transposeTime(athlet.cas) : this.state.vybranyPocetUseku === 1 ? this.transposeTime(athlet.cas1) :
                                             this.state.vybranyPocetUseku === 2 ? this.transposeTime(athlet.cas2) : this.transposeTime(athlet.cas3)}</TableCell>
 
                                     </TableRow>

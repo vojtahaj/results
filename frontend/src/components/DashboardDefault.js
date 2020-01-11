@@ -6,7 +6,7 @@ class DashboardDefault extends React.Component {
         return (
             <>
             <div>Vítejte v time-H.cz Datacenter, nejbližší závody:</div>
-            <p>&nbsp;</p>
+            <p>Závod vyberte vlevo v menu -> Live a vyberte aktivní závod.</p>
             <DashboardDefaultCalendar/>
             </>
         )

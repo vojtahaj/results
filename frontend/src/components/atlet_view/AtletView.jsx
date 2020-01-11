@@ -16,16 +16,24 @@ class AtletView extends React.Component {
         result.sort((a, b) => {
             return a.cas - b.cas;
         });
+        // console.log(result);
 
         const startlist = this.props.athletes.filter(athlete => {
                 return athlete.flg === 1;
             }
         );
 
-        const inProgress = this.props.athletes.filter(athlete => {
-            return athlete.flg === 3 && athlete.flg !== 9 && athlete.flg !== 14;
+        let inProgress = this.props.athletes.filter(athlete => {
+            return athlete.flg !== 9 && athlete.flg !== 14;
         });
-        //todo vyresit dsq dnf
+        //todo vyresit dsq dnf pro AD
+
+        if (this.props.raceInfo.druhZavodu === 3){
+            inProgress = this.props.athletes.filter(athlete => {
+                return athlete.flg > 2 && athlete.flg < 10;
+            })
+            console.log(inProgress);
+        }
 
         //jestli je raceInfo.stc v cili a predtim byl v inProgress, tak ho tam nech jako aktualni a pak smaz
         let prePor = 0;
@@ -62,8 +70,8 @@ class AtletView extends React.Component {
                         </>;
                     case 3:
                         return <>
-                        <MidResultTable raceInfo={this.props.raceInfo} athletes={result}/>
-                        <MidResultTable raceInfo={this.props.raceInfo} athletes={result}/>
+                        <MidResultTable raceInfo={this.props.raceInfo} athletes={result} inProgress={inProgress}/>
+                        <MidResultTable raceInfo={this.props.raceInfo} athletes={result} inProgress={inProgress}/>
                         </>;
                     case 12:
                         return <WinklTable raceInfo={this.props.raceInfo} athletes={result}/>;
@@ -74,7 +82,13 @@ class AtletView extends React.Component {
 
             <br/>
 
-            <StartListTable athletes={inProgress.concat(startlist)}/>
+            {/*<StartListTable athletes={inProgress.concat(startlist).sort((a, b) => {*/}
+                {/*return a.bib - b.bib;*/}
+            {/*})}/>*/}
+
+            <StartListTable athletes={startlist.sort((a, b) => {
+                return a.bib - b.bib;
+            })}/>
             </>
         )
     }

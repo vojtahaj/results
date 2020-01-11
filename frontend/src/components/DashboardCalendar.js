@@ -44,6 +44,8 @@ class DashboardCalendar extends React.Component {
             .catch(err => {
                 console.log(err);
             });
+
+
     }
 
     static getDate(date) {
@@ -53,6 +55,11 @@ class DashboardCalendar extends React.Component {
 
     render() {
         const classes = styles();
+        this.state.races.sort((a,b) => {
+            return a.datum - b.datum; }
+        );
+        console.log(this.state.races);
+
         return (
             <div className={classes.root}>
                 <Paper>
@@ -73,10 +80,10 @@ class DashboardCalendar extends React.Component {
                             /*onClick={race.stav === 9 ? () => this.linkToStomp(race.kategorie) : ''}*/
                                 /*ref={this.refResponsiveDrawer}>*/
                                 <TableRow key={race.id}>
-                                    <TableCell>{DashboardCalendar.getDate(race.datum)} </TableCell>
+                                    <TableCell>{DashboardCalendar.getDate(race.datum)}</TableCell>
                                     <TableCell>{race.misto}</TableCell>
-                                    <TableCell>{race.popis}</TableCell>
-                                    <TableCell>{race.druhZavodu}</TableCell>
+                                    <TableCell>{race.nazev}</TableCell>
+                                    <TableCell>{race.discipl}</TableCell>
                                 </TableRow>
                                 ))}
 

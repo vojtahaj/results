@@ -3,10 +3,12 @@ const Transcription = {
     changeFlg(flg) {
         if (flg === 1)
             return "DNS";
-        if (flg === 2)
+        else if (flg === 2)
             return "STRT";
         else if (flg === 3)
             return "TRT";
+        else if (flg === 4)
+            return "Mzč";
         else if (flg === 9)
             return "CIL";
         else if (flg === 11)
@@ -30,11 +32,12 @@ const Transcription = {
 
         // hours = (hours < 10) ? "0" + hours : hours;
         hours = (hours === 0) ? "" : hours + ":";
-        minutes = (minutes === 0) ? "" : (minutes < 10) ? "0" + minutes + ":" : minutes + ":";
+        minutes = (minutes === 0) ? "" : (minutes < 10) ? "0" + minutes + ":" : "00" + ":";
         seconds = (seconds < 10) ? "0" + seconds : seconds;
         milliseconds = (milliseconds === 0 && pD === 2) ? "00" :
             (milliseconds === 0 && pD === 3) ? "000" : milliseconds;
 
+        console.log("min: "+ minutes);
         return hours + minutes + seconds + "." + milliseconds;
     },
 
