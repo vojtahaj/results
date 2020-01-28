@@ -50,15 +50,22 @@ class DashboardCalendar extends React.Component {
 
     static getDate(date) {
         let d = new Date(date * 1000);
-        return d.getDate() + ". " + (d.getMonth() + 1) + ". " + d.getFullYear();
+        let day = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
+        let month = d.getMonth() < 10 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
+        let year = d.getFullYear();
+        return day + ". " + month + ". " + year ;
     }
 
     render() {
         const classes = styles();
-        this.state.races.sort((a,b) => {
+
+        const racesActual = this.state.races.filter(race => {
+           return race.datum + 86400 > (Date.now() / 1000);
+        });
+        racesActual.sort((a,b) => {
             return a.datum - b.datum; }
         );
-        console.log(this.state.races);
+        // console.log(this.state.races);
 
         return (
             <div className={classes.root}>
@@ -75,17 +82,19 @@ class DashboardCalendar extends React.Component {
                         </TableHead>
                         <TableBody>
 
-                            {this.state.races.map((race, key) => (
+                            {racesActual.map((race, key) => (
                                 /*<TableRow key={race.id} className={race.stav === 9 ? "activeRace" : ''}*/
                             /*onClick={race.stav === 9 ? () => this.linkToStomp(race.kategorie) : ''}*/
                                 /*ref={this.refResponsiveDrawer}>*/
+
                                 <TableRow key={race.id}>
                                     <TableCell>{DashboardCalendar.getDate(race.datum)}</TableCell>
                                     <TableCell>{race.misto}</TableCell>
                                     <TableCell>{race.nazev}</TableCell>
                                     <TableCell>{race.discipl}</TableCell>
                                 </TableRow>
-                                ))}
+                                ))
+                            }
 
                         </TableBody>
                     </Table>

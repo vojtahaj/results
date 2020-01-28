@@ -54,8 +54,9 @@ class DashboardCategoryDetailStomp extends React.Component {
     };
 
     firstCall() {
-        // console.log("first call")
-        this.client.publish({destination: `/app/live/${this.state.kat}`, 'name': "test"})
+        // console.log("first call");
+        this.client.publish({destination: `/app/live/${this.state.kat}`, 'name': "test"});
+        this.client.publish({destination: `/app/raceInfo`, 'name': "test"});
     };
 
     componentDidMount() {
@@ -74,7 +75,7 @@ class DashboardCategoryDetailStomp extends React.Component {
                 this.categoryTopic = this.client.subscribe(`/topic/live/0`, message => {
                     this.processMessage(message);
                 });
-                this.firstCall();
+
                 // this.client.subscribe('/topic/test', message => {
                 //     console.log(message.body);
                 //     this.setState({
@@ -83,12 +84,13 @@ class DashboardCategoryDetailStomp extends React.Component {
                 // });
                 this.raceInfoTopic = this.client.subscribe('/topic/raceInfo', message => {
                     // console.log(message.body);
-                    //todo dodelat natazeni raceInfo pri prvnim pripojeni
                     this.setState({
                         raceInfo: JSON.parse(message.body),
                     });
 
                 });
+                this.firstCall();
+
                 this.userLiveTopic = this.client.subscribe('/user/queue/live', message => {
                     // console.log(message.body);
                     this.setState({

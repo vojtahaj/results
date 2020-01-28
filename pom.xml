@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.example.live</groupId>
     <artifactId>results</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>results</name>
     <packaging>war</packaging>
     <description>Live vysledky pro merici skupiny t-base.cz/time-h.cz</description>
@@ -42,7 +42,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
+            <scope>8.0.11</scope>
         </dependency>
 
         <dependency>

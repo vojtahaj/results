@@ -3,6 +3,7 @@ package com.example.live.results.web.controllers;
 import com.example.live.results.dao.AtletRepository;
 import com.example.live.results.domain.Test;
 import com.example.live.results.services.AtletService;
+import com.example.live.results.services.KategorieImpl;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -24,6 +25,9 @@ public class WSController {
     AtletService atletService;
     @Autowired
     AtletRepository atletRepository;
+
+    @Autowired
+    KategorieImpl k;
 
     @Autowired
     private final SimpMessagingTemplate simpMessagingTemplate;
@@ -58,10 +62,18 @@ public class WSController {
         return new Test(1, "body");
     }
 
+    @MessageMapping("/raceInfo")
+    @SubscribeMapping("/topic/raceInfo")
+    @SendTo("/topic/raceInfo")
+    public void getRaceInfo(){
+        log.info("prvni call pro raceinfo");
+        simpMessagingTemplate.convertAndSend("/topic/raceInfo", k.getZavodParam());
+    }
+
     @MessageMapping("/live/find/{bib}")
     @SendToUser("/user/queue/live")
     public void findAtlet(Principal principal, @DestinationVariable int bib) throws Exception {
-
+        log.info("prvni");
         log.info("pokus o find atlet: " + bib);
 
 //        System.out.println(atletService.findAllByBib(String.valueOf(bib)));

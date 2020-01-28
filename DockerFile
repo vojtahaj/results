@@ -2,7 +2,7 @@
 From java:8
 
 # Copy to images tomcat path
-ADD target/results-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/result.war
+ADD target/results-0.0.2-SNAPSHOT.war /usr/local/tomcat/webapps/result.war
 
 EXPOSE 8080
 

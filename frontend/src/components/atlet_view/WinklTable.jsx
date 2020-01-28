@@ -27,33 +27,33 @@ const styles = () => {
 
 class WinklTable extends React.Component {
 
-    transposeTime = (time) => {
-        if (time === 0) return "";
-        let pD = this.props.raceInfo.pocDes;
-
-        var milliseconds = parseInt((time % 1000))
-            , seconds = parseInt((time / 1000) % 60)
-            , minutes = parseInt((time / (1000 * 60)) % 60)
-            , hours = parseInt((time / (1000 * 60 * 60)) % 24);
-
-        milliseconds = (pD === 1) ? milliseconds / 100 :
-            (pD === 2) ? milliseconds / 10 : milliseconds;
-
-        // hours = (hours < 10) ? "0" + hours : hours;
-        hours = (hours === 0) ? "" : hours + ":";
-        minutes = (minutes === 0) ? "" : (minutes < 10) ? "0" + minutes + ":" : minutes + ":";
-        seconds = (seconds < 10) ? "0" + seconds : seconds;
-        milliseconds = (milliseconds === 0 && pD === 2) ? "00" :
-            (milliseconds === 0 && pD === 3) ? "000" : milliseconds;
-
-        return hours + minutes + seconds + "." + parseInt(milliseconds);
-    };
-
-    transposeSpd(spd) {
-        if (spd === 0)
-            return "";
-        else return spd / 1000 + " km/h";
-    }
+    // transposeTime = (time) => {
+    //     if (time === 0) return "";
+    //     let pD = this.props.raceInfo.pocDes;
+    //
+    //     var milliseconds = parseInt((time % 1000))
+    //         , seconds = parseInt((time / 1000) % 60)
+    //         , minutes = parseInt((time / (1000 * 60)) % 60)
+    //         , hours = parseInt((time / (1000 * 60 * 60)) % 24);
+    //
+    //     milliseconds = (pD === 1) ? milliseconds / 100 :
+    //         (pD === 2) ? milliseconds / 10 : milliseconds;
+    //
+    //     // hours = (hours < 10) ? "0" + hours : hours;
+    //     hours = (hours === 0) ? "" : hours + ":";
+    //     minutes = (minutes === 0) ? "" : (minutes < 10) ? "0" + minutes + ":" : minutes + ":";
+    //     seconds = (seconds < 10) ? "0" + seconds : seconds;
+    //     milliseconds = (milliseconds === 0 && pD === 2) ? "00" :
+    //         (milliseconds === 0 && pD === 3) ? "000" : milliseconds;
+    //
+    //     return hours + minutes + seconds + "." + parseInt(milliseconds);
+    // };
+    //
+    // transposeSpd(spd) {
+    //     if (spd === 0)
+    //         return "";
+    //     else return spd / 1000 + " km/h";
+    // }
 
     render() {
         const classes = styles();
@@ -88,25 +88,25 @@ class WinklTable extends React.Component {
                             {this.props.athletes.map((athlet, key) => (
 
                                 <TableRow key={athlet.id} className={
-                                    this.props.raceInfo.stc === athlet.stc ? "resultRowActive" : (key % 2 === 0) ? "resultDark" : ''}>
+                                    this.props.raceInfo.stc == athlet.bib ? "resultRowActive" : (key % 2 === 0) ? "resultDark" : ''}>
                                     <TableCell
-                                        style={columnSmall}>{key + 1}.<br/>{this.transposeTime(athlet.cas1)}</TableCell>
+                                        style={columnSmall}>{athlet.poradi}.<br/>{Transcription.transposeTime(athlet.cas1, this.props.raceInfo.pocDes)}</TableCell>
                                     <TableCell
                                         style={columnSmall}><strong>{athlet.bib}</strong><br/>{Transcription.transposeSpd(athlet.speed1)}
                                     </TableCell>
-                                    <TableCell style={columnName}>{athlet.jmeno}<br/>{this.transposeTime(athlet.cas2)}
+                                    <TableCell style={columnName}>{athlet.jmeno}<br/>{Transcription.transposeTime(athlet.cas2, this.props.raceInfo.pocDes)}
                                     </TableCell>
-                                    <TableCell
-                                        style={columnSmall}><strong>{this.transposeTime(athlet.cas)}</strong><br/>{Transcription.transposeSpd(athlet.speed2)}
+                                    <TableCell align="right"
+                                        style={columnSmall}><strong>{Transcription.transposeTime(athlet.cas, this.props.raceInfo.pocDes)}</strong><br/>{Transcription.transposeSpd(athlet.speed2)}
                                     </TableCell>
-                                    <TableCell style={columnName}>{athlet.klub}<br/>{this.transposeTime(athlet.cas3)}
+                                    <TableCell style={columnName}>{athlet.klub}<br/>{Transcription.transposeTime(athlet.cas3, this.props.raceInfo.pocDes)}
                                     </TableCell>
-                                    <TableCell style={columnSmall}><br/>{Transcription.transposeSpd(athlet.speed3)}
+                                    <TableCell style={columnSmall} align="right"><br/>{Transcription.transposeSpd(athlet.speed3)}
                                     </TableCell>
-                                    <TableCell style={columnSmall}><br/>{this.transposeTime(athlet.cas4)}</TableCell>
-                                    <TableCell style={columnSmall}><br/>{Transcription.transposeSpd(athlet.speed4)}
+                                    <TableCell style={columnSmall} align="right"><br/>{Transcription.transposeTime(athlet.cas4, this.props.raceInfo.pocDes)}</TableCell>
+                                    <TableCell style={columnSmall} align="right"><br/>{Transcription.transposeSpd(athlet.speed4)}
                                     </TableCell>
-                                    <TableCell style={columnSmall}>{athlet.zkrkat}<br/>{this.transposeTime(athlet.cas5)}
+                                    <TableCell style={columnSmall} align="right">{athlet.zkrkat}<br/>{Transcription.transposeTime(athlet.cas5, this.props.raceInfo.pocDes)}
                                     </TableCell>
                                     <TableCell style={columnSmall}
                                                align="right">{athlet.tj}<br/>{Transcription.transposeSpd(athlet.speed5)}

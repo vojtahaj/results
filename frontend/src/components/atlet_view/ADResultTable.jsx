@@ -7,6 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import '../../css/resultTable.css';
+import Transcription from "./Transcription";
 
 const styles = theme => ({
     root: {
@@ -97,23 +98,16 @@ class ADResultTable extends React.Component {
                                         this.props.raceInfo.stc === athlet.stc ? "resultRowActive" : (key % 2 === 0) ? "resultDark" : ''
                                     }>
                                         <TableCell component="th" scope="row">
-                                            {/*{if (key > 0){*/}
-                                            {/*if (athlet.cas === cas){*/}
-                                            {/*por = key;*/}
-                                            {/*}   else cas = athlet.cas;*/}
-                                            {/*}*/}
-                                            {/*key + 1;*/}
-                                            {/*}*/}
 
                                         </TableCell>
                                         <TableCell>{athlet.bib}</TableCell>
                                         <TableCell>{athlet.jmeno} <br/>
                                             {athlet.klub}
                                         </TableCell>
-                                        <TableCell>{this.transposeTime(athlet.cas1)}</TableCell>
-                                        <TableCell>{athlet.cas2 === 0 ? "" : this.transposeTime(athlet.cas2)}</TableCell>
+                                        <TableCell>{Transcription.transposeTime(athlet.cas1, this.props.raceInfo.pocDes)}</TableCell>
+                                        <TableCell>{athlet.cas2 === 0 ? "" : Transcription.transposeTime(athlet.cas2, this.props.raceInfo.pocDes)}</TableCell>
                                         <TableCell
-                                            align="right">{this.transposeTime(athlet.cas)}</TableCell>
+                                            align="right">{Transcription.transposeTime(athlet.cas, this.props.raceInfo.pocDes)}</TableCell>
                                     </TableRow>
                                 ))
                             }
