@@ -72,30 +72,10 @@ public class KategorieImpl implements KategorieService {
     private void update(int kat, ZavodParam z) {
 
         simpMessagingTemplate.convertAndSend("/topic/raceInfo", z);
-//        simpMessagingTemplate.convertAndSend("/topic/live", atletRepository.findAtletByIdKategorie(kat));
+        simpMessagingTemplate.convertAndSend("/topic/live", atletRepository.findAtletByIdKategorie(kat));
         simpMessagingTemplate.convertAndSend("/topic/live/" + kat, atletRepository.findAtletByIdKategorie(kat));
         simpMessagingTemplate.convertAndSend("/topic/live/0", atletRepository.findAtletAbsolute());
     }
-//    private void addToMap(Atlet atlet) {
-//        ArrayList<Atlet> atlets = katMap.get(atlet.getIdKategorie());
-//
-//        if (atlets == null) {
-//            //vytvori list pro kategorii a prida do ni atleta
-//            atlets = new ArrayList<>();
-//            atlets.add(atlet);
-//            katMap.put(atlet.getIdKategorie(), atlets);
-//        } else {
-//            if (!atlets.contains(atlet))
-//                atlets.add(atlet);
-//            else {
-//                //TODO najdi ho v array listu a nahrad novym
-////                todo lepsi hashmapa v hashmape map<IdKat,map<stc,Atlet>> pro pripad, ze se data budou radit na serveru
-//
-//            }
-//        }
-//
-//        katMap.put(atlet.getIdKategorie(), atlets);
-//    }
 
     @Override
     public Iterable<Kategorie> getAllKategorie() {

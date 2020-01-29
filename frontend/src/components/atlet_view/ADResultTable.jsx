@@ -100,7 +100,7 @@ class ADResultTable extends React.Component {
                                         <TableCell component="th" scope="row">
 
                                         </TableCell>
-                                        <TableCell>{athlet.bib}</TableCell>
+                                        <TableCell align="right">{athlet.bib}</TableCell>
                                         <TableCell>{athlet.jmeno} <br/>
                                             {athlet.klub}
                                         </TableCell>

@@ -37,17 +37,17 @@ class AtletView extends React.Component {
         }
 
         //jestli je raceInfo.stc v cili a predtim byl v inProgress, tak ho tam nech jako aktualni a pak smaz
-        let prePor = 0;
-        let preTimeIP = 0;
-        for (let i = 0; i < result.length; i++) {
-            if (preTimeIP === result[i].cas) {
-                prePor++;
-            }
-            if (result[i].bib === this.props.raceInfo.stc) {
-                result[i].poradi = i - prePor + 1;
-                inProgress.splice(inProgress.length - 1, 0, result[i])
-            }
-        }
+        // let prePor = 0;
+        // let preTimeIP = 0;
+        // for (let i = 0; i < result.length; i++) {
+        //     if (preTimeIP === result[i].cas) {
+        //         prePor++;
+        //     }
+        //     if (result[i].bib === this.props.raceInfo.stc) {
+        //         result[i].poradi = i - prePor + 1;
+        //         inProgress.splice(inProgress.length - 1, 0, result[i])
+        //     }
+        // }
         //todo vyresit problem odstoupeni a diskvalifikace - nekam je ukladat a projit to pole s nimi, kdyby nahodou nedojel,
         // ci byl diskvalifikovan
 

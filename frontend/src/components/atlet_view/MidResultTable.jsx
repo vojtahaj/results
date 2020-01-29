@@ -11,6 +11,7 @@ import MenuItem from "@material-ui/core/es/MenuItem/MenuItem";
 import Select from "@material-ui/core/es/Select/Select";
 import FormControl from "@material-ui/core/es/FormControl/FormControl";
 import InputLabel from "@material-ui/core/es/InputLabel/InputLabel";
+import Transcription from "./Transcription";
 
 const styles = theme => ({
     root: {
@@ -155,8 +156,8 @@ class MidResultTable extends React.Component {
                                         <TableCell>{athlet.klub}</TableCell>
                                         <TableCell>{athlet.zkrkat}</TableCell>
                                         <TableCell
-                                            align="right">{this.state.vybranyPocetUseku === 0 ? this.transposeTime(athlet.cas) : this.state.vybranyPocetUseku === 1 ? this.transposeTime(athlet.cas1) :
-                                            this.state.vybranyPocetUseku === 2 ? this.transposeTime(athlet.cas2) : this.transposeTime(athlet.cas3)}</TableCell>
+                                            align="right">{this.state.vybranyPocetUseku === 0 ? Transcription.transposeTime(athlet.cas, this.props.raceInfo.pocDes)  : this.state.vybranyPocetUseku === 1 ? Transcription.transposeTime(athlet.cas1, this.props.raceInfo.pocDes)  :
+                                            this.state.vybranyPocetUseku === 2 ? Transcription.transposeTime(athlet.cas2, this.props.raceInfo.pocDes) : Transcription.transposeTime(athlet.cas3, this.props.raceInfo.pocDes) }</TableCell>
 
                                     </TableRow>
                                 ))}

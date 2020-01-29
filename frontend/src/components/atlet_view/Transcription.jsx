@@ -32,7 +32,7 @@ const Transcription = {
 
         // hours = (hours < 10) ? "0" + hours : hours;
         hours = (hours === 0) ? "" : hours + ":";
-        minutes = (hours === 0) ? "" : (minutes===0) ? "" : (minutes < 10) ?  minutes + ":" : minutes + ":";
+        let min = (hours === 0) ? "" : (minutes===0) ? "" : (minutes < 10) ? "" + minutes + ":" : minutes + ":";
         // minutes = (minutes === 0) ? (hours === 0) ? "" : (minutes < 10) ? "0" + minutes + ":" : minutes + ":" :
         //     (minutes === 0) ? "" : (minutes < 10) ? "0" + minutes + ":" : minutes + ":";
         // (minutes === 0) ? "" : (minutes < 10) ? "0" + minutes + ":" : minutes + ":";
@@ -54,7 +54,7 @@ const Transcription = {
         // console.log("millis: " + milliseconds);
         // console.log("min: " + minutes);
         // console.log(pocDes);
-        return hours + minutes + seconds + "." + milliseconds;
+        return hours + min + seconds + "." + milliseconds;
     },
 
     transposeSpd(spd) {
