@@ -88,7 +88,7 @@ class WinklTable extends React.Component {
                             {this.props.athletes.map((athlet, key) => (
 
                                 <TableRow key={athlet.id} className={
-                                    this.props.raceInfo.stc == athlet.bib ? "resultRowActive" : (key % 2 === 0) ? "resultDark" : ''}>
+                                    this.props.raceInfo.stc === athlet.stc ? "resultRowActive" : (key % 2 === 0) ? "resultDark" : ''}>
                                     <TableCell
                                         style={columnSmall}>{athlet.poradi}.<br/>{Transcription.transposeTime(athlet.cas1, this.props.raceInfo.pocDes)}</TableCell>
                                     <TableCell
