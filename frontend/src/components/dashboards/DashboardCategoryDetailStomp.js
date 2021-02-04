@@ -1,14 +1,15 @@
 import React from 'react'
 import {Client} from '@stomp/stompjs'
-import AtletView from "./atlet_view/AtletView";
+import AtletView from "../atlet_view/AtletView";
 import Button from "@material-ui/core/es/Button/Button";
-import '../css/resultTable.css';
-import CategoryList from "./CategoryList";
-import Transcription from "./atlet_view/Transcription";
+import '../../css/resultTable.css';
+import CategoryList from "../CategoryList";
+import Transcription from "../atlet_view/Transcription";
+import Calls from "../../server/Calls";
 
 class DashboardCategoryDetailStomp extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             serverTime: null,
@@ -22,8 +23,17 @@ class DashboardCategoryDetailStomp extends React.Component {
             foundBib: [],
             errorBib: "",
             isRecivedBib: null,
+            zavod: [],
+            categories: []
         };
+
     }
+
+    sortKategorie = (kats) => {
+        return kats.sort((a, b) => {
+            return a.id - b.id;
+        });
+    };
 
     categoryTopic;
     errorTopic;
@@ -39,8 +49,8 @@ class DashboardCategoryDetailStomp extends React.Component {
             checked: false
         });
         this.categoryTopic = this.client.subscribe(`/topic/live/${this.state.kat}`, message => {
-             console.log(message.body);
-             console.log("subscripbe category: " + this.state.kat);
+            console.log(message.body);
+            console.log("subscripbe category: " + this.state.kat);
             this.processMessage(message);
 
         });
@@ -55,13 +65,26 @@ class DashboardCategoryDetailStomp extends React.Component {
 
     firstCall() {
         console.log("first call");
+        console.log("raceId: "+this.props.raceId);
         // console.log(JSON.stringify(this.props.zavod.id));
         this.client.publish({destination: `/app/live/${this.state.kat}`, 'name': "test"});
-        this.client.publish({destination: `/app/raceInfo`,body:JSON.stringify(this.props.zavod.id)});
+        this.client.publish({destination: `/app/raceInfo`, body: JSON.stringify(this.props.raceId)});
     };
 
     componentDidMount() {
         console.log("categorydetailstomp");
+
+        console.log("race id:"+ this.props.raceId);
+        Calls.getRaceById(this.props.raceId).then(response => {
+            const race = response.data;
+            this.setState({zavod: race});
+            console.log(this.state.zavod);
+            this.setState({categories:this.state.zavod.kategorie});
+            console.log(this.state.categories);
+        }).catch(err => {
+            console.log(err);
+        });
+
         this.client = new Client();
 
         this.client.configure({
@@ -92,7 +115,7 @@ class DashboardCategoryDetailStomp extends React.Component {
                     });
 
                 });
-               this.firstCall();
+                this.firstCall();
 
                 this.userLiveTopic = this.client.subscribe('/user/queue/live', message => {
                     // console.log(message.body);
@@ -206,15 +229,18 @@ class DashboardCategoryDetailStomp extends React.Component {
     };
 
     render() {
+        //console.log(this.state.zavod.kategorie);
         // console.log(this.props.zavod.nazev);
+     //   let categories = this.state.zavod.kategorie;
+        // console.log(JSON.parse(this.state.zavod));
         return (
             <div>
                 <div>
                     <div id={"infoBox"}>
-                        <h3>{this.state.raceInfo.nazev ? this.state.raceInfo.nazev : (this.props.zavod.nazev + " - " +this.props.zavod.misto)}</h3>
+                        <h3>{this.state.raceInfo.nazev ? this.state.raceInfo.nazev : (this.state.zavod.nazev + " - " + this.state.zavod.misto)}</h3>
                         {Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.stc}
-                        <div id={"formCategory"}><CategoryList kategorie={this.props.kategorie}
-                                                               setKatInStomp={this.setKatInStomp}/></div>
+                        <div id={"formCategory"}><CategoryList kategorie={this.sortKategorie(this.state.categories)}
+                        setKatInStomp={this.setKatInStomp}/></div>
                         <div id={"round"}>Kolo:
                             <strong>{this.state.raceInfo.koloZavodu ? this.state.raceInfo.koloZavodu : 0}</strong></div>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/timeh.css';
+import '../../css/timeh.css';
 
 class DashboardAbout extends React.Component {
 

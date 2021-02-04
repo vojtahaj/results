@@ -1,6 +1,6 @@
 import React from 'react';
-import Calls from "../server/Calls";
-import '../css/timeh.css';
+import Calls from "../../server/Calls";
+import '../../css/timeh.css';
 import TableRow from "@material-ui/core/es/TableRow/TableRow";
 import TableCell from "@material-ui/core/es/TableCell/TableCell";
 import TableBody from "@material-ui/core/es/TableBody/TableBody";
@@ -70,41 +70,39 @@ class DashboardCalendar extends React.Component {
 
         return (
             <div className={classes.root}>
-                <BrowserRouter>
-                    <Paper>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Datum</TableCell>
-                                    <TableCell>&nbsp;</TableCell>
-                                    <TableCell>Místo</TableCell>
-                                    <TableCell>Popis</TableCell>
-                                    <TableCell>Druh závodu</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {racesActual.map((race, key) => (
-                                    /*<TableRow key={race.id} className={race.stav === 9 ? "activeRace" : ''}*/
-                                    /*onClick={race.stav === 9 ? () => this.linkToStomp(race.kategorie) : ''}*/
-                                    /*ref={this.refResponsiveDrawer}>*/
 
-                                    <TableRow key={race.id}>
-                                        <TableCell>{DashboardCalendar.getDate(race.datum)}</TableCell>
-                                        <TableCell>{race.stav === 9 ?
-                                            <Link to={`/live/${race.id}`}>Live</Link> : "&nbsp;"}</TableCell>
-                                        <TableCell>{race.misto}</TableCell>
-                                        <TableCell>{race.nazev}</TableCell>
-                                        <TableCell>{race.discipl}</TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </Paper>
-                    <Switch>
-                        <Route path="/live/:id" component={DashboardLive}/>
-                    </Switch>
-                </BrowserRouter>
+                <Paper>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Datum</TableCell>
+                                <TableCell>&nbsp;</TableCell>
+                                <TableCell>Místo</TableCell>
+                                <TableCell>Popis</TableCell>
+                                <TableCell>Druh závodu</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {racesActual.map((race, key) => (
+                                /*<TableRow key={race.id} className={race.stav === 9 ? "activeRace" : ''}*/
+                                /*onClick={race.stav === 9 ? () => this.linkToStomp(race.kategorie) : ''}*/
+                                /*ref={this.refResponsiveDrawer}>*/
+
+                                <TableRow key={race.id}>
+                                    <TableCell>{DashboardCalendar.getDate(race.datum)}</TableCell>
+                                    <TableCell>{race.stav === 9 ?
+                                        <Link to={`/live/${race.id}`}>Live</Link> : "&nbsp;"}</TableCell>
+                                    <TableCell>{race.misto}</TableCell>
+                                    <TableCell>{race.nazev}</TableCell>
+                                    <TableCell>{race.discipl}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </Paper>
+
             </div>
+
         )
     }
 }

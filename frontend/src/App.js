@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
 import './App.css';
-import SimpleTable from './components/SimpleTable'
 import ResponsiveDrawer from './components/ResponsiveDrawer'
+import {BrowserRouter} from "react-router-dom";
 
 class App extends Component {
     render() {
         return (
-            <div className="App">
+            <BrowserRouter>
+                <div className="App">
 
-                {/*<SimpleTable />*/}
-                <ResponsiveDrawer/>
-            </div>
+                    <ResponsiveDrawer/>
+                </div>
+            </BrowserRouter>
         );
     }
 }

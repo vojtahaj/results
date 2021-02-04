@@ -23,11 +23,11 @@ import {
 
 
 import Calls from "../server/Calls";
-import DashboardDefault from "./DashboardDefault";
-import DashboardCalendar from "./DashboardCalendar";
-import DashboardCategoryDetailStomp from "./DashboardCategoryDetailStomp";
-import DashboardAbout from "./DashboardAbout";
-import DashboardLive from "./DashboardLive";
+import DashboardDefault from "./dashboards/DashboardDefault";
+import DashboardCalendar from "./dashboards/DashboardCalendar";
+import DashboardCategoryDetailStomp from "./dashboards/DashboardCategoryDetailStomp";
+import DashboardAbout from "./dashboards/DashboardAbout";
+import DashboardLive from "./dashboards/DashboardLive";
 
 const drawerWidth = 100;
 
@@ -206,7 +206,7 @@ export class ResponsiveDrawer extends React.Component {
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <BrowserRouter>
+
                     <nav className={classes.drawer}>
                         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                         <Hidden smUp implementation="css">
@@ -248,19 +248,16 @@ export class ResponsiveDrawer extends React.Component {
                     </nav>
                     <main className={classes.content}>
                         <div className={classes.toolbar}/>
-                        {/*{dashboardChange}*/}
+
                         <Switch>
                             <Route exact path="/" render={() => <DashboardDefault/>}/>
                             <Route path="/kalendar" render={() => <DashboardCalendar/>}/>
                             <Route path="/live" render={() => <DashboardLive/>}/>
                             <Route path="/info" render={() => <DashboardAbout/>}/>
                         </Switch>
-                        {/*<Button onClick={this.crtRace}>crt</Button>*/}
-                        {/*<CategoryList kategorie={this.sortKategorie(this.state.kategorie)} setKatInStomp={this.setKatInStomp}/>*/}
 
-                        {/*<DashboardCategoryDetailStomp kategorie={this.sortKategorie(this.state.kategorie)}/>*/}
                     </main>
-                </BrowserRouter>
+
             </div>
         );
     }
