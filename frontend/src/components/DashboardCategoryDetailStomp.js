@@ -39,8 +39,8 @@ class DashboardCategoryDetailStomp extends React.Component {
             checked: false
         });
         this.categoryTopic = this.client.subscribe(`/topic/live/${this.state.kat}`, message => {
-            // console.log(message.body);
-            // console.log("subscripbe category: " + this.state.kat);
+             console.log(message.body);
+             console.log("subscripbe category: " + this.state.kat);
             this.processMessage(message);
 
         });
@@ -54,9 +54,10 @@ class DashboardCategoryDetailStomp extends React.Component {
     };
 
     firstCall() {
-        // console.log("first call");
+        console.log("first call");
+        // console.log(JSON.stringify(this.props.zavod.id));
         this.client.publish({destination: `/app/live/${this.state.kat}`, 'name': "test"});
-        this.client.publish({destination: `/app/raceInfo`, 'name': "test"});
+        this.client.publish({destination: `/app/raceInfo`,body:JSON.stringify(this.props.zavod.id)});
     };
 
     componentDidMount() {
@@ -73,6 +74,7 @@ class DashboardCategoryDetailStomp extends React.Component {
 
                 this.state.isConnect = true;
                 this.categoryTopic = this.client.subscribe(`/topic/live/0`, message => {
+                    console.log("kategory topic 0");
                     this.processMessage(message);
                 });
 
@@ -83,13 +85,14 @@ class DashboardCategoryDetailStomp extends React.Component {
                 //     })
                 // });
                 this.raceInfoTopic = this.client.subscribe('/topic/raceInfo', message => {
-                    // console.log(message.body);
+                    console.log("raceinfotopic")
+                    console.log(message.body);
                     this.setState({
                         raceInfo: JSON.parse(message.body),
                     });
 
                 });
-                this.firstCall();
+               this.firstCall();
 
                 this.userLiveTopic = this.client.subscribe('/user/queue/live', message => {
                     // console.log(message.body);
@@ -106,7 +109,6 @@ class DashboardCategoryDetailStomp extends React.Component {
                     });
                 });
                 // this.client.heartbeatOutgoing = 20000;
-
             },
         });
 
@@ -119,7 +121,7 @@ class DashboardCategoryDetailStomp extends React.Component {
         this.setState({
             isConnect: false,
         });
-        console.log('subscribe tesne pred un');
+        // console.log('subscribe tesne pred un');
         this.categoryTopic.unsubscribe();
         this.errorTopic.unsubscribe();
         this.userLiveTopic.unsubscribe();
@@ -130,7 +132,7 @@ class DashboardCategoryDetailStomp extends React.Component {
     }
 
     processMessage(message) {
-        console.log("subscribe category: " + this.state.kat);
+        // console.log("subscribe category: " + this.state.kat);
         // console.log(message.body);
         // this.setState({athletes: JSON.parse(message.body)});
         // console.log(JSON.parse(message.body).length);
@@ -140,9 +142,11 @@ class DashboardCategoryDetailStomp extends React.Component {
         for (let i = 0; i < outObjA.length; i++) {
             let jsonData = outObjA[i];
             athleteArray.push(jsonData);
-            // console.log(jsonData);
+            //console.log(jsonData);
         }
 
+        // console.log("processmessage data");
+        // console.log(athleteArray);
         this.setState({athletes: athleteArray});
     }
 
@@ -176,13 +180,14 @@ class DashboardCategoryDetailStomp extends React.Component {
         if (this.state.checked) {
             this.categoryTopic.unsubscribe();
             this.categoryTopic = this.client.subscribe('/topic/live', message => {
+                console.log("kategory topic live");
                 this.processMessage(message);
             });
             this.setState({
                 preKat: this.state.kat,
                 kat: 'all'
             });
-            console.log("preKat" + this.state.preKat);
+            // console.log("preKat" + this.state.preKat);
         }
         else {
             this.categoryTopic.unsubscribe();
@@ -192,9 +197,10 @@ class DashboardCategoryDetailStomp extends React.Component {
                 });
 
             this.categoryTopic = this.client.subscribe(`/topic/live/${this.state.kat}`, message => {
+                console.log("kategory topic subscribe kat" + this.state.kat);
                 this.processMessage(message);
             })
-            console.log("postKat" + this.state.kat);
+            // console.log("postKat" + this.state.kat);
         }
 
     };

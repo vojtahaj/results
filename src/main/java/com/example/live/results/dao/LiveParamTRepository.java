@@ -28,4 +28,7 @@ public interface LiveParamTRepository extends JpaRepository<LiveParamT, Integer>
 
     @Query("select l from LiveParamT l where l.id = :id")
     LiveParamT getRow(@Param("id") int id);
+
+    @Query("select l from LiveParamT l where l.id = (select max(l.id) from l)")
+    LiveParamT getLast();
 }

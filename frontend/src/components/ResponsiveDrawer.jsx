@@ -14,11 +14,20 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import {withStyles} from '@material-ui/core/styles';
 
+import {
+    BrowserRouter,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
+
+
 import Calls from "../server/Calls";
 import DashboardDefault from "./DashboardDefault";
 import DashboardCalendar from "./DashboardCalendar";
 import DashboardCategoryDetailStomp from "./DashboardCategoryDetailStomp";
 import DashboardAbout from "./DashboardAbout";
+import DashboardLive from "./DashboardLive";
 
 const drawerWidth = 100;
 
@@ -77,6 +86,7 @@ export class ResponsiveDrawer extends React.Component {
         // this.refCategoryDetailsStomp = React.createRef();
 
     }
+
     handleDrawerToggle = () => {
         this.setState(state => ({mobileOpen: !state.mobileOpen}));
     };
@@ -120,7 +130,7 @@ export class ResponsiveDrawer extends React.Component {
         //     })
     }
 
-    showCategoryList = (kategorie,z) => {
+    showCategoryList = (kategorie, z) => {
         this.setState({open: !this.state.open});
         this.setState({kategorie: kategorie});
         this.setState({zavod: z});
@@ -128,11 +138,11 @@ export class ResponsiveDrawer extends React.Component {
         this.handleDashBoard(3);
 
     };
-    sortKategorie = (kats) => {
-        return kats.sort((a, b) => {
-            return a.id-b.id;
-        });
-    };
+    // sortKategorie = (kats) => {
+    //     return kats.sort((a, b) => {
+    //         return a.id - b.id;
+    //     });
+    // };
     // setKatInStomp = async kat => {
     //     console.log("test call");
     //     await this.refCategoryDetailsStomp.current.setKat(kat);
@@ -146,10 +156,10 @@ export class ResponsiveDrawer extends React.Component {
         if (this.state.dashboard === 2) {
             dashboardChange = <DashboardAbout/>
         }
-        if (this.state.dashboard === 3) {
-            dashboardChange = <DashboardCategoryDetailStomp kategorie={this.sortKategorie(this.state.kategorie)}
-                                                            zavod={this.state.zavod}/>
-        }
+        // if (this.state.dashboard === 3) {
+        //     dashboardChange = <DashboardCategoryDetailStomp kategorie={this.sortKategorie(this.state.kategorie)}
+        //                                                     zavod={this.state.zavod}/>
+        // }
 
         const {classes, theme} = this.props;
         const {open} = this.state;
@@ -158,18 +168,19 @@ export class ResponsiveDrawer extends React.Component {
             <div>
                 <div className={classes.toolbar}/>
                 <Divider/>
-                <ListItem button key='Úvod' onClick={() => this.handleDashBoard(0)}>
+
+                <ListItem button component={Link} to={"/"} key='Úvod'>
                     <ListItemText primary='Úvod'/>
                 </ListItem>
                 <List>
-                    <ListItem button key='Live' onClick={this.handleSubMenu}>
+                    <ListItem button component={Link} to={"/live"} key='Live'>
                         <ListItemText primary='Live'/>
                     </ListItem>
-                    <ListItem button key='Kalendář' onClick={() => this.handleDashBoard(1)}>
+                    <ListItem button component={Link} to={"/kalendar"} key='Kalendář'>
 
                         <ListItemText primary='Kalendář'/>
                     </ListItem>
-                    <ListItem button key='O&nbsp;projektu' onClick={() => this.handleDashBoard(2)}>
+                    <ListItem button component={Link} to={"/info"} key='O&nbsp;projektu'>
 
                         <ListItemText primary='O&nbsp;projektu'/>
                     </ListItem>
@@ -188,83 +199,68 @@ export class ResponsiveDrawer extends React.Component {
                             onClick={this.handleDrawerToggle}
                             className={classes.menuButton}
                         >
-                            <MenuIcon />
+                            <MenuIcon/>
                         </IconButton>
                         <Typography variant="h3" color="inherit" noWrap>
                             time-H.cz Datacenter
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <nav className={classes.drawer}>
-                    {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-                    <Hidden smUp implementation="css">
-                        <Drawer
-                            container={this.props.container}
-                            variant="temporary"
-                            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                            open={this.state.mobileOpen}
-                            onClose={this.handleDrawerToggle}
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                        >
-                            {drawer}
-                        </Drawer>
-                    </Hidden>
-                    <Hidden xsDown implementation="css">
-                        <Drawer
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                            variant="permanent"
-                            open
-                        >
-                            {drawer}
-                        </Drawer>
-                        <Drawer
-                            className={classes.drawer}
-                            variant="temporary"
-                            anchor="top"
-                            open={open}
-                            classes={{
-                                paper: classes.drawerRaces,
-                            }}
-                        >
-                            <List>
-                                <ListItem>
-                                    <ListItemText primary="Live závody:"/>
-                                </ListItem>
-                                {this.state.races.map((race, index) => (
-                                    <ListItem button key={race.nazev}
-                                              onClick={() => this.showCategoryList(race.kategorie, race)}>
-                                        <ListItemText primary={race.nazev + " - " + race.misto}/>
-                                    </ListItem>
-                                ))}
-                                <ListItem button key="Zpět" onClick={this.handleSubMenu}>
-                                    <ListItemText primary="Zpět"/>
-                                </ListItem>
-                            </List>
-                        </Drawer>
-                    </Hidden>
-                </nav>
-                <main className={classes.content}>
-                    <div className={classes.toolbar}/>
-                    {dashboardChange}
+                <BrowserRouter>
+                    <nav className={classes.drawer}>
+                        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+                        <Hidden smUp implementation="css">
+                            <Drawer
+                                container={this.props.container}
+                                variant="temporary"
+                                anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                                open={this.state.mobileOpen}
+                                onClose={this.handleDrawerToggle}
+                                classes={{
+                                    paper: classes.drawerPaper,
+                                }}
+                            >
+                                {drawer}
+                            </Drawer>
+                        </Hidden>
+                        <Hidden xsDown implementation="css">
+                            <Drawer
+                                classes={{
+                                    paper: classes.drawerPaper,
+                                }}
+                                variant="permanent"
+                                open
+                            >
+                                {drawer}
+                            </Drawer>
+                            <Drawer
+                                className={classes.drawer}
+                                variant="temporary"
+                                anchor="top"
+                                open={open}
+                                classes={{
+                                    paper: classes.drawerRaces,
+                                }}
+                            >
 
-                    {/*<Button onClick={this.crtRace}>crt</Button>*/}
-                    {/*<CategoryList kategorie={this.sortKategorie(this.state.kategorie)} setKatInStomp={this.setKatInStomp}/>*/}
+                            </Drawer>
+                        </Hidden>
+                    </nav>
+                    <main className={classes.content}>
+                        <div className={classes.toolbar}/>
+                        {/*{dashboardChange}*/}
+                        <Switch>
+                            <Route exact path="/" render={() => <DashboardDefault/>}/>
+                            <Route path="/kalendar" render={() => <DashboardCalendar/>}/>
+                            <Route path="/live" render={() => <DashboardLive/>}/>
+                            <Route path="/info" render={() => <DashboardAbout/>}/>
+                        </Switch>
+                        {/*<Button onClick={this.crtRace}>crt</Button>*/}
+                        {/*<CategoryList kategorie={this.sortKategorie(this.state.kategorie)} setKatInStomp={this.setKatInStomp}/>*/}
 
-                    {/*<DashboardCategoryDetailStomp kategorie={this.sortKategorie(this.state.kategorie)}/>*/}
-
-                    {/*<Typography paragraph>*/}
-                        {/*<ul>*/}
-                            {/*{this.state.races.map(race =>*/}
-                                {/*(<li>{race.nazev}</li>)*/}
-                            {/*)}*/}
-                        {/*</ul>*/}
-                    {/*</Typography>*/}
-
-                </main>
+                        {/*<DashboardCategoryDetailStomp kategorie={this.sortKategorie(this.state.kategorie)}/>*/}
+                    </main>
+                </BrowserRouter>
             </div>
         );
     }

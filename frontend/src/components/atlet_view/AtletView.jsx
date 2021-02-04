@@ -4,20 +4,29 @@ import StartListTable from "./StartListTable";
 import SimpleResultTable from "./SimpleResultTable";
 import ADResultTable from "./ADResultTable";
 import MidResultTable from "./MidResultTable";
+import RelayResultTable from "./RelayResultTable";
 
 class AtletView extends React.Component {
 
 
     render() {
+        let result = [];
 
-        const result = this.props.athletes.filter(athlete => {
-            return athlete.flg === 9;
+        if(this.props.raceInfo.druhZavodu !==6){
+            result = this.props.athletes.filter(athlete => {
+                return athlete.flg === 9;
+            });
+            result.sort((a, b) => {
+               return a.cas - b.cas;
         });
-        result.sort((a, b) => {
-            return a.cas - b.cas;
-        });
-        // console.log(result);
-
+        }
+        else { //kdyz jsou stafety, tak to serad podle stc
+            console.log("jsou stafety")
+            result = this.props.athletes;
+            result.sort((a,b) => {
+               return a.stc - b.stc;
+            });
+        }
         const startlist = this.props.athletes.filter(athlete => {
                 return athlete.flg === 2 || athlete.flg === 3 || athlete.flg === 1 || athlete.flg === 14
                     || athlete.flg === 12 || athlete.flg === 13 || athlete.flg === 11;
@@ -61,7 +70,7 @@ class AtletView extends React.Component {
         let preRank = 0;
         let preTime = 0;
         let resultArr = [];
-
+        // console.log(result);
         for (let i = 0; i < result.length; i++) {
             const athlet = result[i];
             // console.log(athlet.cas);
@@ -113,10 +122,14 @@ class AtletView extends React.Component {
                         <MidResultTable raceInfo={this.props.raceInfo} athletes={result} inProgress={inProgress}/>
                         <MidResultTable raceInfo={this.props.raceInfo} athletes={result} inProgress={inProgress}/>
                         </>;
+                    case 6:
+                        return <RelayResultTable raceInfo={this.props.raceInfo} athletes={result} inProgress={inProgress}/>
+
                     case 12:
                         return <WinklTable raceInfo={this.props.raceInfo} athletes={resultArr}/>;
                     default:
-                        return <SimpleResultTable raceInfo={this.props.raceInfo} athletes={resultArr}/>;
+                        return <RelayResultTable raceInfo={this.props.raceInfo} athletes={result} inProgress={inProgress}/>
+                        // return <SimpleResultTable raceInfo={this.props.raceInfo} athletes={resultArr}/>;
                 }
             })()}
 
@@ -126,7 +139,7 @@ class AtletView extends React.Component {
                 {/*return a.bib - b.bib;*/}
             {/*})}/>*/}
 
-            <StartListTable athletes={startlist}/>
+            {this.props.raceInfo.druhZavodu !== 6 ? <StartListTable athletes={startlist}/> : ``}
             </>
         )
     }

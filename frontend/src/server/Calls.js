@@ -36,6 +36,10 @@ const Calls = {
         const commandUri = this.getRaceUri("");
         return await Calls.call("get", commandUri);
     },
+    async getRaceById(id) {
+        const commandUri = this.getRaceUri("/"+`${id}`);
+        return await Calls.call("get", commandUri);
+    }
 
 };
 

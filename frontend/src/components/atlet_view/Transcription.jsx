@@ -10,7 +10,7 @@ const Transcription = {
         else if (flg === 4)
             return "Mzč";
         else if (flg === 9)
-            return "CIL";
+            return "CÍL";
         else if (flg === 11)
             return "DNF";
         else if (flg === 12)
@@ -51,6 +51,10 @@ const Transcription = {
         if (pocDes === 1)
             milliseconds = milliseconds.substr(0, 1);
 
+        if (hours!=="" && minutes<10){
+            min = "0" + minutes + ":";
+
+        }
         // console.log("millis: " + milliseconds);
         // console.log("min: " + minutes);
         // console.log(pocDes);

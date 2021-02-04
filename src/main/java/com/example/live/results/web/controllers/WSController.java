@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
@@ -65,16 +66,18 @@ public class WSController {
     @MessageMapping("/raceInfo")
     @SubscribeMapping("/topic/raceInfo")
     @SendTo("/topic/raceInfo")
-    public void getRaceInfo(){
+    public void getRaceInfo(String zavod){
+
         log.info("prvni call pro raceinfo");
-        simpMessagingTemplate.convertAndSend("/topic/raceInfo", k.getZavodParam());
+//        log.info("id zavodu" + zavod.toString());
+        simpMessagingTemplate.convertAndSend("/topic/raceInfo", k.getZavodParam(Integer.valueOf(zavod)));
     }
 
     @MessageMapping("/live/find/{bib}")
     @SendToUser("/user/queue/live")
     public void findAtlet(Principal principal, @DestinationVariable int bib) throws Exception {
-        log.info("prvni");
-        log.info("pokus o find atlet: " + bib);
+//        log.info("prvni");
+//        log.info("pokus o find atlet: " + bib);
 
 //        System.out.println(atletService.findAllByBib(String.valueOf(bib)));
 

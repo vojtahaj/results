@@ -97,7 +97,8 @@ class ADResultTable extends React.Component {
     render() {
         const classes = styles();
         let atleti =[];
-        if(this.props.raceInfo.kolo === 2){
+        // console.log(this.props.raceInfo.koloZavodu);
+        if(this.props.raceInfo.koloZavodu === 2){
         let r1k = [];
         let r2k = [];
         for (let i = 0; i < this.props.athletes.length; i++) {
@@ -108,9 +109,10 @@ class ADResultTable extends React.Component {
         }
 
         atleti = this.doResult(r2k, 0).concat(this.doResult(r1k, r2k.length));
-        console.log("r2k " + r2k.length);
-        console.log("r1k " + r1k.length);
+        // console.log("r2k " + r2k.length);
+        // console.log("r1k " + r1k.length);
         }
+        else atleti = this.props.athletes;
         return (
             <>
             <div className={classes.root}>

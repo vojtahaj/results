@@ -2,6 +2,7 @@ package com.example.live.results.services;
 
 import com.example.live.results.dao.AtletRepository;
 import com.example.live.results.dao.KategorieRepository;
+import com.example.live.results.dao.LiveParamTRepository;
 import com.example.live.results.dao.ZavodRepository;
 import com.example.live.results.domain.*;
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import java.util.*;
 public class KategorieImpl implements KategorieService {
 
     private final Logger LOGGER = LoggerFactory.getLogger(KategorieImpl.class.getName());
+
     private ZavodParam zavodParam;
 
     @Autowired
@@ -24,8 +26,8 @@ public class KategorieImpl implements KategorieService {
     private ZavodRepository zavodRepository;
     @Autowired
     private AtletRepository atletRepository;
-    //    @Autowired
-//    private LiveParamImpl liveParam;
+    @Autowired
+    private LiveParamTRepository liveParamT;
     @Autowired
     private final SimpMessagingTemplate simpMessagingTemplate;
 
@@ -97,7 +99,17 @@ public class KategorieImpl implements KategorieService {
         return kategorieRepository.getOne(id);
     }
 
-    public ZavodParam getZavodParam() {
-        return zavodParam;
+    public ZavodParam getZavodParam(int race) {
+        LiveParamT l = liveParamT.getLast();
+        if (zavodParam == null) {
+            zavodParam = new ZavodParam(zavodRepository.findZavodById(race).getNazev(),
+                    0,
+                    0,
+                    0,
+                    l.getTyp(),
+                    l.getPocdes());
+            return zavodParam;
+        } else return zavodParam;
     }
+
 }
