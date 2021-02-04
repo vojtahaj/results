@@ -4,11 +4,12 @@
 #infoBox{
     border: 1px solid black;
     background: #61dafb;
-    position: static;
-    top: 70px;
-    width: 600px;
-    height: 100px;
-    float:left;
+    /*position: static;*/
+    /*top: 70px;*/
+    width: 400px;
+    min-height: 100px;
+    display: block;
+    /*float:left;*/
 }
 #infoBox h3 {
     margin: 5px;

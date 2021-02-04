@@ -7,9 +7,8 @@ import TableBody from "@material-ui/core/es/TableBody/TableBody";
 import TableHead from "@material-ui/core/es/TableHead/TableHead";
 import Paper from "@material-ui/core/es/Paper/Paper";
 import Table from "@material-ui/core/es/Table/Table";
-import DashboardCategoryDetailStomp from "./DashboardCategoryDetailStomp";
-import {BrowserRouter, Switch, Route, useParams, Link} from "react-router-dom";
-import DashboardLive from "./DashboardLive";
+import {Link} from "react-router-dom";
+
 
 const styles = theme => ({
     root: {
@@ -84,10 +83,6 @@ class DashboardCalendar extends React.Component {
                         </TableHead>
                         <TableBody>
                             {racesActual.map((race, key) => (
-                                /*<TableRow key={race.id} className={race.stav === 9 ? "activeRace" : ''}*/
-                                /*onClick={race.stav === 9 ? () => this.linkToStomp(race.kategorie) : ''}*/
-                                /*ref={this.refResponsiveDrawer}>*/
-
                                 <TableRow key={race.id}>
                                     <TableCell>{DashboardCalendar.getDate(race.datum)}</TableCell>
                                     <TableCell>{race.stav === 9 ?

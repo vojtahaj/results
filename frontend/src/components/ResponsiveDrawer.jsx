@@ -15,7 +15,6 @@ import Typography from '@material-ui/core/Typography';
 import {withStyles} from '@material-ui/core/styles';
 
 import {
-    BrowserRouter,
     Switch,
     Route,
     Link
@@ -25,11 +24,10 @@ import {
 import Calls from "../server/Calls";
 import DashboardDefault from "./dashboards/DashboardDefault";
 import DashboardCalendar from "./dashboards/DashboardCalendar";
-import DashboardCategoryDetailStomp from "./dashboards/DashboardCategoryDetailStomp";
 import DashboardAbout from "./dashboards/DashboardAbout";
 import DashboardLive from "./dashboards/DashboardLive";
 
-const drawerWidth = 100;
+const drawerWidth = 130;
 
 const styles = theme => ({
     root: {
@@ -149,17 +147,6 @@ export class ResponsiveDrawer extends React.Component {
     // }
 
     render() {
-        let dashboardChange = <DashboardDefault/>;
-        if (this.state.dashboard === 1) {
-            dashboardChange = <DashboardCalendar/>;
-        }
-        if (this.state.dashboard === 2) {
-            dashboardChange = <DashboardAbout/>
-        }
-        // if (this.state.dashboard === 3) {
-        //     dashboardChange = <DashboardCategoryDetailStomp kategorie={this.sortKategorie(this.state.kategorie)}
-        //                                                     zavod={this.state.zavod}/>
-        // }
 
         const {classes, theme} = this.props;
         const {open} = this.state;
@@ -272,8 +259,6 @@ export class ResponsiveDrawer extends React.Component {
 
 ResponsiveDrawer.propTypes = {
     classes: PropTypes.object.isRequired,
-    // Injected by the documentation to work in an iframe.
-    // You won't need it on your project.
     container: PropTypes.object,
     theme: PropTypes.object.isRequired,
 };

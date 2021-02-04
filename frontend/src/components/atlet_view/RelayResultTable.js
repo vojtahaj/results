@@ -1,30 +1,9 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import Button from "@material-ui/core/es/Button/Button";
 import '../../css/resultTable.css';
 import MenuItem from "@material-ui/core/es/MenuItem/MenuItem";
 import Select from "@material-ui/core/es/Select/Select";
 import FormControl from "@material-ui/core/es/FormControl/FormControl";
 import Transcription from "./Transcription";
-
-const styles = theme => ({
-    root: {
-        width: '49%',
-    },
-    paper: {
-        // marginTop: theme.spacing(3),
-        width: '49%',
-        overflowX: 'auto',
-        // marginBottom: theme.spacing(2),
-    },
-    table: {
-        minWidth: 300,
-    },
-    activeRow: {
-        color: 'white',
-        backgroundColor: 'darkGrey'
-    }
-});
 
 class RelayResultTable extends React.Component {
 
@@ -74,7 +53,6 @@ class RelayResultTable extends React.Component {
     };
 
     render() {
-        const classes = styles();
         // var newData = this.props.athletes.concat([this.props.athletes]);
         // this.setState({data: newData})
         let atleti = [];

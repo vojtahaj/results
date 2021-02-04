@@ -1,5 +1,4 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -10,7 +9,6 @@ import '../../css/resultTable.css';
 import MenuItem from "@material-ui/core/es/MenuItem/MenuItem";
 import Select from "@material-ui/core/es/Select/Select";
 import FormControl from "@material-ui/core/es/FormControl/FormControl";
-import InputLabel from "@material-ui/core/es/InputLabel/InputLabel";
 import Transcription from "./Transcription";
 
 const styles = theme => ({

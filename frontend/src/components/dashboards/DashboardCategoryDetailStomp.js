@@ -49,12 +49,10 @@ class DashboardCategoryDetailStomp extends React.Component {
             checked: false
         });
         this.categoryTopic = this.client.subscribe(`/topic/live/${this.state.kat}`, message => {
-            console.log(message.body);
-            console.log("subscripbe category: " + this.state.kat);
+            // console.log(message.body);
+            // console.log("subscripbe category: " + this.state.kat);
             this.processMessage(message);
-
         });
-
         this.firstCall();
     };
 
@@ -64,23 +62,19 @@ class DashboardCategoryDetailStomp extends React.Component {
     };
 
     firstCall() {
-        console.log("first call");
-        console.log("raceId: "+this.props.raceId);
-        // console.log(JSON.stringify(this.props.zavod.id));
+        // console.log("first call");
+        // console.log("raceId: "+parseInt(this.props.raceId));
         this.client.publish({destination: `/app/live/${this.state.kat}`, 'name': "test"});
-        this.client.publish({destination: `/app/raceInfo`, body: JSON.stringify(this.props.raceId)});
+        this.client.publish({destination: `/app/raceInfo`, body: JSON.stringify(parseInt(this.props.raceId))});
     };
 
     componentDidMount() {
         console.log("categorydetailstomp");
 
-        console.log("race id:"+ this.props.raceId);
         Calls.getRaceById(this.props.raceId).then(response => {
             const race = response.data;
             this.setState({zavod: race});
-            console.log(this.state.zavod);
-            this.setState({categories:this.state.zavod.kategorie});
-            console.log(this.state.categories);
+            this.setState({categories: this.state.zavod.kategorie});
         }).catch(err => {
             console.log(err);
         });
@@ -95,7 +89,7 @@ class DashboardCategoryDetailStomp extends React.Component {
                 console.log("ws connect");
                 // console.log("sub cat plan " + `${this.state.kat}`);
 
-                this.state.isConnect = true;
+                this.setState.isConnect = true;
                 this.categoryTopic = this.client.subscribe(`/topic/live/0`, message => {
                     console.log("kategory topic 0");
                     this.processMessage(message);
@@ -108,8 +102,8 @@ class DashboardCategoryDetailStomp extends React.Component {
                 //     })
                 // });
                 this.raceInfoTopic = this.client.subscribe('/topic/raceInfo', message => {
-                    console.log("raceinfotopic")
-                    console.log(message.body);
+                    // console.log("raceinfotopic")
+                    // console.log(message.body);
                     this.setState({
                         raceInfo: JSON.parse(message.body),
                     });
@@ -136,15 +130,13 @@ class DashboardCategoryDetailStomp extends React.Component {
         });
 
         this.client.activate();
-
-        // this.client.publish({destination: '/app/test', 'name': "test"});
     }
 
     componentWillUnmount() {
         this.setState({
             isConnect: false,
         });
-        // console.log('subscribe tesne pred un');
+
         this.categoryTopic.unsubscribe();
         this.errorTopic.unsubscribe();
         this.userLiveTopic.unsubscribe();
@@ -155,10 +147,6 @@ class DashboardCategoryDetailStomp extends React.Component {
     }
 
     processMessage(message) {
-        // console.log("subscribe category: " + this.state.kat);
-        // console.log(message.body);
-        // this.setState({athletes: JSON.parse(message.body)});
-        // console.log(JSON.parse(message.body).length);
         let athleteArray = [];
         let outObjA = JSON.parse(message.body);
 
@@ -168,8 +156,6 @@ class DashboardCategoryDetailStomp extends React.Component {
             //console.log(jsonData);
         }
 
-        // console.log("processmessage data");
-        // console.log(athleteArray);
         this.setState({athletes: athleteArray});
     }
 
@@ -203,7 +189,7 @@ class DashboardCategoryDetailStomp extends React.Component {
         if (this.state.checked) {
             this.categoryTopic.unsubscribe();
             this.categoryTopic = this.client.subscribe('/topic/live', message => {
-                console.log("kategory topic live");
+                // console.log("kategory topic live");
                 this.processMessage(message);
             });
             this.setState({
@@ -220,7 +206,7 @@ class DashboardCategoryDetailStomp extends React.Component {
                 });
 
             this.categoryTopic = this.client.subscribe(`/topic/live/${this.state.kat}`, message => {
-                console.log("kategory topic subscribe kat" + this.state.kat);
+                // console.log("kategory topic subscribe kat" + this.state.kat);
                 this.processMessage(message);
             })
             // console.log("postKat" + this.state.kat);
@@ -229,9 +215,42 @@ class DashboardCategoryDetailStomp extends React.Component {
     };
 
     render() {
+        let findBibBox = <div id={"findBibBox"}>
+            <table id={"findBibTable"}>
+                <thead>
+                <tr>
+                    <th>stč.</th>
+                    <th>Jméno</th>
+                    <th>Kód</th>
+                    <th>Kategorie</th>
+                </tr>
+                </thead>
+                <tbody>
+                {this.state.foundBib.map((athlet, index) => {
+                    return [
+                        <tr className="findBibRow" key={index}
+                            onClick={() => this.setKat(athlet.idKategorie)}>
+                            <td>{athlet.bib}</td>
+                            <td>{athlet.jmeno}</td>
+                            <td>{Transcription.changeFlg(athlet.flg)}</td>
+                            <td>{athlet.zkrkat}</td>
+                        </tr>
+                    ]
+                })
+                }
+                </tbody>
+            </table>
+            <p>{this.state.isRecivedBib ? '' : (this.state.isRecivedBib === null) ? '' : `Atlet podle startovního čísla ${this.state.bibToFind.value} nalezen.`}</p>
+        </div>;
+
+        let findBibButton = <div id={"findBib"}>
+            <input type="number" min={1} ref={(ref) => this.setState.bibToFind = ref}/>
+            <Button onClick={this.findBib}>Hledej stč.</Button>
+
+        </div>;
         //console.log(this.state.zavod.kategorie);
         // console.log(this.props.zavod.nazev);
-     //   let categories = this.state.zavod.kategorie;
+        //   let categories = this.state.zavod.kategorie;
         // console.log(JSON.parse(this.state.zavod));
         return (
             <div>
@@ -240,7 +259,7 @@ class DashboardCategoryDetailStomp extends React.Component {
                         <h3>{this.state.raceInfo.nazev ? this.state.raceInfo.nazev : (this.state.zavod.nazev + " - " + this.state.zavod.misto)}</h3>
                         {Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.stc}
                         <div id={"formCategory"}><CategoryList kategorie={this.sortKategorie(this.state.categories)}
-                        setKatInStomp={this.setKatInStomp}/></div>
+                                                               setKatInStomp={this.setKatInStomp}/></div>
                         <div id={"round"}>Kolo:
                             <strong>{this.state.raceInfo.koloZavodu ? this.state.raceInfo.koloZavodu : 0}</strong></div>
 
@@ -249,50 +268,14 @@ class DashboardCategoryDetailStomp extends React.Component {
                                       label="AutoKat"
                                       value={this.state.checked}
                                       onChange={this.handleInputChange}/>AutoKat</label>
-                        <br/>
-                        <div id={"findBib"}>
-                            <input type="number" min={1} ref={(ref) => this.state.bibToFind = ref}/>
-                            <Button onClick={this.findBib}>Hledej stč.</Button>
-
-                        </div>
+                        {this.state.raceInfo.druhZavodu !== 6 ? findBibButton : ''}
                     </div>
-
-                    <div id={"findBibBox"}>
-                        <table id={"findBibTable"}>
-                            <thead>
-                            <tr>
-                                <th>stč.</th>
-                                <th>Jméno</th>
-                                <th>Kód</th>
-                                <th>Kategorie</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {this.state.foundBib.map((athlet, index) => {
-                                return [
-                                    <tr className="findBibRow" key={index}
-                                        onClick={() => this.setKat(athlet.idKategorie)}>
-                                        <td>{athlet.bib}</td>
-                                        <td>{athlet.jmeno}</td>
-                                        <td>{Transcription.changeFlg(athlet.flg)}</td>
-                                        <td>{athlet.zkrkat}</td>
-                                    </tr>
-                                ]
-                            })
-                            }
-                            </tbody>
-                        </table>
-
-                        <p>{this.state.isRecivedBib ? '' : (this.state.isRecivedBib === null) ? '' : `Atlet podle startovního čísla ${this.state.bibToFind.value} nalezen.`}</p>
-                    </div>
+                    {this.state.raceInfo.druhZavodu !== 6 ? findBibBox : ''}
                 </div>
-
                 <AtletView athletes={this.state.athletes} raceInfo={this.state.raceInfo}/>
             </div>
-
         )
     }
-
 }
 
 export default DashboardCategoryDetailStomp;

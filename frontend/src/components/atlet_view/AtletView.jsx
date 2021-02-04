@@ -90,18 +90,6 @@ class AtletView extends React.Component {
             // console.log(this.props.raceInfo.stc);
             // console.log(athlet.bib);
             resultArr.push(athlet);
-                {/*<TableRow key={athlet.id} className={*/}
-                    {/*this.props.raceInfo.stc == athlet.bib ? "resultRowActive" : (i % 2 === 0) ? "resultDark" : ''*/}
-                {/*}>*/}
-                    {/*<TableCell component="th" scope="row">{athlet.poradi}.</TableCell>*/}
-                    {/*<TableCell align="right">{athlet.bib}</TableCell>*/}
-                    {/*<TableCell>{athlet.jmeno}</TableCell>*/}
-                    {/*<TableCell>{athlet.tj}</TableCell>*/}
-                    {/*<TableCell>{athlet.klub}</TableCell>*/}
-                    {/*<TableCell>{athlet.zkrkat}</TableCell>*/}
-                    {/*<TableCell align="right">{Transcription.transposeTime(athlet.cas, this.props.raceInfo.pocDes)}</TableCell>*/}
-
-                {/*</TableRow>*/}
             // );
         }
 
