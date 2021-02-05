@@ -86,7 +86,7 @@ class DashboardCalendar extends React.Component {
                                 <TableRow key={race.id}>
                                     <TableCell>{DashboardCalendar.getDate(race.datum)}</TableCell>
                                     <TableCell>{race.stav === 9 ?
-                                        <Link to={`/live/${race.id}`}>Live</Link> : "&nbsp;"}</TableCell>
+                                        <Link to={`/live/${race.id}`}>Live</Link> : ""}</TableCell>
                                     <TableCell>{race.misto}</TableCell>
                                     <TableCell>{race.nazev}</TableCell>
                                     <TableCell>{race.discipl}</TableCell>
