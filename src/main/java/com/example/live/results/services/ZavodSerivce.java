@@ -2,6 +2,7 @@ package com.example.live.results.services;
 
 import com.example.live.results.domain.Kategorie;
 import com.example.live.results.domain.Zavod;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,7 @@ public interface ZavodSerivce {
 
     void create(Zavod zavod);
 
-    Optional<Zavod> update(int idZav, Zavod zavod);
+    ResponseEntity<Zavod> update(int idZav, Zavod zavod);
 
     void delete(int id);
 }

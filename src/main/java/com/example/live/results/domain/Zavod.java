@@ -20,16 +20,17 @@ public class Zavod {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column(columnDefinition = "int default 0")
     private int datum;
     private String misto;
     private String discipl;
     private String nazev;
-//    @Column
+
+    @Column(nullable = true)
     private String poradatel;
 
-//    @Column
+    @Column(nullable = true)
     private String porlogo;
 
     @Column(nullable = true)

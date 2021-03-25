@@ -8,6 +8,7 @@ import TableHead from "@material-ui/core/es/TableHead/TableHead";
 import Paper from "@material-ui/core/es/Paper/Paper";
 import Table from "@material-ui/core/es/Table/Table";
 import {Link} from "react-router-dom";
+import RaceEditForm from "../admin/RaceEditForm";
 
 
 const styles = theme => ({
@@ -95,7 +96,7 @@ class DashboardCalendar extends React.Component {
                         </TableBody>
                     </Table>
                 </Paper>
-
+                <RaceEditForm/>
             </div>
 
         )

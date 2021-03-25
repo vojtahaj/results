@@ -245,7 +245,7 @@ class DashboardCategoryDetailStomp extends React.Component {
 
         let findBibButton = <div id={"findBib"}>
             <input type="number" min={1} ref={(ref) => this.setState.bibToFind = ref}/>
-            <Button onClick={this.findBib}>Hledej stč.</Button>
+            <Button onClick={()=>this.findBib}>Hledej stč.</Button>
 
         </div>;
         //console.log(this.state.zavod.kategorie);

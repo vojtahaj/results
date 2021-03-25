@@ -3,18 +3,23 @@ package com.example.live.results.services;
 import com.example.live.results.dao.ZavodRepository;
 import com.example.live.results.domain.Kategorie;
 import com.example.live.results.domain.Zavod;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Log4j2
 @Component
 public class ZavodImpl implements ZavodSerivce {
 
-    @Autowired
     private ZavodRepository zavodRepository;
 
+    @Autowired
     public ZavodImpl(ZavodRepository zavodRepository) {
         this.zavodRepository = zavodRepository;
     }
@@ -40,16 +45,26 @@ public class ZavodImpl implements ZavodSerivce {
     }
 
     @Override
+    @Transactional
     public void create(Zavod zavod) {
         zavodRepository.save(zavod);
     }
 
     @Override
-    public Optional<Zavod> update(int idZav, Zavod zavod) {
-        Optional<Zavod> z = zavodRepository.findById(idZav);
-        z = Optional.ofNullable(zavod);
-
-        return z;
+    @Transactional
+    public ResponseEntity<Zavod> update(int idZav, Zavod zavod) {
+        Zavod zavodToUpdate = new Zavod();
+        BeanUtils.copyProperties(zavod, zavodToUpdate);
+        log.info(zavodToUpdate.toString());
+//        zavodToUpdate.setId(idZav);
+        log.info("update id: "+ idZav);
+       // zavodRepository.save(zavodToUpdate);
+        zavod.setId(idZav);
+        zavodRepository.save(zavodToUpdate);
+//        final Zavod updatedZavod = zavodRepository.save(zavodToUpdate);
+//        System.out.println("updatedZavod id: "+ updatedZavod.getId());
+//        log.info("zavod ulozen");
+        return ResponseEntity.ok(zavodToUpdate);
     }
 
     @Override

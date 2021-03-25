@@ -1,5 +1,6 @@
 package com.example.live.results.web.controllers;
 
+import com.example.live.results.dao.ZavodRepository;
 import com.example.live.results.domain.Kategorie;
 import com.example.live.results.domain.Zavod;
 import com.example.live.results.exception.NotFoundException;
@@ -11,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +21,6 @@ import java.util.Optional;
 @Log4j2
 public class ZavodyController {
 
-    @Autowired
     private ZavodImpl zavod;
 
     public ZavodyController(ZavodImpl zavod) {
@@ -61,18 +62,22 @@ public class ZavodyController {
         return new ResponseEntity<>(z, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity updateZavod(@RequestBody int id, Zavod z) {
+    @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> updateZavod(@PathVariable int id, @RequestBody Zavod z) {
 //        z = zavod.update(id, z);
+//        Zavod z1 = zavod.getZavodById(id).get();
+        zavod.update(id,z);
+        log.info("zavod id: " + z.getId());
+        log.info("putmapping zavod update");
 
         if (z == null)
             return new ResponseEntity<>("Zavod s danym id neexistuje: " + id, HttpStatus.NOT_FOUND);
 
-        return new ResponseEntity<>(z, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteZavodById(@RequestBody int id){
+    @DeleteMapping(value = "/{id}")
+    public void deleteZavodById(@PathVariable int id){
         zavod.delete(id);
     }
 }

@@ -18,7 +18,6 @@ const Calls = {
         return (
             // "http://35.198.70.62:8080/zavody" + useCase
             "http://localhost:8080/zavody" + useCase
-
         );
     },
 
@@ -39,8 +38,15 @@ const Calls = {
     async getRaceById(id) {
         const commandUri = this.getRaceUri("/"+`${id}`);
         return await Calls.call("get", commandUri);
+    },
+    async deleteRaceById(id){
+        const commandUri = this.getRaceUri("/"+`${id}`);
+        return await Calls.call("delete", commandUri);
+    },
+    async updateRace(id, race){
+        const commandUri = this.getRaceUri("/"+`${id}`);
+        return await Calls.call("put", commandUri, race);
     }
-
 };
 
 export default Calls;
