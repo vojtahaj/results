@@ -7,6 +7,7 @@ import MidResultTable from "./MidResultTable";
 import RelayResultTable from "./RelayResultTable";
 import Transcription from "./Transcription";
 import SCResultTable from "./SCResultTable";
+import AD1ResultTable from "./AD1ResultTable";
 
 class AtletView extends React.Component {
     state = {
@@ -93,30 +94,31 @@ class AtletView extends React.Component {
                 // console.log("atl,por2".poradi);
             }
             if (i > 0 && result.length > 1) {
-                if (athlet.cas - first > 100)
-                    athlet.ztrata = athlet.cas - first;
-                else athlet.ztrata = 100;
+                athlet.ztrata = athlet.cas - first;
             } else athlet.ztrata = 0;
             resultArr.push(athlet);
         }
 
         let lastAthlete = false;
-        if (result.length > 0) {
+        if (resultArr.length > 0) {
             if (this.props.raceInfo.kodStc === 9) {
-                lastAthlete = result.find(({stc}) => stc === this.props.raceInfo.stc)
+                lastAthlete = resultArr.find(({stc}) => stc === this.props.raceInfo.stc)
                 if (lastAthlete !== undefined && lastAthlete.poradi === 1 && result.length > 2) {
-                    lastAthlete.ztrata = -result[1].ztrata;
+                    lastAthlete.ztrata = -resultArr[1].ztrata;
                 }
                 // else lastAthlete=false;
-            }
-            else if (this.props.raceInfo.kodStc === 1 || this.props.raceInfo.kodStc === 11 || this.props.raceInfo.kodStc === 12) {
+            } else if (this.props.raceInfo.kodStc === 1 || this.props.raceInfo.kodStc === 11 || this.props.raceInfo.kodStc === 12) {
                 //atlet DNS, DSQ nebo DNF
                 // console.log('dns,dsq,dnf')
                 lastAthlete = this.props.athletes.find(({stc}) => stc === this.props.raceInfo.stc)
-                if (lastAthlete !== undefined || lastAthlete.flg === 9 || lastAthlete.flg === 3) {
-                    console.log(lastAthlete.flg)
-                    lastAthlete.poradi = Transcription.changeFlg(lastAthlete.flg)
-                    lastAthlete.ztrata = 0;
+                if (lastAthlete !== undefined) {
+                    if (lastAthlete.flg === 9 || lastAthlete.flg === 3)
+                        // console.log(lastAthlete.flg)
+                        lastAthlete = false;
+                    else {
+                        lastAthlete.poradi = Transcription.changeFlg(lastAthlete.flg)
+                        lastAthlete.ztrata = 0;
+                    }
                 }
             } else {
                 lastAthlete = false;
@@ -144,6 +146,7 @@ class AtletView extends React.Component {
                     }
                 } else this.state.protocolArray.push(lastAthlete)
                 this.state.protocolArray.splice(3)
+
             }
         }
 
@@ -162,8 +165,10 @@ class AtletView extends React.Component {
                         case 2:
                             return <>
                                 {/*<InProgressTable athletes={inProgress} />*/}
-                                <ADResultTable raceInfo={this.props.raceInfo} athletes={result}
-                                               protocol={this.state.protocolArray}/>
+                                <AD1ResultTable raceInfo={this.props.raceInfo} athletes={resultArr}
+                                                protocol={this.state.protocolArray}/>
+                                {/*<ADResultTable raceInfo={this.props.raceInfo} athletes={result}*/}
+                                {/*               protocol={this.state.protocolArray}/>*/}
                             </>;
                         case 3:
                             return <>

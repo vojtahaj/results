@@ -10,10 +10,10 @@ class SCResultTable extends React.Component {
 
         let protocol = this.props.protocol.map((athlet, key) => (
             <tr key={key}>
-                <td className={"rank"}>{isNaN(athlet.poradi) ? athlet.poradi : athlet.poradi + '.'}</td>
-                <td className={"rank"}>{athlet.bib}</td>
+                <td className={"cat"}>{isNaN(athlet.poradi) ? athlet.poradi : athlet.poradi + '.'}</td>
+                <td className={"cat"}>{athlet.bib}</td>
                 <td>{athlet.jmeno}</td>
-                <td className={"tj"}>{athlet.tj ? athlet.tj : athlet.klub}</td>
+                <td className={"tj"}>{athlet.tj.localeCompare("    ") === 0 ? athlet.klub : athlet.tj}</td>
                 <td className={"time"}>{Transcription.transposeTime(athlet.cas, this.props.raceInfo.pocDes)}</td>
                 {athlet.ztrata > 0 ?
                     <td className="gap">{Transcription.transposeTime(athlet.ztrata, this.props.raceInfo.pocDes)}</td>
@@ -89,15 +89,15 @@ class SCResultTable extends React.Component {
                         this.props.protocol.length === 2 ? oneRow : protocol}
 
                     <tr>
-                        <th colSpan="9">
+                        <th colSpan="7">
                             Výsledky
                         </th>
                     </tr>
 
                     {this.props.athletes.map((athlet, key) => (
                         <tr key={athlet.id}>
-                            <td className={"rank"}>{athlet.poradi}.</td>
-                            <td className={"rank"}>{athlet.bib}</td>
+                            <td className={"cat"}>{athlet.poradi}.</td>
+                            <td className={"cat"}>{athlet.bib}</td>
                             <td>{athlet.jmeno}</td>
                             {/*{console.log(athlet.tj.localeCompare("    ") === 0)}*/}
                             <td className={"tj"}>{athlet.tj.localeCompare("    ") === 0 ? athlet.klub : athlet.tj}</td>

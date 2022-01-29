@@ -19,6 +19,9 @@ const Transcription = {
     },
 
     transposeTime(time, pocDes) {
+        if (time<100 && pocDes===1){
+            time = 100
+        }
         if (time === 0) return "";
         if (time < 0) time = -time;
 

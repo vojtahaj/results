@@ -34,6 +34,6 @@ td {
 .time{text-align: right; width: 15%;}
 .tj{text-align: left;}
 .rank{text-align: right; width: 8%;}
-.gap{text-align: right; color: red;  width: 20%;}
-.gap_first {text-align: right; color: greenyellow; width: 20%;}
+.gap{text-align: right; color: red;  width: 15%;}
+.gap_first {text-align: right; color: greenyellow; width: 15%;}
 
