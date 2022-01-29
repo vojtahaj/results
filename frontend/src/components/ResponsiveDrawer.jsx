@@ -45,7 +45,7 @@ const styles = theme => ({
     appBar: {
         marginLeft: drawerWidth,
         [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
+           width: `calc(100% - ${drawerWidth}px)`,
         },
     },
     menuButton: {
@@ -119,13 +119,6 @@ export class ResponsiveDrawer extends React.Component {
             .catch(err => {
                 console.log(err);
             });
-
-        //
-        // axios.get('http://localhost:8080/zavody/actives')
-        //     .then(response => {
-        //         const races = response.data;
-        //         this.setState({races});
-        //     })
     }
 
     showCategoryList = (kategorie, z) => {

@@ -15,11 +15,12 @@ const Transcription = {
             return "DNF";
         else if (flg === 12)
             return "DSQ";
-        else return "XXX"
+        else return flg
     },
 
     transposeTime(time, pocDes) {
         if (time === 0) return "";
+        if (time < 0) time = -time;
 
         var milliseconds = parseInt(time % 1000).toString();
 
@@ -65,7 +66,15 @@ const Transcription = {
         if (spd === 0)
             return "";
         else return (spd / 1000).toFixed(3) + " km/h";
-    }
+    },
+
+    sortKategorie(kats){
+        if (kats === undefined)
+            return null
+        return kats.sort((a, b) => {
+            return a.id - b.id;
+        })
+    },
 }
 
 export default Transcription;

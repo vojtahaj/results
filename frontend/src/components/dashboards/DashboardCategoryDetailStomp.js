@@ -8,6 +8,7 @@ import Transcription from "../atlet_view/Transcription";
 import Calls from "../../server/Calls";
 
 class DashboardCategoryDetailStomp extends React.Component {
+
     constructor(props) {
         super(props);
 
@@ -44,21 +45,24 @@ class DashboardCategoryDetailStomp extends React.Component {
         await
             this.categoryTopic.unsubscribe();
 
-        this.setState({
-            kat: kat,
-            checked: false
-        });
+        // this.setState({
+        //     kat: kat,
+        //     checked: false
+        // });
+        this.state.kat = kat;
+        this.state.checked = false;
         this.categoryTopic = this.client.subscribe(`/topic/live/${this.state.kat}`, message => {
             // console.log(message.body);
             // console.log("subscripbe category: " + this.state.kat);
             this.processMessage(message);
+
         });
         this.firstCall();
     };
 
     setKatInStomp = async kat => {
         // console.log("test call");
-        await  this.setKat(kat);
+        await this.setKat(kat);
     };
 
     firstCall() {
@@ -73,8 +77,8 @@ class DashboardCategoryDetailStomp extends React.Component {
 
         Calls.getRaceById(this.props.raceId).then(response => {
             const race = response.data;
-            this.setState({zavod: race});
-            this.setState({categories: this.state.zavod.kategorie});
+            this.state.zavod = race;
+            this.state.categories = this.state.zavod.kategorie;
         }).catch(err => {
             console.log(err);
         });
@@ -83,7 +87,7 @@ class DashboardCategoryDetailStomp extends React.Component {
 
         this.client.configure({
             // brokerURL: "ws://35.198.70.62:8080/live",
-            brokerURL: "ws://localhost:8080/live",
+            brokerURL: "ws://" + window.location.hostname + ":8080/live",
 
             onConnect: () => {
                 console.log("ws connect");
@@ -93,6 +97,7 @@ class DashboardCategoryDetailStomp extends React.Component {
                 this.categoryTopic = this.client.subscribe(`/topic/live/0`, message => {
                     console.log("kategory topic 0");
                     this.processMessage(message);
+
                 });
 
                 // this.client.subscribe('/topic/test', message => {
@@ -102,11 +107,9 @@ class DashboardCategoryDetailStomp extends React.Component {
                 //     })
                 // });
                 this.raceInfoTopic = this.client.subscribe('/topic/raceInfo', message => {
-                    // console.log("raceinfotopic")
+                    console.log("raceinfotopic")
                     // console.log(message.body);
-                    this.setState({
-                        raceInfo: JSON.parse(message.body),
-                    });
+                    this.setState({raceInfo: JSON.parse(message.body)})
 
                 });
                 this.firstCall();
@@ -176,15 +179,14 @@ class DashboardCategoryDetailStomp extends React.Component {
                     'stc': `${this.state.bibToFind.value}`
                 });
                 console.log('find bibs');
-            }
-            else
+            } else
                 console.error('Neni cislo');
         }
     };
 
 
-    handleInputChange = async (event) => {
-        await this.setState({checked: event.target.checked});
+    handleInputChange = (event) => {
+        this.state.checked = event.target.checked;
 
         if (this.state.checked) {
             this.categoryTopic.unsubscribe();
@@ -192,18 +194,13 @@ class DashboardCategoryDetailStomp extends React.Component {
                 // console.log("kategory topic live");
                 this.processMessage(message);
             });
-            this.setState({
-                preKat: this.state.kat,
-                kat: 'all'
-            });
+            this.state.preKat = this.state.kat;
+            this.state.kat = 'all';
             // console.log("preKat" + this.state.preKat);
-        }
-        else {
+        } else {
             this.categoryTopic.unsubscribe();
             if (this.state.kat === 'all')
-                this.setState({
-                    kat: this.state.preKat
-                });
+                this.state.kat = this.state.preKat
 
             this.categoryTopic = this.client.subscribe(`/topic/live/${this.state.kat}`, message => {
                 // console.log("kategory topic subscribe kat" + this.state.kat);
@@ -211,7 +208,6 @@ class DashboardCategoryDetailStomp extends React.Component {
             })
             // console.log("postKat" + this.state.kat);
         }
-
     };
 
     render() {
@@ -245,7 +241,7 @@ class DashboardCategoryDetailStomp extends React.Component {
 
         let findBibButton = <div id={"findBib"}>
             <input type="number" min={1} ref={(ref) => this.setState.bibToFind = ref}/>
-            <Button onClick={()=>this.findBib}>Hledej stč.</Button>
+            <Button onClick={() => this.findBib}>Hledej stč.</Button>
 
         </div>;
         //console.log(this.state.zavod.kategorie);
@@ -254,25 +250,46 @@ class DashboardCategoryDetailStomp extends React.Component {
         // console.log(JSON.parse(this.state.zavod));
         return (
             <div>
-                <div>
-                    <div id={"infoBox"}>
-                        <h3>{this.state.raceInfo.nazev ? this.state.raceInfo.nazev : (this.state.zavod.nazev + " - " + this.state.zavod.misto)}</h3>
-                        {Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.stc}
-                        <div id={"formCategory"}><CategoryList kategorie={this.sortKategorie(this.state.categories)}
-                                                               setKatInStomp={this.setKatInStomp}/></div>
-                        <div id={"round"}>Kolo:
-                            <strong>{this.state.raceInfo.koloZavodu ? this.state.raceInfo.koloZavodu : 0}</strong></div>
+                {/*<div>*/}
+                {/*    <div id={"infoBox"}>*/}
+                {/*        <h3>{this.state.raceInfo.nazev ? this.state.raceInfo.nazev : (this.state.zavod.nazev + " - " + this.state.zavod.misto)}</h3>*/}
+                {/*        {Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.bib}*/}
+                {/*        <div id={"formCategory"}><CategoryList kategorie={this.sortKategorie(this.state.categories)}*/}
+                {/*                                               setKatInStomp={this.setKatInStomp}/></div>*/}
+                {/*        <div id={"round"}>Kolo:*/}
+                {/*            <strong>{this.state.raceInfo.koloZavodu ? this.state.raceInfo.koloZavodu : 0}</strong></div>*/}
 
-                        <label><input name="isAutokat"
-                                      type="checkbox"
-                                      label="AutoKat"
-                                      value={this.state.checked}
-                                      onChange={this.handleInputChange}/>AutoKat</label>
-                        {this.state.raceInfo.druhZavodu !== 6 ? findBibButton : ''}
-                    </div>
-                    {this.state.raceInfo.druhZavodu !== 6 ? findBibBox : ''}
-                </div>
-                <AtletView athletes={this.state.athletes} raceInfo={this.state.raceInfo}/>
+                {/*        <label><input name="isAutokat"*/}
+                {/*                      type="checkbox"*/}
+                {/*                      label="AutoKat"*/}
+                {/*                      value={this.state.checked}*/}
+                {/*                      onChange={this.handleInputChange}/>AutoKat</label>*/}
+                {/*        /!*{this.state.raceInfo.druhZavodu !== 6  ? findBibButton : ''}*!/*/}
+                {/*    </div>*/}
+                {/*    /!*{this.state.raceInfo.druhZavodu !== 6 ? findBibBox : ''}*!/*/}
+                {/*</div>*/}
+                <table className={"result"}>
+                    <tbody>
+                    <tr>
+                        <th colSpan="3">{this.state.raceInfo.nazev ? this.state.raceInfo.nazev : (this.state.zavod.nazev + " - " + this.state.zavod.misto)}
+                            <br/>{Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.bib}
+                        </th>
+                        {/*{Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.bib}</th>*/}
+                        <th colSpan="3"><CategoryList kategorie={this.sortKategorie(this.state.categories)}
+                                                      setKatInStomp={this.setKatInStomp}/></th>
+                        <th>
+                            <label><input name="isAutokat"
+                                          type="checkbox"
+                                          label="AutoKat"
+                                          value={this.state.checked}
+                                          onChange={this.handleInputChange}/>AutoKat</label>
+                        </th>
+                        <th colSpan="2">Kolo: {this.state.raceInfo.koloZavodu}</th>
+                    </tr>
+                    </tbody>
+                </table>
+                <AtletView athletes={this.state.athletes} raceInfo={this.state.raceInfo}
+                           category={this.state.categories}/>
             </div>
         )
     }

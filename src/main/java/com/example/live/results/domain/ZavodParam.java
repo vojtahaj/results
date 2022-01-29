@@ -7,6 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class ZavodParam {
     private String nazev;
+    private int bib;
     private int stc;
     private int koloZavodu;
     private int kodStc;

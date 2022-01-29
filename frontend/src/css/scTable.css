@@ -1,0 +1,39 @@
+/*body{*/
+
+/*}*/
+table.result {
+    width: 100%;
+    font-size: 1.2em;
+    font-family: sans-serif;
+    color: white;
+    margin: 0 0;
+}
+table.result tr{
+    background-color: darkslategrey;
+    font-weight: bold;
+    font-size: 1em;
+}
+table.result tr:nth-child(2n+1){
+    background-color: black;
+}
+table.result th {
+    border: 1px solid white;
+    background-color: #72aee6;
+    font-weight: bolder;
+    font-size: 1.0em;
+    text-align: left;
+    margin: 0 0;
+    padding: 0.15em 0.2em;
+    color: black;
+}
+td {
+    margin: 0.2em 0.2em;
+    padding: 0.2em 0.2em;
+}
+.cat{text-align: right;width:5%;}
+.time{text-align: right; width: 15%;}
+.tj{text-align: left;}
+.rank{text-align: right; width: 8%;}
+.gap{text-align: right; color: red;  width: 20%;}
+.gap_first {text-align: right; color: greenyellow; width: 20%;}
+

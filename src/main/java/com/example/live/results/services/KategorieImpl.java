@@ -46,6 +46,7 @@ public class KategorieImpl implements KategorieService {
 
         zavodParam = new ZavodParam(zavodRepository.findZavodById(l.getZavod()).getNazev(),
                 new Integer(atlet.getBib()),
+                l.getActstc(),
                 l.getRound(),
                 atlet.getFlg(),
                 l.getTyp(),
@@ -61,6 +62,7 @@ public class KategorieImpl implements KategorieService {
         LOGGER.error("zavod v liveparamT:" + l.getZavod());
         zavodParam = new ZavodParam(l.getNazev(),
                 new Integer(atlet.getBib()),
+                l.getActstc(),
                 l.getRound(),
                 atlet.getFlg(),
                 l.getTyp(),
@@ -103,6 +105,7 @@ public class KategorieImpl implements KategorieService {
         LiveParamT l = liveParamT.getLast();
         if (zavodParam == null) {
             zavodParam = new ZavodParam(zavodRepository.findZavodById(race).getNazev(),
+                    0,
                     0,
                     0,
                     0,

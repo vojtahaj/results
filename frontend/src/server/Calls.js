@@ -17,7 +17,7 @@ const Calls = {
     getRaceUri: function (useCase) {
         return (
             // "http://35.198.70.62:8080/zavody" + useCase
-            "http://localhost:8080/zavody" + useCase
+            "http://"+window.location.hostname+":8080/zavody" + useCase
         );
     },
 

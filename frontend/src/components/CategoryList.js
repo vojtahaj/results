@@ -50,7 +50,7 @@ class CategoryList extends React.Component {
                         onChange={this.handleChange}
                     >
                         <MenuItem value={0}>Všechny kategorie</MenuItem>
-                        {this.props.kategorie.map((kategorie, index) => {
+                        {this.props.kategorie === null ? "" : this.props.kategorie.map((kategorie, index) => {
                             return <MenuItem key={index} value={kategorie.kat}>{kategorie.nazev}</MenuItem>
                         })}
 

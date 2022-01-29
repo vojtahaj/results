@@ -51,7 +51,7 @@ class DashboardCalendar extends React.Component {
     static getDate(date) {
         let d = new Date(date * 1000);
         let day = d.getDate() < 10 ? "0" + d.getDate() : d.getDate();
-        let month = d.getMonth() < 10 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
+        let month = d.getMonth() < 9 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1);
         let year = d.getFullYear();
         return day + ". " + month + ". " + year;
     }
@@ -96,7 +96,7 @@ class DashboardCalendar extends React.Component {
                         </TableBody>
                     </Table>
                 </Paper>
-                <RaceEditForm/>
+                {/*<RaceEditForm/>*/}
             </div>
 
         )
