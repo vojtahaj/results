@@ -135,8 +135,6 @@ class AtletView extends React.Component {
                             if (this.state.protocolArray[i] !== undefined) {
                                 // console.log(this.state.protocolArray[i].stc)
                                 const a = result.find(({stc}) => stc === this.state.protocolArray[i].stc)
-                                // console.log("atlet")
-                                // console.log(a)
                                 if (a !== undefined) {
                                     this.state.protocolArray[i].poradi = a.poradi;
                                     this.state.protocolArray[i].ztrata = a.ztrata;

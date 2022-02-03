@@ -7,22 +7,16 @@ class AD1ResultTable extends React.Component {
     doResult(result, fromRank) {
         let preRank = fromRank;
         let preTime = 0;
-        // let resultArr = [];
 
         for (let i = 0; i < result.length; i++) {
             const athlet = result[i];
             const first = result[0].cas
-            // console.log(athlet.cas);
-            // athlet.rank = 0;
-
             if (athlet.cas === preTime) {
                 athlet.poradi = "=" + preRank;
-                // console.log("atl,por" + athlet.poradi);
             } else {
                 preRank = i + 1 + fromRank;
                 preTime = athlet.cas;
                 athlet.poradi = preRank;
-                // console.log("atl,por2".poradi);
             }
             if (i > 0 && result.length > 1) {
                 athlet.ztrata = athlet.cas - first;
@@ -33,7 +27,6 @@ class AD1ResultTable extends React.Component {
 
     render() {
         let atleti = [];
-        // console.log(this.props.raceInfo.koloZavodu);
         if (this.props.raceInfo.koloZavodu === 2) {
             let r1k = [];
             let r2k = [];
@@ -46,8 +39,7 @@ class AD1ResultTable extends React.Component {
             atleti = this.doResult(r2k, 0).concat(this.doResult(r1k, r2k.length));
         } else atleti = this.props.athletes;
         let proto = this.props.protocol;
-        console.log(atleti.length)
-        console.log(atleti)
+
         if (atleti.length > 0)
             for (let i = 0; i < proto.length; i++) {
                 if (typeof proto[i].poradi === 'number') {
@@ -56,11 +48,8 @@ class AD1ResultTable extends React.Component {
                         if (proto[i].poradi === 1) {
                             proto[i].ztrata = -atleti[1].ztrata
                         }
-                        //proto[i].ztrata = atleti.find(({stc}) => stc === proto[i].stc).ztrata
-                        // console.log(proto[i].ztrata)
-                        //console.log(proto[i].poradi)
                     } catch (err) {
-                        // console.log('neni ve vzsledkach')
+
                     }
                 }
             }
