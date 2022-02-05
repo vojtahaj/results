@@ -157,8 +157,7 @@ class AtletView extends React.Component {
                     switch (this.props.raceInfo.druhZavodu) {
                         case 1:
                             return <SCResultTable raceInfo={this.props.raceInfo} athletes={resultArr}
-                                                  protocol={this.state.protocolArray}
-                                                  categories={this.props.category}/>;
+                                                  protocol={this.state.protocolArray}/>;
                         //return <SimpleResultTable raceInfo={this.props.raceInfo} athletes={resultArr}/>;
                         case 2:
                             return <>

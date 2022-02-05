@@ -1,8 +1,6 @@
 import React from 'react';
 import Transcription from './Transcription';
 import '../../css/scTable.css';
-import CategoryList from "../CategoryList";
-import DashboardCategoryDetailStomp from "../dashboards/DashboardCategoryDetailStomp";
 
 class SCResultTable extends React.Component {
 

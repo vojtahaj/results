@@ -6,6 +6,8 @@ import '../../css/resultTable.css';
 import CategoryList from "../CategoryList";
 import Transcription from "../atlet_view/Transcription";
 import Calls from "../../server/Calls";
+import '../../css/hlasatelStyle.css'
+import {BubbleChart} from "@material-ui/icons";
 
 class DashboardCategoryDetailStomp extends React.Component {
 
@@ -249,7 +251,7 @@ class DashboardCategoryDetailStomp extends React.Component {
         //   let categories = this.state.zavod.kategorie;
         // console.log(JSON.parse(this.state.zavod));
         return (
-            <div>
+            <div id={"container-res"}>
                 {/*<div>*/}
                 {/*    <div id={"infoBox"}>*/}
                 {/*        <h3>{this.state.raceInfo.nazev ? this.state.raceInfo.nazev : (this.state.zavod.nazev + " - " + this.state.zavod.misto)}</h3>*/}
@@ -268,28 +270,36 @@ class DashboardCategoryDetailStomp extends React.Component {
                 {/*    </div>*/}
                 {/*    /!*{this.state.raceInfo.druhZavodu !== 6 ? findBibBox : ''}*!/*/}
                 {/*</div>*/}
-                <table className={"result"}>
-                    <tbody>
-                    <tr>
-                        <th colSpan="3">{this.state.raceInfo.nazev ? this.state.raceInfo.nazev : (this.state.zavod.nazev + " - " + this.state.zavod.misto)}
-                            <br/>{Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.bib}
-                        </th>
-                        {/*{Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.bib}</th>*/}
-                        <th colSpan="3"><CategoryList kategorie={this.sortKategorie(this.state.categories)}
-                                                      setKatInStomp={this.setKatInStomp}/></th>
-                        <th>
-                            <label><input name="isAutokat"
-                                          type="checkbox"
-                                          label="AutoKat"
-                                          value={this.state.checked}
-                                          onChange={this.handleInputChange}/>AutoKat</label>
-                        </th>
-                        <th colSpan="2">Kolo: {this.state.raceInfo.koloZavodu}</th>
-                    </tr>
-                    </tbody>
-                </table>
-                <AtletView athletes={this.state.athletes} raceInfo={this.state.raceInfo}
-                           category={this.state.categories}/>
+                <div id={"container-view"}>
+                    <table className={"result"}>
+                        <tbody>
+                        <tr>
+                            <th colSpan="3">{this.state.raceInfo.nazev ? this.state.raceInfo.nazev : (this.state.zavod.nazev + " - " + this.state.zavod.misto)}
+                                <br/>{Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.bib}
+                            </th>
+                            {/*{Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.bib}</th>*/}
+                            <th colSpan="3"><CategoryList kategorie={this.sortKategorie(this.state.categories)}
+                                                          setKatInStomp={this.setKatInStomp}/></th>
+                            <th>
+                                <label><input name="isAutokat"
+                                              type="checkbox"
+                                              label="AutoKat"
+                                              value={this.state.checked}
+                                              onChange={this.handleInputChange}/>AutoKat</label>
+                            </th>
+                            <th colSpan="2">Kolo: {this.state.raceInfo.koloZavodu}</th>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <AtletView athletes={this.state.athletes} raceInfo={this.state.raceInfo}/>
+                </div>
+                <div id={"container-button"}>
+                    {this.state.categories.map((kat, key) => (
+                        <Button class={"btn-category"}
+                                onClick={() => this.setKatInStomp(kat.kat)}>{kat.nazev}</Button>
+                    ))
+                    }
+                </div>
             </div>
         )
     }

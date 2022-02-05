@@ -1,0 +1,28 @@
+#container-res {
+    width: 100%;
+}
+
+#container-view {
+    width: 75%;
+    float: left;
+}
+
+#container-button {
+    width: 22%;
+    float: right;
+}
+
+.btn-category {
+    display: inline;
+    width: 42%;
+    margin: 1% 1%;
+    height: 4em;
+    background-color: dodgerblue;
+    /*font-size: 1em;*/
+}
+.btn-category:nth-child(odd){
+    background-color: palevioletred;
+}
+.btn-category:focus-within{
+    background-color: goldenrod;
+}
