@@ -8,6 +8,7 @@ import Transcription from "../atlet_view/Transcription";
 import Calls from "../../server/Calls";
 import '../../css/hlasatelStyle.css'
 import {BubbleChart} from "@material-ui/icons";
+import {withMobileDialog} from "@material-ui/core";
 
 class DashboardCategoryDetailStomp extends React.Component {
 
@@ -29,7 +30,6 @@ class DashboardCategoryDetailStomp extends React.Component {
             zavod: [],
             categories: []
         };
-
     }
 
     sortKategorie = (kats) => {
@@ -46,13 +46,12 @@ class DashboardCategoryDetailStomp extends React.Component {
     setKat = async kat => {
         await
             this.categoryTopic.unsubscribe();
-
-        // this.setState({
-        //     kat: kat,
-        //     checked: false
-        // });
-        this.state.kat = kat;
-        this.state.checked = false;
+        this.setState({
+            kat: kat,
+            checked: false
+        });
+        // this.state.kat = kat;
+        // this.state.checked = false;
         this.categoryTopic = this.client.subscribe(`/topic/live/${this.state.kat}`, message => {
             // console.log(message.body);
             // console.log("subscripbe category: " + this.state.kat);
@@ -63,7 +62,6 @@ class DashboardCategoryDetailStomp extends React.Component {
     };
 
     setKatInStomp = async kat => {
-        // console.log("test call");
         await this.setKat(kat);
     };
 
@@ -79,8 +77,9 @@ class DashboardCategoryDetailStomp extends React.Component {
 
         Calls.getRaceById(this.props.raceId).then(response => {
             const race = response.data;
-            this.state.zavod = race;
-            this.state.categories = this.state.zavod.kategorie;
+
+             this.state.zavod = race;
+             this.state.categories = this.sortKategorie(this.state.zavod.kategorie);
         }).catch(err => {
             console.log(err);
         });
@@ -188,21 +187,25 @@ class DashboardCategoryDetailStomp extends React.Component {
 
 
     handleInputChange = (event) => {
-        this.state.checked = event.target.checked;
-
-        if (this.state.checked) {
+        this.setState({checked: event.target.checked})
+        console.log(this.state.checked)
+        if (!this.state.checked) {
             this.categoryTopic.unsubscribe();
             this.categoryTopic = this.client.subscribe('/topic/live', message => {
                 // console.log("kategory topic live");
                 this.processMessage(message);
             });
-            this.state.preKat = this.state.kat;
-            this.state.kat = 'all';
+            this.setState({
+                preKat: this.state.kat,
+                kat: 'all'
+            })
+            // this.state.preKat = this.state.kat;
+            // this.state.kat = 'all';
             // console.log("preKat" + this.state.preKat);
         } else {
             this.categoryTopic.unsubscribe();
             if (this.state.kat === 'all')
-                this.state.kat = this.state.preKat
+                this.setState({kat: this.state.preKat})
 
             this.categoryTopic = this.client.subscribe(`/topic/live/${this.state.kat}`, message => {
                 // console.log("kategory topic subscribe kat" + this.state.kat);
@@ -278,13 +281,18 @@ class DashboardCategoryDetailStomp extends React.Component {
                                 <br/>{Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.bib}
                             </th>
                             {/*{Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.bib}</th>*/}
-                            <th colSpan="3"><CategoryList kategorie={this.sortKategorie(this.state.categories)}
-                                                          setKatInStomp={this.setKatInStomp}/></th>
+                            <th colSpan="3">
+                                {this.state.kat === 0 || this.state.kat === 'all'? 'všechny kategorie' : this.state.categories.find(({kat}) => kat === this.state.kat).nazev}
+                                {/*{this.state.categories !== undefined ? this.state.kat !== 0 || this.state.kat !== 'all' ? this.state.categories.find(({kat}) => kat === this.state.kat).nazev : "Všechny kategorie" : null}*/}
+                                {/*<CategoryList kategorie={this.sortKategorie(this.state.categories)}*/}
+                                {/*                          setKatInStomp={this.setKatInStomp}/>*/}
+                            </th>
                             <th>
                                 <label><input name="isAutokat"
                                               type="checkbox"
                                               label="AutoKat"
                                               value={this.state.checked}
+                                              checked={this.state.checked}
                                               onChange={this.handleInputChange}/>AutoKat</label>
                             </th>
                             <th colSpan="2">Kolo: {this.state.raceInfo.koloZavodu}</th>
@@ -295,7 +303,7 @@ class DashboardCategoryDetailStomp extends React.Component {
                 </div>
                 <div id={"container-button"}>
                     {this.state.categories.map((kat, key) => (
-                        <Button class={"btn-category"}
+                        <Button class={"btn-category"} key={key}
                                 onClick={() => this.setKatInStomp(kat.kat)}>{kat.nazev}</Button>
                     ))
                     }
