@@ -16,7 +16,13 @@ class AtletView extends React.Component {
 
     render() {
         let result = [];
-
+        let dnsCount = 0;
+        let strtCount = 0;
+        let trtCount = 0;
+        let finishCount = 0;
+        let dsqCount = 0;
+        let dnfCount = 0;
+        let stat = [];
         if (this.props.raceInfo.druhZavodu !== 6) {
             result = this.props.athletes.filter(athlete => {
                 return athlete.flg === 9;
@@ -37,7 +43,23 @@ class AtletView extends React.Component {
                     || athlete.flg === 12 || athlete.flg === 13 || athlete.flg === 11;
             }
         );
-
+        dnsCount = startlist.filter(a => {
+            return a.flg === 1
+        }).length
+        strtCount = startlist.filter(a => {
+            return a.flg === 2
+        }).length
+        trtCount = startlist.filter(a => {
+            return a.flg === 3
+        }).length
+        finishCount = result.length
+        dsqCount = startlist.filter(a => {
+            return a.flg === 12
+        }).length
+        dnfCount = startlist.filter(a => {
+            return a.flg === 11
+        }).length
+        stat.push(dnsCount, strtCount, trtCount, finishCount, dsqCount, dnfCount)
         let inProgress = this.props.athletes.filter(athlete => {
             return athlete.flg !== 9 && athlete.flg !== 14;
         });
@@ -48,6 +70,15 @@ class AtletView extends React.Component {
                 return athlete.flg > 2 && athlete.flg < 10;
             })
             // console.log(inProgress);
+        }
+
+        //in progress pro AD
+        if (this.props.raceInfo.druhZavodu === 2) {
+            inProgress = this.props.athletes.filter(athlete => {
+                return athlete.flg === 3;
+            }).sort((a, b) => {
+                return b.stc - a.stc;
+            });
         }
 
         //jestli je raceInfo.stc v cili a predtim byl v inProgress, tak ho tam nech jako aktualni a pak smaz
@@ -157,13 +188,13 @@ class AtletView extends React.Component {
                     switch (this.props.raceInfo.druhZavodu) {
                         case 1:
                             return <SCResultTable raceInfo={this.props.raceInfo} athletes={resultArr}
-                                                  protocol={this.state.protocolArray}/>;
+                                                  protocol={this.state.protocolArray} stat={stat}/>;
                         //return <SimpleResultTable raceInfo={this.props.raceInfo} athletes={resultArr}/>;
                         case 2:
                             return <>
                                 {/*<InProgressTable athletes={inProgress} />*/}
                                 <AD1ResultTable raceInfo={this.props.raceInfo} athletes={resultArr}
-                                                protocol={this.state.protocolArray}/>
+                                                protocol={this.state.protocolArray} stat={stat} inProgress={inProgress}/>
                                 {/*<ADResultTable raceInfo={this.props.raceInfo} athletes={result}*/}
                                 {/*               protocol={this.state.protocolArray}/>*/}
                             </>;
@@ -181,7 +212,7 @@ class AtletView extends React.Component {
                             return <WinklTable raceInfo={this.props.raceInfo} athletes={resultArr}/>;
                         default:
                             return <SCResultTable raceInfo={this.props.raceInfo} athletes={resultArr}
-                                                  protocol={this.state.protocolArray}/>;
+                                                  protocol={this.state.protocolArray} stat={stat}/>;
                         //return <SimpleResultTable raceInfo={this.props.raceInfo} athletes={resultArr}/>;
                     }
                 })()}

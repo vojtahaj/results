@@ -53,15 +53,27 @@ class AD1ResultTable extends React.Component {
                     }
                 }
             }
+        let onCourse = this.props.inProgress.map((athlet, key) => (
+            <tr key={key}>
+                <td>&nbsp;</td>
+                <td className={"cat"}>{athlet.bib}</td>
+                <td>{athlet.jmeno}<br/>{athlet.tj.localeCompare("    ") === 0 ? athlet.klub : athlet.tj}</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td className={"cat"}>{athlet.zkrkat}</td>
+            </tr>
+        ));
         let protocol = proto.map((athlet, key) => (
             <tr key={key}>
                 <td className={"cat"}>{isNaN(athlet.poradi) ? athlet.poradi : athlet.poradi + '.'}</td>
                 <td className={"cat"}>{athlet.bib}</td>
-                <td>{athlet.jmeno} <br/>{athlet.tj.localeCompare("    ") === 0 ? athlet.klub : athlet.tj}</td>
+                <td>{athlet.jmeno}<br/>{athlet.tj.localeCompare("    ") === 0 ? athlet.klub : athlet.tj}</td>
                 <td className={"time"}>{Transcription.transposeTime(athlet.cas1, this.props.raceInfo.pocDes)}</td>
                 <td className={"time"}>{Transcription.transposeTime(athlet.cas2, this.props.raceInfo.pocDes)}</td>
                 {this.props.raceInfo.koloZavodu === 3 ?
-                    <td className={"time"}>{Transcription.transposeTime(athlet.cas2, this.props.raceInfo.pocDes)}</td> : null}
+                    <td className={"time"}>{Transcription.transposeTime(athlet.cas3, this.props.raceInfo.pocDes)}</td> : null}
                 <td className={"time"}>{Transcription.transposeTime(athlet.cas, this.props.raceInfo.pocDes)}</td>
                 {athlet.ztrata > 0 ?
                     <td className="gap time">{Transcription.transposeTime(athlet.ztrata, this.props.raceInfo.pocDes)}</td>
@@ -83,7 +95,7 @@ class AD1ResultTable extends React.Component {
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                {this.props.raceInfo.kolZavodu === 3 ? <td>&nbsp;</td> : null}
+                {this.props.raceInfo.koloZavodu === 3 ? <td>&nbsp;</td> : null}
                 {/*<td>&nbsp;</td>*/}
             </tr>;
         let oneRow = <>
@@ -100,6 +112,16 @@ class AD1ResultTable extends React.Component {
             {row}
             {row}
         </>;
+        let oneRowC = <>
+            {onCourse}
+            {row}
+        </>
+        let twoRowsC = <>
+            {onCourse}
+            {row}
+            {row}
+        </>;
+
         return (
             <table className={"result"}>
                 <tbody>
@@ -131,18 +153,22 @@ class AD1ResultTable extends React.Component {
                     </th>
                 </tr>
                 <tr>
-                    <th colSpan="9">
+                    <th colSpan={8}>
+                        Na trati
+                    </th>
+                </tr>
+                {this.props.inProgress.length === 0 ? threeRows : this.props.inProgress.length === 1 ? twoRowsC :
+                    this.props.inProgress.length === 2 ? oneRowC : onCourse}
+                <tr>
+                    <th colSpan="8">
                         Události v cíli
                     </th>
                 </tr>
-
                 {this.props.protocol.length === 0 ? threeRows : this.props.protocol.length === 1 ? twoRows :
                     this.props.protocol.length === 2 ? oneRow : protocol}
-
                 <tr>
-                    <th colSpan="9">
-                        Výsledky
-                    </th>
+                    <th colSpan="2">Výsledky</th>
+                    <th colSpan="7">DNS: {this.props.stat[0]} - Na startu: {this.props.stat[1]} - Na trati: {this.props.stat[2]} - V cíli: {this.props.stat[3]} - DSQ: {this.props.stat[4]} - DNF: {this.props.stat[5]}</th>
                 </tr>
 
                 {atleti.map((athlet, key) => (

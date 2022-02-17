@@ -9,6 +9,7 @@
     "React": "latest",
     "axios": "^0.18.0",
     "material-ui-responsive-drawer": "^1.19.4",
+    "moment": "^2.29.1",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.8.6",

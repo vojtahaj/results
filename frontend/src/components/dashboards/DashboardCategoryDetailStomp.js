@@ -7,8 +7,7 @@ import CategoryList from "../CategoryList";
 import Transcription from "../atlet_view/Transcription";
 import Calls from "../../server/Calls";
 import '../../css/hlasatelStyle.css'
-import {BubbleChart} from "@material-ui/icons";
-import {withMobileDialog} from "@material-ui/core";
+import Time from "../Time"
 
 class DashboardCategoryDetailStomp extends React.Component {
 
@@ -28,7 +27,8 @@ class DashboardCategoryDetailStomp extends React.Component {
             errorBib: "",
             isRecivedBib: null,
             zavod: [],
-            categories: []
+            categories: [],
+            katNaz: 'autocategory'
         };
     }
 
@@ -50,11 +50,7 @@ class DashboardCategoryDetailStomp extends React.Component {
             kat: kat,
             checked: false
         });
-        // this.state.kat = kat;
-        // this.state.checked = false;
         this.categoryTopic = this.client.subscribe(`/topic/live/${this.state.kat}`, message => {
-            // console.log(message.body);
-            // console.log("subscripbe category: " + this.state.kat);
             this.processMessage(message);
 
         });
@@ -77,9 +73,8 @@ class DashboardCategoryDetailStomp extends React.Component {
 
         Calls.getRaceById(this.props.raceId).then(response => {
             const race = response.data;
-
-             this.state.zavod = race;
-             this.state.categories = this.sortKategorie(this.state.zavod.kategorie);
+            this.state.zavod = race;
+            this.state.categories = this.sortKategorie(this.state.zavod.kategorie);
         }).catch(err => {
             console.log(err);
         });
@@ -108,10 +103,8 @@ class DashboardCategoryDetailStomp extends React.Component {
                 //     })
                 // });
                 this.raceInfoTopic = this.client.subscribe('/topic/raceInfo', message => {
-                    console.log("raceinfotopic")
-                    // console.log(message.body);
+                    // console.log("raceinfotopic")
                     this.setState({raceInfo: JSON.parse(message.body)})
-
                 });
                 this.firstCall();
 
@@ -157,7 +150,6 @@ class DashboardCategoryDetailStomp extends React.Component {
         for (let i = 0; i < outObjA.length; i++) {
             let jsonData = outObjA[i];
             athleteArray.push(jsonData);
-            //console.log(jsonData);
         }
 
         this.setState({athletes: athleteArray});
@@ -169,8 +161,6 @@ class DashboardCategoryDetailStomp extends React.Component {
     //     // this.client.publish({destination: '/app/hello', 'name': "Jan"});
     //     // console.log("try test")
     //     // console.log(new Date(1000 * 1506117600));
-    //
-    //
     // };
     findBib = () => {
         if (this.state.isConnect) {
@@ -185,23 +175,23 @@ class DashboardCategoryDetailStomp extends React.Component {
         }
     };
 
-
     handleInputChange = (event) => {
         this.setState({checked: event.target.checked})
-        console.log(this.state.checked)
+        // console.log(this.state.checked)
         if (!this.state.checked) {
             this.categoryTopic.unsubscribe();
             this.categoryTopic = this.client.subscribe('/topic/live', message => {
                 // console.log("kategory topic live");
                 this.processMessage(message);
+                if (this.state.checked) {
+                    let atlKat = this.state.athletes.find(({stc}) => stc === this.state.raceInfo.stc).idKategorie
+                    this.setState({katNaz: this.state.categories.find(({kat}) => kat === atlKat).nazev})
+                }
             });
             this.setState({
                 preKat: this.state.kat,
                 kat: 'all'
             })
-            // this.state.preKat = this.state.kat;
-            // this.state.kat = 'all';
-            // console.log("preKat" + this.state.preKat);
         } else {
             this.categoryTopic.unsubscribe();
             if (this.state.kat === 'all')
@@ -237,8 +227,7 @@ class DashboardCategoryDetailStomp extends React.Component {
                             <td>{athlet.zkrkat}</td>
                         </tr>
                     ]
-                })
-                }
+                })}
                 </tbody>
             </table>
             <p>{this.state.isRecivedBib ? '' : (this.state.isRecivedBib === null) ? '' : `Atlet podle startovního čísla ${this.state.bibToFind.value} nalezen.`}</p>
@@ -259,7 +248,7 @@ class DashboardCategoryDetailStomp extends React.Component {
                 {/*    <div id={"infoBox"}>*/}
                 {/*        <h3>{this.state.raceInfo.nazev ? this.state.raceInfo.nazev : (this.state.zavod.nazev + " - " + this.state.zavod.misto)}</h3>*/}
                 {/*        {Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.bib}*/}
-                {/*        <div id={"formCategory"}><CategoryList kategorie={this.sortKategorie(this.state.categories)}*/}
+                {/*        <div id={"formCategory"}><CategoryList kategorie={this.state.categories}*/}
                 {/*                                               setKatInStomp={this.setKatInStomp}/></div>*/}
                 {/*        <div id={"round"}>Kolo:*/}
                 {/*            <strong>{this.state.raceInfo.koloZavodu ? this.state.raceInfo.koloZavodu : 0}</strong></div>*/}
@@ -282,15 +271,15 @@ class DashboardCategoryDetailStomp extends React.Component {
                             </th>
                             {/*{Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.bib}</th>*/}
                             <th colSpan="3">
-                                {this.state.kat === 0 || this.state.kat === 'all'? 'všechny kategorie' : this.state.categories.find(({kat}) => kat === this.state.kat).nazev}
-                                {/*{this.state.categories !== undefined ? this.state.kat !== 0 || this.state.kat !== 'all' ? this.state.categories.find(({kat}) => kat === this.state.kat).nazev : "Všechny kategorie" : null}*/}
+                                {this.state.checked ? this.state.katNaz :
+                                    this.state.kat === 0 || this.state.kat === 'all' ? 'Všechny kategorie' :
+                                        this.state.categories.find(({kat}) => kat === this.state.kat).nazev}
                                 {/*<CategoryList kategorie={this.sortKategorie(this.state.categories)}*/}
                                 {/*                          setKatInStomp={this.setKatInStomp}/>*/}
                             </th>
                             <th>
                                 <label><input name="isAutokat"
                                               type="checkbox"
-                                              label="AutoKat"
                                               value={this.state.checked}
                                               checked={this.state.checked}
                                               onChange={this.handleInputChange}/>AutoKat</label>
@@ -302,11 +291,12 @@ class DashboardCategoryDetailStomp extends React.Component {
                     <AtletView athletes={this.state.athletes} raceInfo={this.state.raceInfo}/>
                 </div>
                 <div id={"container-button"}>
+                    <Time/>
+                    <Button class={"btn-category0"} onClick={() => this.setKatInStomp(0)}>Všechny kategorie</Button>
                     {this.state.categories.map((kat, key) => (
                         <Button class={"btn-category"} key={key}
                                 onClick={() => this.setKatInStomp(kat.kat)}>{kat.nazev}</Button>
-                    ))
-                    }
+                    ))}
                 </div>
             </div>
         )

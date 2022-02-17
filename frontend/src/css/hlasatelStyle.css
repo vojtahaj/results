@@ -8,15 +8,24 @@
 }
 
 #container-button {
-    width: 22%;
+    width: 24%;
     float: right;
 }
-
+.btn-category0{
+    width:98%;
+    display: block;
+    margin: 1% 1%;
+    height: 6em;
+    background-color: dodgerblue;
+}
+.btn-category0:focus-within{
+    background-color: goldenrod;
+}
 .btn-category {
     display: inline;
-    width: 44%;
+    width: 48%;
     margin: 1% 1%;
-    height: 5em;
+    height: 6em;
     background-color: dodgerblue;
     /*font-size: 1em;*/
 }

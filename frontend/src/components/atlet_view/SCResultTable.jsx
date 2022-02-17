@@ -87,9 +87,11 @@ class SCResultTable extends React.Component {
                         this.props.protocol.length === 2 ? oneRow : protocol}
 
                     <tr>
-                        <th colSpan="7">
+                        <th colSpan="2">
                             Výsledky
                         </th>
+                        {this.props.stat !== undefined ? <th colSpan="5">"DNS:" {this.props.stat[0]} - Na startu: {this.props.stat[1]} - Na trati: {this.props.stat[2]} - V cíli: {this.props.stat[3]} - DSQ: {this.props.stat[4]} - DNF: {this.props.stat[5]}</th>
+                            : <th colSpan="5"></th>}
                     </tr>
 
                     {this.props.athletes.map((athlet, key) => (
