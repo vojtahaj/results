@@ -75,10 +75,11 @@ class AD1ResultTable extends React.Component {
                 {this.props.raceInfo.koloZavodu === 3 ?
                     <td className={"time"}>{Transcription.transposeTime(athlet.cas3, this.props.raceInfo.pocDes)}</td> : null}
                 <td className={"time"}>{Transcription.transposeTime(athlet.cas, this.props.raceInfo.pocDes)}</td>
-                {athlet.ztrata > 0 ?
-                    <td className="gap time">{Transcription.transposeTime(athlet.ztrata, this.props.raceInfo.pocDes)}</td>
-                    :
-                    <td className="gap_first time">{Transcription.transposeTime(athlet.ztrata, this.props.raceInfo.pocDes)}</td>}
+                <td></td>
+                {/*{athlet.ztrata > 0 ?*/}
+                {/*    <td className="gap time">{Transcription.transposeTime(athlet.ztrata, this.props.raceInfo.pocDes)}</td>*/}
+                {/*    :*/}
+                {/*    <td className="gap_first time">{Transcription.transposeTime(athlet.ztrata, this.props.raceInfo.pocDes)}</td>}*/}
                 <td className={"cat"}>{athlet.zkrkat}</td>
                 {/*<td>&nbsp;</td>*/}
                 {/*<td>&nbsp;</td>*/}
@@ -146,7 +147,7 @@ class AD1ResultTable extends React.Component {
                         Čas
                     </th>
                     <th>
-                        Ztráta.
+                        &nbsp;
                     </th>
                     <th>
                         Kat.
@@ -183,10 +184,11 @@ class AD1ResultTable extends React.Component {
                         {this.props.raceInfo.koloZavodu === 3 ?
                             <td className={"time"}>{Transcription.transposeTime(athlet.cas2, this.props.raceInfo.pocDes)}</td> : null}
                         <td className={"time"}>{Transcription.transposeTime(athlet.cas, this.props.raceInfo.pocDes)}</td>
-                        {athlet.ztrata > 0 ?
-                            <td className="gap">{Transcription.transposeTime(athlet.ztrata, this.props.raceInfo.pocDes)}</td>
-                            :
-                            <td className="gap_first">{Transcription.transposeTime(athlet.ztrata, this.props.raceInfo.pocDes)}</td>}
+                        <td></td>
+                        {/*{athlet.ztrata > 0 ?*/}
+                        {/*    <td className="gap">{Transcription.transposeTime(athlet.ztrata, this.props.raceInfo.pocDes)}</td>*/}
+                        {/*    :*/}
+                        {/*    <td className="gap_first">{Transcription.transposeTime(athlet.ztrata, this.props.raceInfo.pocDes)}</td>}*/}
                         <td className={"cat"}>{athlet.zkrkat}</td>
                     </tr>
                 ))}

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import config from '../configData.json'
 
 const Calls = {
 
@@ -15,9 +16,10 @@ const Calls = {
     },
 
     getRaceUri: function (useCase) {
+    // console.log(config.SERVER_URL);
         return (
-            // "http://35.198.70.62:8080/zavody" + useCase
-            "http://"+window.location.hostname+":8080/zavody" + useCase
+            // "http://34.159.157.62:8080/zavody" + useCase
+            "http://"+config.SERVER_URL+":8080/zavody" + useCase
         );
     },
 

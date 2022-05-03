@@ -7,7 +7,8 @@ import CategoryList from "../CategoryList";
 import Transcription from "../atlet_view/Transcription";
 import Calls from "../../server/Calls";
 import '../../css/hlasatelStyle.css'
-import Time from "../Time"
+import Time from "../Time";
+import config from '../../configData.json';
 
 class DashboardCategoryDetailStomp extends React.Component {
 
@@ -30,6 +31,7 @@ class DashboardCategoryDetailStomp extends React.Component {
             categories: [],
             katNaz: 'autocategory'
         };
+        this.onKeyPressed = this.onKeyPressed.bind(this);
     }
 
     sortKategorie = (kats) => {
@@ -44,6 +46,8 @@ class DashboardCategoryDetailStomp extends React.Component {
     userLiveTopic;
 
     setKat = async kat => {
+        if (kat < 0) kat = 0;
+        console.log('kategorie' + kat)
         await
             this.categoryTopic.unsubscribe();
         this.setState({
@@ -52,7 +56,6 @@ class DashboardCategoryDetailStomp extends React.Component {
         });
         this.categoryTopic = this.client.subscribe(`/topic/live/${this.state.kat}`, message => {
             this.processMessage(message);
-
         });
         this.firstCall();
     };
@@ -60,6 +63,22 @@ class DashboardCategoryDetailStomp extends React.Component {
     setKatInStomp = async kat => {
         await this.setKat(kat);
     };
+
+    onKeyPressed(e) {
+        let k = this.state.categories.findIndex(c => c.kat === this.state.kat);
+        console.log("-----\nindex aktualni cat: " + k);
+        console.log(this.state.categories.length);
+        //if (k === -1) k = 0;
+        if (e.key === '-' && k > 0) {
+            console.log('d')
+            this.setKat(this.state.categories[(k - 1)].kat);
+        }
+        if (e.key === '+' && k < this.state.categories.length-1) {
+            console.log('up');
+            this.setKat(this.state.categories[(k + 1)].kat);
+        }
+
+    }
 
     firstCall() {
         // console.log("first call");
@@ -70,7 +89,7 @@ class DashboardCategoryDetailStomp extends React.Component {
 
     componentDidMount() {
         console.log("categorydetailstomp");
-
+        document.addEventListener('keydown', this.onKeyPressed, false);
         Calls.getRaceById(this.props.raceId).then(response => {
             const race = response.data;
             this.state.zavod = race;
@@ -82,8 +101,8 @@ class DashboardCategoryDetailStomp extends React.Component {
         this.client = new Client();
 
         this.client.configure({
-            // brokerURL: "ws://35.198.70.62:8080/live",
-            brokerURL: "ws://" + window.location.hostname + ":8080/live",
+            // brokerURL: "ws://34.159.157.62:8080/live",
+            brokerURL: "ws://" + config.SERVER_URL + ":8080/live",
 
             onConnect: () => {
                 console.log("ws connect");
@@ -125,7 +144,6 @@ class DashboardCategoryDetailStomp extends React.Component {
                 // this.client.heartbeatOutgoing = 20000;
             },
         });
-
         this.client.activate();
     }
 
@@ -141,6 +159,7 @@ class DashboardCategoryDetailStomp extends React.Component {
 
         this.client.deactivate();
         // console.log("ws disconnect");
+        document.removeEventListener('keydown', this.onKeyPressed, false);
     }
 
     processMessage(message) {
@@ -151,7 +170,6 @@ class DashboardCategoryDetailStomp extends React.Component {
             let jsonData = outObjA[i];
             athleteArray.push(jsonData);
         }
-
         this.setState({athletes: athleteArray});
     }
 
@@ -206,6 +224,7 @@ class DashboardCategoryDetailStomp extends React.Component {
     };
 
     render() {
+
         let findBibBox = <div id={"findBibBox"}>
             <table id={"findBibTable"}>
                 <thead>
@@ -262,42 +281,44 @@ class DashboardCategoryDetailStomp extends React.Component {
                 {/*    </div>*/}
                 {/*    /!*{this.state.raceInfo.druhZavodu !== 6 ? findBibBox : ''}*!/*/}
                 {/*</div>*/}
-                <div id={"container-view"}>
-                    <table className={"result"}>
-                        <tbody>
-                        <tr>
-                            <th colSpan="3">{this.state.raceInfo.nazev ? this.state.raceInfo.nazev : (this.state.zavod.nazev + " - " + this.state.zavod.misto)}
-                                <br/>{Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.bib}
-                            </th>
-                            {/*{Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.bib}</th>*/}
-                            <th colSpan="3">
-                                {this.state.checked ? this.state.katNaz :
-                                    this.state.kat === 0 || this.state.kat === 'all' ? 'Všechny kategorie' :
-                                        this.state.categories.find(({kat}) => kat === this.state.kat).nazev}
-                                {/*<CategoryList kategorie={this.sortKategorie(this.state.categories)}*/}
-                                {/*                          setKatInStomp={this.setKatInStomp}/>*/}
-                            </th>
-                            <th>
-                                <label><input name="isAutokat"
-                                              type="checkbox"
-                                              value={this.state.checked}
-                                              checked={this.state.checked}
-                                              onChange={this.handleInputChange}/>AutoKat</label>
-                            </th>
-                            <th colSpan="2">Kolo: {this.state.raceInfo.koloZavodu}</th>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <AtletView athletes={this.state.athletes} raceInfo={this.state.raceInfo}/>
-                </div>
-                <div id={"container-button"}>
-                    <Time/>
-                    <Button class={"btn-category0"} onClick={() => this.setKatInStomp(0)}>Všechny kategorie</Button>
-                    {this.state.categories.map((kat, key) => (
-                        <Button class={"btn-category"} key={key}
-                                onClick={() => this.setKatInStomp(kat.kat)}>{kat.nazev}</Button>
-                    ))}
-                </div>
+                {/*<div id={"container-view"}>*/}
+                <table className={"result"}>
+                    <tbody>
+                    <tr>
+                        <th colSpan="3">{this.state.raceInfo.nazev ? this.state.raceInfo.nazev : (this.state.zavod.nazev + " - " + this.state.zavod.misto)}
+                            <br/>{Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.bib}
+                        </th>
+                        {/*{Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.bib}</th>*/}
+                        <th colSpan="3" width={"33%"}>
+                            {this.state.checked ? this.state.katNaz :
+                                this.state.kat === 0 || this.state.kat === 'all' ? 'Všechny kategorie' :
+                                    this.state.categories.find(({kat}) => kat === this.state.kat).nazev}
+
+                            {this.state.checked ? this.state.katNaz :
+                                <CategoryList kategorie={this.sortKategorie(this.state.categories)}
+                                              setKatInStomp={this.setKatInStomp}/>}
+                        </th>
+                        <th>
+                            <label><input name="isAutokat"
+                                          type="checkbox"
+                                          value={this.state.checked}
+                                          checked={this.state.checked}
+                                          onChange={this.handleInputChange}/>AutoKat</label>
+                        </th>
+                        <th colSpan="2">Kolo: {this.state.raceInfo.koloZavodu}</th>
+                    </tr>
+                    </tbody>
+                </table>
+                <AtletView athletes={this.state.athletes} raceInfo={this.state.raceInfo}/>
+                {/*</div>*/}
+                {/*<div id={"container-button"}>*/}
+                {/*    <Time/>*/}
+                {/*    <Button class={"btn-category0"} onClick={() => this.setKatInStomp(0)}>Všechny kategorie</Button>*/}
+                {/*    {this.state.categories.map((kat, key) => (*/}
+                {/*        <Button class={"btn-category"} key={key}*/}
+                {/*                onClick={() => this.setKatInStomp(kat.kat)}>{kat.nazev}</Button>*/}
+                {/*    ))}*/}
+                {/*</div>*/}
             </div>
         )
     }

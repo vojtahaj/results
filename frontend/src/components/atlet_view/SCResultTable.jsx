@@ -90,8 +90,8 @@ class SCResultTable extends React.Component {
                         <th colSpan="2">
                             Výsledky
                         </th>
-                        {this.props.stat !== undefined ? <th colSpan="5">"DNS:" {this.props.stat[0]} - Na startu: {this.props.stat[1]} - Na trati: {this.props.stat[2]} - V cíli: {this.props.stat[3]} - DSQ: {this.props.stat[4]} - DNF: {this.props.stat[5]}</th>
-                            : <th colSpan="5"></th>}
+                        {this.props.stat !== undefined ? <th colSpan="5">DNS: {this.props.stat[0]} - Na startu: {this.props.stat[1]} - Na trati: {this.props.stat[2]} - V cíli: {this.props.stat[3]} - DSQ: {this.props.stat[4]} - DNF: {this.props.stat[5]}</th>
+                            : <th colSpan="5">&nbsp;</th>}
                     </tr>
 
                     {this.props.athletes.map((athlet, key) => (

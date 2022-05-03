@@ -8,6 +8,7 @@
     "@stomp/stompjs": "^5.4.2",
     "React": "latest",
     "axios": "^0.18.0",
+    "cors": "^2.8.5",
     "material-ui-responsive-drawer": "^1.19.4",
     "moment": "^2.29.1",
     "prop-types": "^15.7.2",
