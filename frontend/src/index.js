@@ -4,7 +4,9 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+window.renderApp = (config) => {
+    ReactDOM.render(<App _config={config}/>, document.getElementById('root'))
+};
 // ReactDOM.render(<h1>hello world!</h1>, document.getElementById('root'));
 //ReactDOM.render(<ShoppingList />, document.getElementById('shoppinglist'));
 
