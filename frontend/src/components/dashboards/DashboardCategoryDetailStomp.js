@@ -47,7 +47,6 @@ class DashboardCategoryDetailStomp extends React.Component {
 
     setKat = async kat => {
         if (kat < 0) kat = 0;
-        console.log('kategorie' + kat)
         await
             this.categoryTopic.unsubscribe();
         this.setState({
@@ -66,18 +65,13 @@ class DashboardCategoryDetailStomp extends React.Component {
 
     onKeyPressed(e) {
         let k = this.state.categories.findIndex(c => c.kat === this.state.kat);
-        console.log("-----\nindex aktualni cat: " + k);
-        console.log(this.state.categories.length);
-        //if (k === -1) k = 0;
+
         if (e.key === '-' && k > 0) {
-            console.log('d')
             this.setKat(this.state.categories[(k - 1)].kat);
         }
         if (e.key === '+' && k < this.state.categories.length-1) {
-            console.log('up');
             this.setKat(this.state.categories[(k + 1)].kat);
         }
-
     }
 
     firstCall() {
