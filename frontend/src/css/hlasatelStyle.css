@@ -10,6 +10,9 @@
 #container-button {
     width: 24%;
     float: right;
+    height: 100vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 .btn-category0{
     width:98%;
@@ -22,6 +25,7 @@
     background-color: goldenrod;
 }
 .btn-category {
+    font-size: 1.5vh;
     display: inline;
     width: 48%;
     margin: 1% 1%;

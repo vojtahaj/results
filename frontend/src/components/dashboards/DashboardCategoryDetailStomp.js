@@ -83,7 +83,7 @@ class DashboardCategoryDetailStomp extends React.Component {
 
     componentDidMount() {
         console.log("categorydetailstomp");
-        document.addEventListener('keydown', this.onKeyPressed, false);
+      //  document.addEventListener('keydown', this.onKeyPressed, false);
         Calls.getRaceById(this.props.raceId).then(response => {
             const race = response.data;
             this.state.zavod = race;
@@ -284,9 +284,9 @@ class DashboardCategoryDetailStomp extends React.Component {
                         </th>
                         {/*{Transcription.changeFlg(this.state.raceInfo.kodStc)} - {this.state.raceInfo.bib}</th>*/}
                         <th colSpan="3" width={"33%"}>
-                            {this.state.checked ? this.state.katNaz :
-                                this.state.kat === 0 || this.state.kat === 'all' ? 'Všechny kategorie' :
-                                    this.state.categories.find(({kat}) => kat === this.state.kat).nazev}
+                            {/*{this.state.checked ? this.state.katNaz :*/}
+                            {/*    this.state.kat === 0 || this.state.kat === 'all' ? 'Všechny kategorie' :*/}
+                            {/*        this.state.categories.find(({kat}) => kat === this.state.kat).nazev}*/}
 
                             {this.state.checked ? this.state.katNaz :
                                 <CategoryList kategorie={this.sortKategorie(this.state.categories)}
@@ -313,7 +313,7 @@ class DashboardCategoryDetailStomp extends React.Component {
                 {/*                onClick={() => this.setKatInStomp(kat.kat)}>{kat.nazev}</Button>*/}
                 {/*    ))}*/}
                 {/*</div>*/}
-            </div>
+             </div>
         )
     }
 }
