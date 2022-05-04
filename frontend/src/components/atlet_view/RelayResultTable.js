@@ -6,6 +6,22 @@ import FormControl from "@material-ui/core/es/FormControl/FormControl";
 import Transcription from "./Transcription";
 
 class RelayResultTable extends React.Component {
+    componentDidMount() {
+        document.addEventListener('keydown', this.onKeyPressed, false);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.onKeyPressed, false);
+    }
+
+    onKeyPressed(e) {
+        let tmp = Math.abs(this.state.vybranyPocetUseku % this.state.pocetUseku);
+        if (e.key === '*' || e.key === 'l') {
+            if (this.state.pocetUseku === tmp + 1)
+                this.setState({vybranyPocetUseku: 0})
+            else this.setState({vybranyPocetUseku: tmp + 1})
+        }
+    }
 
     constructor() {
         super();
@@ -14,6 +30,7 @@ class RelayResultTable extends React.Component {
             pocetStartu: 1,
             vybranyPocetUseku: 1 //na indexu je usek, ktery bude jako prvni k videni
         };
+        this.onKeyPressed = this.onKeyPressed.bind(this);
     }
 
     handleChange = async event => {
@@ -81,6 +98,7 @@ class RelayResultTable extends React.Component {
 
         return (
             <div>
+
                 <form autoComplete={'off'}>
                     <FormControl>
                         <Select
@@ -97,14 +115,14 @@ class RelayResultTable extends React.Component {
                     </FormControl>
                 </form>
                 <div>
-                    <table width="50%" border={0}>
+                    <table width="100%" border={0}>
                         <tr>
-                            <th rowspan="2">poř.</th>
+                            <th rowSpan={2}>poř.</th>
                             <th>st. č.</th>
                             <th>Název štafety</th>
                             {/*<th rowspan ="2">oddíl</th>*/}
-                            <th rowspan="2">čas úsek</th>
-                            <th rowspan="2">čas</th>
+                            <th rowSpan={2}>čas úsek</th>
+                            <th rowSpan={2}>čas</th>
                         </tr>
                         <tr>
                             <th>úsek</th>
@@ -117,13 +135,13 @@ class RelayResultTable extends React.Component {
                                     this.props.raceInfo.stc === athlet.stc ? "resultRowActive" : key % 2 === 1 ? "resultDark" : ""
                                 }>
                                 <tr>
-                                    <td rowspan="2">{key + 1}.</td>
+                                    <td rowSpan={2}>{key + 1}.</td>
                                     <td align="right">{Math.floor(athlet.bib / 10)}</td>
                                     <td>{athlet.mcas10}</td>
                                     {/*<td rowspan="2">{athlet.tj}</td>*/}
-                                    <td rowspan="2"
+                                    <td rowSpan={2}
                                         align="right">{Transcription.transposeTime(athlet.cas10, this.props.raceInfo.pocDes)}</td>
-                                    <td rowspan="2"
+                                    <td rowSpan={2}
                                         align="right">{Transcription.transposeTime(athlet.cas, this.props.raceInfo.pocDes)}</td>
                                 </tr>
                                 <tr>
